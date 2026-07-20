@@ -1,0 +1,42 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/beyond-openapi-original.yml
+docs: https://developers.beyondpricing.com/getting-started/authentication/
+standards:
+- RFC 9700 (OAuth 2.0 Security Best Current Practice)
+- RFC 8414 (OAuth 2.0 Authorization Server Metadata)
+- RFC 7591 (Dynamic Client Registration)
+notes: >-
+  Bearer-protected API. Partners use OAuth2 client-credentials to mint app tokens and may
+  scope tokens to a user via user_id / credential_id. Individual users paste a personal
+  access token prefixed `bpat_...` in the same Bearer header. The authorization-server
+  metadata (well-known/beyond-oauth-authorization-server.json) additionally advertises
+  authorization_code, device_code and refresh_token grants with PKCE S256; the MCP server
+  (neyoba:ask scope) uses the authorization_code + PKCE flow with dynamic client registration.
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /o/token/
+    scopes: 9
+  description: Use OAuth2 client credentials to mint an application token, or add `user_id`
+    and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped
+    token.
+  sources:
+  - openapi/beyond-openapi-original.yml
+- name: personalAccessToken
+  type: http
+  scheme: bearer
+  bearerFormat: PersonalAccessToken
+  description: Paste a `bpat_...` personal access token. PATs use the same Bearer header as
+    OAuth2 tokens and must still include the runtime-required scopes for each endpoint, even
+    though OpenAPI cannot encode scopes for non-OAuth bearer schemes.
+  sources:
+  - openapi/beyond-openapi-original.yml
