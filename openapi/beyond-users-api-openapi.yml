@@ -1,0 +1,657 @@
+openapi: 3.1.1
+info:
+  title: Beyond Pricing Public Accounts Users API
+  version: 2.0.0
+  description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
+tags:
+- name: Users
+paths:
+  /api/v1/users/:
+    get:
+      operationId: list_users
+      description: 'Retrieve a paginated list of all users for the authenticated application.
+
+
+        **Required scope:** `user:read`
+
+
+        **Pagination:** Use `page[number]` and `page[size]` query parameters.
+
+
+        **Sorting:** Use `sort` query parameter. Allowed: `created_at`, `-created_at`.
+
+        Default: newest first (`-created_at`).
+
+
+        **Filtering:** Use `filter[email]=<email>` for an exact, case-insensitive
+
+        match. Because email is unique this returns at most one user, and only when
+
+        that user is owned by the authenticated application (otherwise the list is
+
+        empty). Useful for recovering a user''s `id` when only the email is known.'
+      summary: List all users
+      parameters:
+      - name: sort
+        required: false
+        in: query
+        description: '[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)'
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - created-at
+            - -created-at
+        explode: false
+      - in: query
+        name: filter[email]
+        schema:
+          type: string
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: fields[users]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - first-name
+            - last-name
+            - email
+            - locale
+            - id
+            - created-at
+            - status
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Users
+      security:
+      - oauth2:
+        - user:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+    post:
+      operationId: create_user
+      description: "Create a new user managed by the OAuth2 application.\n\nUsers created via this endpoint are managed by the OAuth2 application and cannot\nlogin directly (password is randomly generated). The user will be associated with\nthe OAuth2 application that created them.\n\n**Required scope:** `user:write`\n\n**Request body (JSON:API format):**\n```json\n{\n    \"data\": {\n        \"type\": \"users\",\n        \"attributes\": {\n            \"first-name\": \"John\",\n            \"last-name\": \"Doe\",\n            \"email\": \"john@example.com\",\n            \"locale\": \"en\"\n        }\n    }\n}\n```\n\n`locale` is optional and uses supported BCP 47 language tags. Defaults to `en`."
+      summary: Create a new user
+      tags:
+      - Users
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      security:
+      - oauth2:
+        - user:write
+      - personalAccessToken: []
+      responses:
+        '201':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict - user with this email already exists
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/users/{user_id}/:
+    get:
+      operationId: get_user
+      description: 'Retrieve a single user managed by the OAuth2 application.
+
+
+        **Required scope:** `user:read`'
+      summary: Retrieve a user by ID
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: fields[users]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - first-name
+            - last-name
+            - email
+            - locale
+            - id
+            - created-at
+            - status
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Users
+      security:
+      - oauth2:
+        - user:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+    delete:
+      operationId: delete_user
+      description: 'Soft-delete a user managed by the OAuth2 application. This anonymizes the user''s email, disables all enabled listings, removes managed accounts, and marks the user as deleted.
+
+
+        ## Response Codes
+
+        - **204**: Successfully deleted
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - user not found or not owned by this application'
+      summary: Delete a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Users
+      security:
+      - oauth2:
+        - user:write
+      - personalAccessToken: []
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/users/{user_id}/credentials/:
+    get:
+      operationId: list_user_credentials
+      description: Retrieve the credentials visible for one user.
+      summary: List credentials for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: fields[credentials]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - created-at
+            - last-login
+            - credential-type
+            - global-permissions
+            - email
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Users
+      security:
+      - oauth2:
+        - user:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserCredentialList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    PaginatedUserList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    UserResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+      required:
+      - data
+    UserCredential:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/CredentialResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+            last-login:
+              type: string
+              format: date-time
+              readOnly: true
+            credential-type:
+              type: string
+              readOnly: true
+            global-permissions:
+              type: string
+              readOnly: true
+            email:
+              type:
+              - string
+              - 'null'
+              readOnly: true
+    CredentialResourceTypeEnum:
+      type: string
+      enum:
+      - credentials
+    PaginatedUserCredentialList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredential'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    UserRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - type
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+              enum:
+              - users
+            attributes:
+              type: object
+              properties:
+                first-name:
+                  type: string
+                  minLength: 1
+                  maxLength: 150
+                last-name:
+                  type: string
+                  minLength: 1
+                  maxLength: 150
+                email:
+                  type: string
+                  format: email
+                  minLength: 1
+                locale:
+                  enum:
+                  - en
+                  - en-GB
+                  - en-AU
+                  - en-CA
+                  - ja
+                  - fr
+                  - pt
+                  - de
+                  - es
+                  - it
+                  type: string
+                  default: en
+                  description: 'User locale as a supported BCP 47 language tag. Defaults to `en`.
+
+
+                    * `en` - en
+
+                    * `en-GB` - en-GB
+
+                    * `en-AU` - en-AU
+
+                    * `en-CA` - en-CA
+
+                    * `ja` - ja
+
+                    * `fr` - fr
+
+                    * `pt` - pt
+
+                    * `de` - de
+
+                    * `es` - es
+
+                    * `it` - it'
+                id:
+                  type: integer
+                  readOnly: true
+                created-at:
+                  type: string
+                  format: date-time
+                  readOnly: true
+                status:
+                  enum:
+                  - new
+                  - active
+                  - inactive
+                  type: string
+                  description: 'Account lifecycle state: `new` (no enabled listings yet), `active` (has enabled listings), or `inactive` (previously active, none enabled now).'
+                  readOnly: true
+              required:
+              - first-name
+              - last-name
+              - email
+      required:
+      - data
+    User:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/UserResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            first-name:
+              type: string
+              maxLength: 150
+            last-name:
+              type: string
+              maxLength: 150
+            email:
+              type: string
+              format: email
+            locale:
+              enum:
+              - en
+              - en-GB
+              - en-AU
+              - en-CA
+              - ja
+              - fr
+              - pt
+              - de
+              - es
+              - it
+              type: string
+              default: en
+              description: 'User locale as a supported BCP 47 language tag. Defaults to `en`.
+
+
+                * `en` - en
+
+                * `en-GB` - en-GB
+
+                * `en-AU` - en-AU
+
+                * `en-CA` - en-CA
+
+                * `ja` - ja
+
+                * `fr` - fr
+
+                * `pt` - pt
+
+                * `de` - de
+
+                * `es` - es
+
+                * `it` - it'
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+            status:
+              enum:
+              - new
+              - active
+              - inactive
+              type: string
+              description: 'Account lifecycle state: `new` (no enabled listings yet), `active` (has enabled listings), or `inactive` (previously active, none enabled now).'
+              readOnly: true
+          required:
+          - first-name
+          - last-name
+          - email
+    UserResourceTypeEnum:
+      type: string
+      enum:
+      - users
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: Use OAuth2 client credentials to mint an application token, or add `user_id` and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped token.
+      flows:
+        clientCredentials:
+          tokenUrl: /o/token/
+          refreshUrl: /o/token/
+          scopes:
+            listings:read: Read listings
+            listings:write: Modify listings
+            reservations:read: Read reservations
+            accounts:read: Read account information
+            user:read: Read user information
+            user:write: Create and modify users
+            insights:read: Read market insights
+            compsets:read: Read competitive set data
+            neyoba:ask: Ask Neyoba
+    personalAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: PersonalAccessToken
+      description: Paste a `bpat_...` personal access token. PATs use the same Bearer header as OAuth2 tokens and must still include the runtime-required scopes for each endpoint, even though OpenAPI cannot encode scopes for non-OAuth bearer schemes.

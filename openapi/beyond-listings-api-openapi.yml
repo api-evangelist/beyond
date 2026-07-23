@@ -1,0 +1,1446 @@
+openapi: 3.1.1
+info:
+  title: Beyond Pricing Public Accounts Listings API
+  version: 2.0.0
+  description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
+tags:
+- name: Listings
+paths:
+  /api/v1/listings/:
+    get:
+      operationId: list_listings
+      description: 'Retrieve a paginated list of all listings for the authenticated application.
+
+
+        **Required scope:** `listings:read`
+
+
+        **Pagination:** Use `page[number]` and `page[size]` query parameters.
+
+
+        **Sorting:** Use `sort` query parameter with field names.
+
+        Prefix with `-` for descending order.
+
+
+        **Filtering:** Use `filter[field]` query parameters.
+
+
+        **Compound documents:** Use `include` query parameter to include related resources.'
+      summary: List all listings
+      parameters:
+      - name: sort
+        required: false
+        in: query
+        description: '[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)'
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - created-at
+            - -created-at
+            - title
+            - -title
+            - city
+            - -city
+        explode: false
+      - in: query
+        name: filter[owner]
+        schema:
+          type: number
+      - in: query
+        name: filter[enabled]
+        schema:
+          type: boolean
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: include
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - owner
+        description: include query parameter to allow the client to customize which related resources should be returned.
+        explode: false
+      - in: query
+        name: fields[listings]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - title
+            - image
+            - neighborhood
+            - city
+            - state
+            - country
+            - room-type
+            - bedrooms
+            - bathrooms
+            - base-price
+            - base-price-updated-at
+            - min-price
+            - min-price-updated-at
+            - max-price
+            - min-stay
+            - extra-guest-fee
+            - extra-guest-threshold
+            - latitude
+            - longitude
+            - timezone
+            - currency
+            - in-active-market
+            - enabled
+            - address
+            - created-at
+            - owner
+            - channel-listings
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Listings
+      security:
+      - oauth2:
+        - listings:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListingList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/listings/{listing_id}/:
+    get:
+      operationId: get_listing
+      description: 'Retrieve detailed information about a specific listing.
+
+
+        **Required scope:** `listings:read`
+
+
+        **Compound documents (sideloading):**
+
+        Use the `include` query parameter to include related resources in a single request.
+
+        This follows the JSON:API specification for compound documents.
+
+
+        Supported includes:
+
+        - `owner` - The user who owns the listing
+
+
+        **Example:** `GET /api/v1/listings/123/?include=owner`'
+      summary: Retrieve a listing by ID
+      parameters:
+      - in: path
+        name: listing_id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: include
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - owner
+        description: include query parameter to allow the client to customize which related resources should be returned.
+        explode: false
+      - in: query
+        name: fields[listings]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - title
+            - image
+            - neighborhood
+            - city
+            - state
+            - country
+            - room-type
+            - bedrooms
+            - bathrooms
+            - base-price
+            - base-price-updated-at
+            - min-price
+            - min-price-updated-at
+            - max-price
+            - min-stay
+            - extra-guest-fee
+            - extra-guest-threshold
+            - latitude
+            - longitude
+            - timezone
+            - currency
+            - in-active-market
+            - enabled
+            - address
+            - created-at
+            - owner
+            - channel-listings
+            - sync-status
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Listings
+      security:
+      - oauth2:
+        - listings:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ListingDetailResponse'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/listings/{listing_id}/activation/:
+    patch:
+      operationId: patch_listing_activation
+      description: Enable or disable price syncing for a listing.
+      summary: Update listing activation
+      parameters:
+      - in: path
+        name: listing_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Listings
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PatchedListingActivationRequest'
+        required: true
+      security:
+      - oauth2:
+        - listings:write
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ListingActivationResponse'
+          description: ''
+        '304':
+          description: Not modified
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '422':
+          description: Unprocessable entity
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/listings/{listing_id}/calendar/:
+    get:
+      operationId: list_listing_calendar
+      description: 'Retrieve the pricing calendar for a specific listing.
+
+
+        **Required scope:** `reservations:read`
+
+
+        **Currency:** Price fields are returned in the owning user''s configured
+
+        currency.
+
+
+        **Date range:** Use `filter[start-date]` and `filter[end-date]` query parameters
+
+        (YYYY-MM-DD, JSON:API spec). Defaults to today through today + 365 days.
+
+
+        **Sorting:** Use `sort=date` (ascending, default) or `sort=-date`.
+
+
+        **Pagination:** Use `page[number]` and `page[size]` query parameters.
+
+
+        **Sparse fieldsets:** Use `fields[calendar-entries]` to select specific fields.
+
+
+        **Example:** `GET /api/v1/listings/123/calendar/?filter[start-date]=2026-01-01&filter[end-date]=2026-06-30&sort=date`'
+      summary: Get calendar for a listing
+      parameters:
+      - in: path
+        name: listing_id
+        schema:
+          type: integer
+        required: true
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: filter[start-date]
+        schema:
+          type: string
+          format: date
+        description: Start date (YYYY-MM-DD). Defaults to today in the listing's timezone.
+      - in: query
+        name: filter[end-date]
+        schema:
+          type: string
+          format: date
+        description: End date (YYYY-MM-DD). Defaults to today + 365 days.
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - -date
+          - date
+        description: 'Sort calendar entries by date. Supported values: date, -date. Defaults to date.'
+      - in: query
+        name: fields[calendar-entries]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - date
+            - availability
+            - price
+            - price-posted
+            - effective-min-price
+            - effective-max-price
+            - factors
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Listings
+      security:
+      - oauth2:
+        - reservations:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCalendarEntryList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '422':
+          description: Unprocessable - invalid dates or insufficient data
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/listings/{listing_id}/recommendations/:
+    get:
+      operationId: list_listing_recommendations
+      description: 'Retrieve recommendations for a specific listing.
+
+
+        **Required scope:** `listings:read`
+
+
+        The listing must belong to a user owned by the authenticated OAuth2
+
+        application. When no recommendations exist, the endpoint returns an
+
+        empty JSON:API collection.'
+      summary: List recommendations for a listing
+      parameters:
+      - in: path
+        name: listing_id
+        schema:
+          type: integer
+        required: true
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: fields[recommendations]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - listing-id
+            - listing-title
+            - status
+            - approved-at
+            - rejected-at
+            - expired-at
+            - suggested-base-price
+            - suggested-min-price
+            - suggested-seasonal-min-price-pct
+            - initial-base-price
+            - initial-min-price
+            - recommendations
+            - category
+            - created-at
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Listings
+      security:
+      - oauth2:
+        - listings:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecommendationList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/listings/{listing_id}/refresh/:
+    post:
+      operationId: refresh_listing_reservations
+      description: 'Queue an asynchronous full refresh for the specified listing.
+
+
+        This endpoint enqueues a `sync_listing` job (listing details and availability) followed by a `sync_reservations` job for the listing''s primary channel listing, then recomputes the automatic base price. It returns immediately.
+
+
+        ## Response Codes
+
+        - **202**: Listing refresh accepted and queued
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - listing not found or has no active channel listing'
+      summary: Refresh a listing (details and reservations)
+      parameters:
+      - in: path
+        name: listing_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Listings
+      security:
+      - oauth2:
+        - listings:write
+      - personalAccessToken: []
+      responses:
+        '202':
+          description: Listing refresh accepted
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    RecommendationResourceTypeEnum:
+      type: string
+      enum:
+      - recommendations
+    ListingActivationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListingActivation'
+      required:
+      - data
+    ListingSyncStatus:
+      type: object
+      description: Serializer for listing sync status based on the primary channel listing.
+      properties:
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          description: 'Current sync state: queued, in_progress, completed, or unknown
+
+
+            * `queued` - queued
+
+            * `in_progress` - in_progress
+
+            * `completed` - completed
+
+            * `unknown` - unknown'
+        last-successful-sync-at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the last successful listing sync, or null if never synced
+      required:
+      - last-successful-sync-at
+      - state
+    ListingResourceTypeEnum:
+      type: string
+      enum:
+      - listings
+    Listing:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ListingResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id:
+          type: integer
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+              maxLength: 255
+            image:
+              type:
+              - string
+              - 'null'
+              maxLength: 1024
+            neighborhood:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            city:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            state:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            country:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            room-type:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            bedrooms:
+              type:
+              - integer
+              - 'null'
+              maximum: 2147483647
+              minimum: -2147483648
+            bathrooms:
+              type:
+              - string
+              - 'null'
+              format: decimal
+              pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+            base-price:
+              type: integer
+              readOnly: true
+            base-price-updated-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            min-price:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            min-price-updated-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            max-price:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            min-stay:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            extra-guest-fee:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            extra-guest-threshold:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            latitude:
+              type:
+              - string
+              - 'null'
+              format: decimal
+              pattern: ^-?\d{0,4}(?:\.\d{0,8})?$
+            longitude:
+              type:
+              - string
+              - 'null'
+              format: decimal
+              pattern: ^-?\d{0,4}(?:\.\d{0,8})?$
+            timezone:
+              type: string
+              readOnly: true
+            currency:
+              type:
+              - string
+              - 'null'
+              maxLength: 3
+            in-active-market:
+              type: boolean
+              readOnly: true
+              description: 'Whether the listing is fully priceable: assigned to a pricing cluster whose market is active. False on the rare listing without a cluster — its calendar endpoint returns 400. The listing.in_active_market_changed webhook announces a priced listing''s value changing.'
+            enabled:
+              type: boolean
+              readOnly: true
+            address:
+              type:
+              - string
+              - 'null'
+              maxLength: 1024
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+            channel-listings:
+              type: array
+              items:
+                $ref: '#/components/schemas/ListingChannelListing'
+              readOnly: true
+              description: Active channel listings linked to this listing
+          required:
+          - title
+        relationships:
+          type: object
+          properties:
+            owner:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    type:
+                      type: string
+                      enum:
+                      - users
+                      title: Resource Type Name
+                      description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+                  required:
+                  - id
+                  - type
+              required:
+              - data
+              description: The identifier of the related object.
+              title: Owner
+              readOnly: true
+    Recommendation:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/RecommendationResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id:
+          type: string
+          description: Unique identifier for the recommendation.
+        attributes:
+          type: object
+          properties:
+            listing-id:
+              type: integer
+              readOnly: true
+            listing-title:
+              type:
+              - string
+              - 'null'
+              description: Listing title associated with the recommendation.
+            status:
+              enum:
+              - suggested
+              - suggestion_completed
+              - approved
+              - rejected
+              - expired
+              - canceled
+              - outdated
+              type: string
+              description: '* `suggested` - Suggested
+
+                * `suggestion_completed` - Suggestion_Completed
+
+                * `approved` - Approved
+
+                * `rejected` - Rejected
+
+                * `expired` - Expired
+
+                * `canceled` - Canceled
+
+                * `outdated` - Outdated'
+            approved-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            rejected-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            expired-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            suggested-base-price:
+              type:
+              - integer
+              - 'null'
+              description: Suggested base price for the listing.
+            suggested-min-price:
+              type:
+              - integer
+              - 'null'
+              description: Suggested minimum price for the listing.
+            suggested-seasonal-min-price-pct:
+              type:
+              - number
+              - 'null'
+              format: double
+              description: Suggested seasonal minimum price adjustment percentage.
+            initial-base-price:
+              type:
+              - integer
+              - 'null'
+              description: Base price recorded when the recommendation was created.
+            initial-min-price:
+              type:
+              - integer
+              - 'null'
+              description: Minimum price recorded when the recommendation was created.
+            recommendations:
+              type:
+              - string
+              - 'null'
+              description: Recommendations about the listing from the booking review
+            category:
+              enum:
+              - min_price
+              - seasonal_min_price
+              - base_price
+              - strategy
+              - enable_listing
+              - gap_fill
+              - ''
+              - null
+              type:
+              - string
+              - 'null'
+              description: 'Category of the booking review
+
+
+                * `min_price` - Min_Price
+
+                * `seasonal_min_price` - Seasonal_Min_Price
+
+                * `base_price` - Base_Price
+
+                * `strategy` - Strategy
+
+                * `enable_listing` - Enable_Listing
+
+                * `gap_fill` - Gap_Fill'
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+          required:
+          - listing-title
+    PatchedListingActivationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - type
+          - id
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+              enum:
+              - listing-activations
+            id: {}
+            attributes:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  readOnly: true
+                enabled:
+                  type: boolean
+                  description: Whether price syncing is enabled for the listing.
+                base-price:
+                  type: number
+                  format: double
+                  minimum: 10
+                  description: Base price to apply after the activation update.
+                min-price:
+                  type: number
+                  format: double
+                  minimum: 5
+                  description: Minimum price to apply after the activation update.
+              required:
+              - enabled
+      required:
+      - data
+    CalendarEntry:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/CalendarEntryResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: Calendar date
+            availability:
+              type: string
+              description: Availability status (e.g., 'available', 'booked', 'blocked')
+            price:
+              type: integer
+              description: Final price in minor currency units (e.g., cents)
+            price-posted:
+              type:
+              - integer
+              - 'null'
+              description: Last price posted to the channel in minor currency units
+            effective-min-price:
+              type: integer
+              description: Effective minimum price floor for the day in minor currency units. Includes user/seasonal/day-of-week minimums, the benchmark floor, and rebooking protection. The modeled price will not go below this.
+            effective-max-price:
+              type:
+              - integer
+              - 'null'
+              description: Effective maximum price ceiling for the day in minor currency units (per-day maximum override, else the listing maximum). Null when no maximum is configured. The modeled price will not exceed this.
+            factors:
+              type: array
+              items:
+                $ref: '#/components/schemas/Factor'
+              description: Pricing factors that contribute to the modeled price
+          required:
+          - date
+          - availability
+          - price
+          - price-posted
+          - effective-min-price
+          - effective-max-price
+          - factors
+    ListingDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListingDetail'
+      required:
+      - data
+    CalendarEntryResourceTypeEnum:
+      type: string
+      enum:
+      - calendar-entries
+    ListingActivation:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ListingActivationResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              description: Whether price syncing is enabled for the listing.
+            base-price:
+              type: number
+              format: double
+              minimum: 10
+              description: Base price to apply after the activation update.
+            min-price:
+              type: number
+              format: double
+              minimum: 5
+              description: Minimum price to apply after the activation update.
+          required:
+          - enabled
+    PaginatedListingList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    StateEnum:
+      enum:
+      - queued
+      - in_progress
+      - completed
+      - unknown
+      type: string
+      description: '* `queued` - queued
+
+        * `in_progress` - in_progress
+
+        * `completed` - completed
+
+        * `unknown` - unknown'
+    ListingChannelListing:
+      type: object
+      description: Serializer for channel listings embedded in listing responses.
+      properties:
+        channel:
+          type: string
+          description: Channel identifier for the linked channel listing
+        channel-id:
+          type: string
+          description: Listing identifier on the channel side
+      required:
+      - channel
+      - channel-id
+    ListingDetail:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ListingResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id:
+          type: integer
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+              maxLength: 255
+            image:
+              type:
+              - string
+              - 'null'
+              maxLength: 1024
+            neighborhood:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            city:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            state:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            country:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            room-type:
+              type:
+              - string
+              - 'null'
+              maxLength: 256
+            bedrooms:
+              type:
+              - integer
+              - 'null'
+              maximum: 2147483647
+              minimum: -2147483648
+            bathrooms:
+              type:
+              - string
+              - 'null'
+              format: decimal
+              pattern: ^-?\d{0,2}(?:\.\d{0,2})?$
+            base-price:
+              type: integer
+              readOnly: true
+            base-price-updated-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            min-price:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            min-price-updated-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            max-price:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            min-stay:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            extra-guest-fee:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            extra-guest-threshold:
+              type:
+              - integer
+              - 'null'
+              readOnly: true
+            latitude:
+              type:
+              - string
+              - 'null'
+              format: decimal
+              pattern: ^-?\d{0,4}(?:\.\d{0,8})?$
+            longitude:
+              type:
+              - string
+              - 'null'
+              format: decimal
+              pattern: ^-?\d{0,4}(?:\.\d{0,8})?$
+            timezone:
+              type: string
+              readOnly: true
+            currency:
+              type:
+              - string
+              - 'null'
+              maxLength: 3
+            in-active-market:
+              type: boolean
+              readOnly: true
+              description: 'Whether the listing is fully priceable: assigned to a pricing cluster whose market is active. False on the rare listing without a cluster — its calendar endpoint returns 400. The listing.in_active_market_changed webhook announces a priced listing''s value changing.'
+            enabled:
+              type: boolean
+              readOnly: true
+            address:
+              type:
+              - string
+              - 'null'
+              maxLength: 1024
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+            channel-listings:
+              type: array
+              items:
+                $ref: '#/components/schemas/ListingChannelListing'
+              readOnly: true
+              description: Active channel listings linked to this listing
+            sync-status:
+              allOf:
+              - $ref: '#/components/schemas/ListingSyncStatus'
+              readOnly: true
+              description: Status of the listing sync for the primary channel listing
+          required:
+          - title
+        relationships:
+          type: object
+          properties:
+            owner:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    type:
+                      type: string
+                      enum:
+                      - users
+                      title: Resource Type Name
+                      description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+                  required:
+                  - id
+                  - type
+              required:
+              - data
+              description: The identifier of the related object.
+              title: Owner
+              readOnly: true
+    PaginatedRecommendationList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recommendation'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    ListingActivationResourceTypeEnum:
+      type: string
+      enum:
+      - listing-activations
+    PaginatedCalendarEntryList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarEntry'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    Factor:
+      type: object
+      description: 'Serializer for a pricing factor within a calendar entry.
+
+
+        Factors represent the individual components that influence the final price
+
+        (e.g., seasonality, day-of-week, events).'
+      properties:
+        key:
+          type: string
+          description: Factor identifier (e.g., 'seasonality', 'dow', 'event')
+        order:
+          type: integer
+          description: Display order of the factor
+        ratio:
+          type: number
+          format: double
+          description: Factor's contribution as a ratio (e.g., -0.19 means -19%)
+        amount:
+          type: integer
+          description: This factor's contribution to the modeled price, in the same currency units as `price`. Negative values lower the price. Factors whose effect rounds to less than 1 report 0. Amounts do not necessarily sum to (price - base price) because min/max price limits and final rounding are applied between factors and are not attributed to any single factor.
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Human-readable reason for the factor (e.g., event name)
+        event-impact:
+          type:
+          - string
+          - 'null'
+          description: 'Event impact level: ''low'', ''medium'', or ''high''. Only present for event factors.'
+      required:
+      - amount
+      - key
+      - order
+      - ratio
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: Use OAuth2 client credentials to mint an application token, or add `user_id` and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped token.
+      flows:
+        clientCredentials:
+          tokenUrl: /o/token/
+          refreshUrl: /o/token/
+          scopes:
+            listings:read: Read listings
+            listings:write: Modify listings
+            reservations:read: Read reservations
+            accounts:read: Read account information
+            user:read: Read user information
+            user:write: Create and modify users
+            insights:read: Read market insights
+            compsets:read: Read competitive set data
+            neyoba:ask: Ask Neyoba
+    personalAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: PersonalAccessToken
+      description: Paste a `bpat_...` personal access token. PATs use the same Bearer header as OAuth2 tokens and must still include the runtime-required scopes for each endpoint, even though OpenAPI cannot encode scopes for non-OAuth bearer schemes.

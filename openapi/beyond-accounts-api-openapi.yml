@@ -1,0 +1,709 @@
+openapi: 3.1.1
+info:
+  title: Beyond Pricing Public Accounts API
+  version: 2.0.0
+  description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
+tags:
+- name: Accounts
+paths:
+  /api/v1/users/{user_id}/accounts/:
+    get:
+      operationId: list_accounts
+      description: 'Return a paginated list of accounts (channel connections) for the specified user.
+
+
+        ## Response Codes
+
+        - **200**: Success
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - user not found'
+      summary: List accounts for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - Accounts
+      security:
+      - oauth2:
+        - user:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAccountList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+    post:
+      operationId: create_account
+      description: 'Add a channel connection (account) for a user.
+
+
+        Each channel requires specific credentials.
+
+
+        ## Supported Channels and Required Credentials
+
+
+        | Channel | Required Fields | Optional Fields |
+
+        |---------|-----------------|-----------------|
+
+        | `airbnb` | `email` | `password`, `device_id` |
+
+        | `airbnb_partner` | `access_token` | `refresh_token`, `email` |
+
+        | `avantio` | `provider_id`, `username`, `password` | - |
+
+        | `barefoot_direct` | `account_id` | `web_book_reztypeid` |
+
+        | `beds24` | `account_id` | - |
+
+        | `best_beach` | `api_key` | - |
+
+        | `booking_connect` | `email`, `password` | `device_id` |
+
+        | `booking_experts` | `authorization_code` | - |
+
+        | `bookingsync` | `authorization_code`, `redirect_uri` | - |
+
+        | `brightside` | `subdomain`, `api_key` | - |
+
+        | `ciirus` | `company_id` | `booking_id`, `booking_secret` |
+
+        | `cloudbeds` | `authorization_code` | - |
+
+        | `direct` | `organization_id` | - |
+
+        | `elina` | `password` | - |
+
+        | `escapia` | `email`, `domain`, `password`, `pm_id` | `evrn_api_user`, `evrn_api_password` |
+
+        | `fantasticstay` | `api_key` | - |
+
+        | `gfh` | `api_key` | - |
+
+        | `guesty` | `jwt` | `booking_id`, `booking_secret` |
+
+        | `homeaway` | `authorization_code` | - |
+
+        | `homhero` | `reference` | - |
+
+        | `homhero_staging` | `reference` | - |
+
+        | `hospitable` | `authorization_code`, `client_id`, `client_secret`, `redirect_uri` | - |
+
+        | `hostaway` | `client_id`, `client_secret` | - |
+
+        | `hostfully` | `agency_id` | `authorization_code` |
+
+        | `hosthub` | `api_key` | - |
+
+        | `hostify` | `api_key` | - |
+
+        | `icnea` | `account_id` | - |
+
+        | `igms` | `authorization_code` | - |
+
+        | `ipro` | `client_code`, `password`, `domain` | - |
+
+        | `janiis` | `organization_id`, `api_key` | - |
+
+        | `kigo` | `api_key` | - |
+
+        | `kigo_pro` | `authorization_code` | - |
+
+        | `kross_booking` | `hotel_id`, `username`, `password` | - |
+
+        | `lightmaker` | `company_id` | - |
+
+        | `liverez` | `username`, `password`, `security_id` | - |
+
+        | `lodgable` | `client_id`, `client_password` | - |
+
+        | `lodgify` | `api_key` | - |
+
+        | `lodgify_partner` | `api_key` | - |
+
+        | `lodgix` | `api_key` | - |
+
+        | `loggia` | `email`, `api_key`, `page_id` | - |
+
+        | `mews` | `access_token` | - |
+
+        | `myvr` | `authorization_code` | - |
+
+        | `octorate` | `authorization_code`, `redirect_uri` | - |
+
+        | `opera` | `enterprise_id`, `client_id`, `hotel_id`, `client_secret`, `base_url` | - |
+
+        | `ownerrez` | `authorization_code`, `redirect_uri` | - |
+
+        | `real_time_rental` | `account_id` | - |
+
+        | `rentalready` | `authorization_code` | - |
+
+        | `rentals_united` | `email` | `password` |
+
+        | `resly` | `api_key`, `property_id` | - |
+
+        | `rms` | `client_id`, `client_password` | - |
+
+        | `secra` | `landlord_no`, `authcode` | - |
+
+        | `septeo` | `agency_id` | - |
+
+        | `smoobu` | `client_id`, `api_key` | - |
+
+        | `stays` | `username`, `password`, `base_url` | - |
+
+        | `streamline` | `token_key`, `token_secret` | - |
+
+        | `supercontrol` | `client_key` | - |
+
+        | `tokeet` | `access_code`, `redirect_uri` | - |
+
+        | `track` | `username`, `password`, `subdomain`, `post_key`, `post_secret` | - |
+
+        | `travelmob` | `email` | `password` |
+
+        | `uplisting` | `api_key` | - |
+
+        | `villas365` | `account_id`, `owner_token`, `key`, `password` | - |
+
+        | `vrbo` | `email` | `password` |
+
+        | `vreasy` | `api_key` | - |
+
+        | `vrm` | `client_code` | - |
+
+        | `zeevou` | `username`, `secret` | - |
+
+        | `zeevou_direct` | `authorization_code` | - |
+
+
+        _Dynamic/custom PMS channels require `api_key` and optionally `base_url`._
+
+
+        ## Response Codes
+
+        - **201**: Account created successfully
+
+        - **400**: Validation error - invalid input data
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - user not found
+
+        - **422**: Channel validation/authentication failed
+
+        - **502**: Channel error (external service issue)'
+      summary: Add an account for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/AccountCreateRequest'
+            examples:
+              APIKeyChannel(Hostify):
+                value:
+                  data:
+                    type: accounts
+                    attributes:
+                      channel: hostify
+                      credentials:
+                        api_key: your-api-key-here
+                summary: Add an API key channel
+              ClientID/SecretChannel(Hostaway):
+                value:
+                  data:
+                    type: accounts
+                    attributes:
+                      channel: hostaway
+                      credentials:
+                        client_id: '12345'
+                        client_secret: abcdef123456
+                summary: Add a client ID/secret channel
+              JWTChannel(Guesty):
+                value:
+                  data:
+                    type: accounts
+                    attributes:
+                      channel: guesty
+                      credentials:
+                        jwt: your-jwt-token-here
+                summary: Add a JWT-based channel
+        required: true
+      security:
+      - oauth2:
+        - user:write
+      - personalAccessToken: []
+      responses:
+        '201':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+          description: ''
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '422':
+          description: Unprocessable entity
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+        '502':
+          description: Channel error
+  /api/v1/users/{user_id}/accounts/{account_id}/:
+    get:
+      operationId: get_account
+      description: 'Retrieve a single account (channel connection) for the specified user.
+
+
+        ## Response Codes
+
+        - **200**: Success
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - user or account not found'
+      summary: Get an account for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts
+      security:
+      - oauth2:
+        - user:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+    delete:
+      operationId: delete_account
+      description: 'Remove a channel connection (account) for a user. This unregisters webhooks and soft-deletes the account.
+
+
+        ## Response Codes
+
+        - **204**: Successfully deleted
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - user or account not found'
+      summary: Delete an account for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts
+      security:
+      - oauth2:
+        - user:write
+      - personalAccessToken: []
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+  /api/v1/users/{user_id}/accounts/{account_id}/refresh/:
+    post:
+      operationId: refresh_account
+      description: 'Queue a full listings and reservations refresh for the specified account.
+
+
+        This endpoint enqueues an asynchronous `sync_all` job and returns immediately.
+
+
+        Use `recent_sync_threshold_minutes` to control how recently synced listings are skipped. The threshold unit is minutes. When set to `0`, the refresh includes all listings.
+
+
+        If you have registered a webhook, an `account.refreshed` event is delivered once the listing sync reaches a terminal state, so you do not have to poll. Reservations are refreshed by separate background jobs and are still in flight when that event fires.
+
+
+        ## Response Codes
+
+        - **400**: Validation error - invalid query parameter value
+
+        - **202**: Refresh accepted and queued
+
+        - **401**: Unauthorized - invalid or missing OAuth2 token
+
+        - **403**: Forbidden - insufficient scope
+
+        - **404**: Not found - user or account not found
+
+        - **409**: Conflict - a refresh is already in progress; retry shortly'
+      summary: Refresh an account for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: recent_sync_threshold_minutes
+        schema:
+          type: integer
+        description: Skip listings synced within the last N minutes. Defaults to 60. Set to 0 to disable this optimization and refresh all listings.
+      tags:
+      - Accounts
+      security:
+      - oauth2:
+        - user:write
+      - personalAccessToken: []
+      responses:
+        '400':
+          description: Validation error
+        '202':
+          description: Refresh accepted
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '409':
+          description: Conflict - a refresh is already in progress for this account
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    AccountResourceTypeEnum:
+      type: string
+      enum:
+      - accounts
+    StateEnum:
+      enum:
+      - queued
+      - in_progress
+      - completed
+      - unknown
+      type: string
+      description: '* `queued` - queued
+
+        * `in_progress` - in_progress
+
+        * `completed` - completed
+
+        * `unknown` - unknown'
+    AccountCreateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - type
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+              enum:
+              - accounts
+            attributes:
+              type: object
+              properties:
+                channel:
+                  type: string
+                  minLength: 1
+                  description: 'Channel identifier (e.g., ''hostify'', ''hostaway''). Supported channels: airbnb, airbnb_partner, avantio, barefoot_direct, beds24, best_beach, booking_connect, booking_experts, bookingsync, brightside, ciirus, cloudbeds, direct, elina, escapia, fake, fake_2, fake_pms, fantasticstay, gfh, guesty, homeaway, homhero, homhero_staging, hospitable, hostaway, hostfully, hosthub, hostify, icnea, igms, ipro, janiis, kigo, kigo_pro, kross_booking, lightmaker, liverez, lodgable, lodgify, lodgify_partner, lodgix, loggia, mews, myvr, octorate, opera, ownerrez, real_time_rental, rentalready, rentals_united, resly, rms, secra, septeo, smoobu, stays, streamline, supercontrol, tokeet, track, travelmob, uplisting, villas365, vrbo, vreasy, vrm, zeevou, zeevou_direct'
+                credentials:
+                  type: object
+                  additionalProperties: {}
+                  description: Credentials for the specified channel
+              required:
+              - channel
+              - credentials
+      required:
+      - data
+    PaginatedAccountList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    AccountResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+      required:
+      - data
+    AccountSyncStatus:
+      type: object
+      description: 'Serializer for the account sync status.
+
+
+        Receives the full ManagedAccount instance via ``source="*"`` and derives
+
+        the sync state from the pending sync job and ``listings_synced_at``.'
+      properties:
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          description: 'Current sync state: queued, in_progress, completed, or unknown
+
+
+            * `queued` - queued
+
+            * `in_progress` - in_progress
+
+            * `completed` - completed
+
+            * `unknown` - unknown'
+        last-successful-sync-at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the last successful listing sync, or null if never synced
+      required:
+      - last-successful-sync-at
+      - state
+    Account:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/AccountResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            user-id:
+              type: integer
+              description: ID of the user who owns this account
+            channel:
+              type: string
+              description: Channel identifier (e.g., 'airbnb', 'guesty')
+            channel-id:
+              type: string
+              description: Account identifier on the channel side
+            channel-display-id:
+              type:
+              - string
+              - 'null'
+              description: Human-readable display ID
+            label:
+              type: string
+              description: Human-readable channel label
+            email:
+              type:
+              - string
+              - 'null'
+              description: Email associated with this account
+            valid:
+              type: boolean
+              description: Whether the account credentials are currently valid
+            nb-enabled-listings:
+              type: integer
+              readOnly: true
+              description: Number of enabled listings in this account
+            nb-listings:
+              type: integer
+              readOnly: true
+              description: Total number of listings in this account
+            is-pms:
+              type: boolean
+              readOnly: true
+              description: Whether this channel is a property management system
+            sync-status:
+              allOf:
+              - $ref: '#/components/schemas/AccountSyncStatus'
+              readOnly: true
+              description: Status of the account sync process started after account connection
+          required:
+          - id
+          - user-id
+          - channel
+          - channel-id
+          - channel-display-id
+          - label
+          - email
+          - valid
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: Use OAuth2 client credentials to mint an application token, or add `user_id` and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped token.
+      flows:
+        clientCredentials:
+          tokenUrl: /o/token/
+          refreshUrl: /o/token/
+          scopes:
+            listings:read: Read listings
+            listings:write: Modify listings
+            reservations:read: Read reservations
+            accounts:read: Read account information
+            user:read: Read user information
+            user:write: Create and modify users
+            insights:read: Read market insights
+            compsets:read: Read competitive set data
+            neyoba:ask: Ask Neyoba
+    personalAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: PersonalAccessToken
+      description: Paste a `bpat_...` personal access token. PATs use the same Bearer header as OAuth2 tokens and must still include the runtime-required scopes for each endpoint, even though OpenAPI cannot encode scopes for non-OAuth bearer schemes.

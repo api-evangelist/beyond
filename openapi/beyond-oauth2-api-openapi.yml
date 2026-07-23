@@ -1,0 +1,114 @@
+openapi: 3.1.1
+info:
+  title: Beyond Pricing Public Accounts OAuth2 API
+  version: 2.0.0
+  description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
+tags:
+- name: OAuth2
+paths:
+  /o/token/:
+    post:
+      operationId: create_token
+      summary: Request an OAuth2 access token
+      description: 'Exchange client credentials for an access token.
+
+
+        When called without extra subject fields, this endpoint issues an **application-level OAuth2 token**.
+
+
+        Include `user_id` to obtain a **user-scoped OAuth2 token** that restricts access to a single user''s resources. Include `credential_id` to further bind that token to one login credential within the user.
+
+
+        Personal access tokens are issued separately and are not minted through `/o/token/`. Paste a `bpat_...` token directly into the **Authorize** dialog (lock icon) when you want to authenticate with a PAT.
+
+
+        After obtaining an OAuth2 token here, copy it and paste it into the **Authorize** dialog to authenticate subsequent requests.'
+      tags:
+      - OAuth2
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - grant_type
+              - client_id
+              - client_secret
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - client_credentials
+                  description: OAuth2 grant type.
+                client_id:
+                  type: string
+                  description: Application client ID.
+                client_secret:
+                  type: string
+                  description: Application client secret.
+                scope:
+                  type: string
+                  description: 'Space-separated list of scopes. Available: `listings:read`, `listings:write`, `reservations:read`, `accounts:read`, `user:read`, `user:write`, `insights:read`, `compsets:read`, `neyoba:ask`.'
+                user_id:
+                  type: integer
+                  description: Bind the token to this user's resources (user-scoped token). Required when the application enforces user-scoped tokens.
+                credential_id:
+                  type: integer
+                  description: Optional login credential within the bound user. When omitted for a user-scoped token, the user's primary credential is used.
+      responses:
+        '200':
+          description: Token issued successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: Bearer token for API requests.
+                  token_type:
+                    type: string
+                    example: Bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+                    description: Token lifetime in seconds.
+                  scope:
+                    type: string
+                    description: Granted scopes (space-separated).
+                  user_id:
+                    type: string
+                    description: Present only for user-scoped tokens. The ID of the bound user.
+                  credential_id:
+                    type: string
+                    description: Present when the token is bound to a specific user credential.
+        '400':
+          description: Invalid request (missing or invalid parameters).
+        '401':
+          description: Invalid client credentials.
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: Use OAuth2 client credentials to mint an application token, or add `user_id` and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped token.
+      flows:
+        clientCredentials:
+          tokenUrl: /o/token/
+          refreshUrl: /o/token/
+          scopes:
+            listings:read: Read listings
+            listings:write: Modify listings
+            reservations:read: Read reservations
+            accounts:read: Read account information
+            user:read: Read user information
+            user:write: Create and modify users
+            insights:read: Read market insights
+            compsets:read: Read competitive set data
+            neyoba:ask: Ask Neyoba
+    personalAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: PersonalAccessToken
+      description: Paste a `bpat_...` personal access token. PATs use the same Bearer header as OAuth2 tokens and must still include the runtime-required scopes for each endpoint, even though OpenAPI cannot encode scopes for non-OAuth bearer schemes.

@@ -1,0 +1,521 @@
+openapi: 3.1.1
+info:
+  title: Beyond Pricing Public Accounts Insights API
+  version: 2.0.0
+  description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
+tags:
+- name: Insights
+paths:
+  /api/v1/users/{user_id}/market-insights/:
+    get:
+      operationId: get_market_insights
+      description: 'Retrieve aggregated market insights for a specific user.
+
+
+        **Required scope:** `insights:read`
+
+
+        **Filters:** Use `filter[markets]`, `filter[clusters]`, `filter[cities]`,
+
+        `filter[bedrooms]`, `filter[start-date]`, `filter[end-date]`, and
+
+        `filter[currency]`
+
+        query parameters.
+
+
+        **Example:** `GET /api/v1/users/42/market-insights/?filter[markets]=San Francisco&filter[currency]=USD`'
+      summary: Get market insights for a user
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      - name: page[number]
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page[size]
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: filter[markets]
+        schema:
+          type: string
+        description: Comma-separated market names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required.
+      - in: query
+        name: filter[clusters]
+        schema:
+          type: string
+        description: Comma-separated cluster names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required.
+      - in: query
+        name: filter[cities]
+        schema:
+          type: string
+        description: Comma-separated city names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required.
+      - in: query
+        name: filter[bedrooms]
+        schema:
+          type: string
+        description: Comma-separated bedroom counts to filter by.
+      - in: query
+        name: filter[start-date]
+        schema:
+          type: string
+          format: date
+        description: Start date (YYYY-MM-DD) used for both check-in and booked filters. Defaults to today - 365 days.
+      - in: query
+        name: filter[end-date]
+        schema:
+          type: string
+          format: date
+        description: End date (YYYY-MM-DD) used for both check-in and booked filters. Defaults to today + 365 days.
+      - in: query
+        name: filter[currency]
+        schema:
+          type: string
+        description: Currency code for prices (e.g. USD, EUR). Defaults to user's billing currency.
+      - in: query
+        name: fields[market-insights]
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - date
+            - availability
+            - added-listing-count
+            - listing-count
+            - canceled-count-by-stay-date
+            - canceled-count-by-booked-date
+            - canceled-count-by-canceled-date
+            - total-count-by-stay-date
+            - total-count-by-booked-date
+            - checkin-date-count
+            - volume-by-checkin-date
+            - billable-volume-by-checkin-date
+            - sum-lead-time
+            - sum-stay-length
+            - median-lead-time
+            - median-stay-length
+            - booked-at-count
+            - volume-by-booked-at
+            - billable-volume-by-booked-at
+            - volume
+            - week-ago-volume
+            - year-ago-volume
+            - two-years-ago-volume
+            - three-years-ago-volume
+            - four-years-ago-volume
+            - five-years-ago-volume
+            - six-years-ago-volume
+            - billable-volume
+            - year-ago-billable-volume
+            - two-years-ago-billable-volume
+            - three-years-ago-billable-volume
+            - four-years-ago-billable-volume
+            - five-years-ago-billable-volume
+            - six-years-ago-billable-volume
+            - occupied-days-count
+            - week-ago-occupied-days-count
+            - year-ago-occupied-days-count
+            - two-years-ago-occupied-days-count
+            - three-years-ago-occupied-days-count
+            - four-years-ago-occupied-days-count
+            - five-years-ago-occupied-days-count
+            - six-years-ago-occupied-days-count
+            - median-lead-time-one-year-ago
+            - median-lead-time-two-years-ago
+            - median-lead-time-three-years-ago
+            - median-lead-time-four-years-ago
+            - median-lead-time-five-years-ago
+            - median-lead-time-six-years-ago
+            - owner-nights
+            - year-ago-owner-nights
+            - owner-volume
+            - year-ago-owner-volume
+        description: endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter.
+        explode: false
+      tags:
+      - Insights
+      security:
+      - oauth2:
+        - user:read
+        - insights:read
+      - personalAccessToken: []
+      responses:
+        '200':
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMarketInsightsList'
+          description: ''
+        '401':
+          description: Unauthorized - invalid or missing bearer token
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - resource does not exist
+        '422':
+          description: Unprocessable - not enough market data
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    MarketInsights:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/MarketInsightResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: Stay date represented by this row
+            availability:
+              type: integer
+              description: Availability metric for the date
+            added-listing-count:
+              type: integer
+              description: New listings added count
+            listing-count:
+              type: integer
+              description: Total listings considered
+            canceled-count-by-stay-date:
+              type: integer
+              description: Cancellations grouped by stay date
+            canceled-count-by-booked-date:
+              type: integer
+              description: Cancellations grouped by booked date
+            canceled-count-by-canceled-date:
+              type: integer
+              description: Cancellations grouped by canceled date
+            total-count-by-stay-date:
+              type: integer
+              description: Total reservations grouped by stay date
+            total-count-by-booked-date:
+              type: integer
+              description: Total reservations grouped by booked date
+            checkin-date-count:
+              type: integer
+              description: Reservation count by check-in date
+            volume-by-checkin-date:
+              type: number
+              format: double
+              description: Gross volume grouped by check-in date
+            billable-volume-by-checkin-date:
+              type: number
+              format: double
+              description: Billable volume grouped by check-in date
+            sum-lead-time:
+              type: integer
+              description: Sum of lead time across relevant reservations
+            sum-stay-length:
+              type: integer
+              description: Sum of stay length across relevant reservations
+            median-lead-time:
+              type: number
+              format: double
+              description: Median lead time
+            median-stay-length:
+              type: number
+              format: double
+              description: Median stay length
+            booked-at-count:
+              type: integer
+              description: Reservation count by booked date
+            volume-by-booked-at:
+              type: number
+              format: double
+              description: Gross volume grouped by booked date
+            billable-volume-by-booked-at:
+              type: number
+              format: double
+              description: Billable volume grouped by booked date
+            volume:
+              type: number
+              format: double
+              description: Current period gross volume
+            week-ago-volume:
+              type: number
+              format: double
+              description: Volume from one week ago
+            year-ago-volume:
+              type: number
+              format: double
+              description: Volume from one year ago
+            two-years-ago-volume:
+              type: number
+              format: double
+              description: Volume from two years ago
+            three-years-ago-volume:
+              type: number
+              format: double
+              description: Volume from three years ago
+            four-years-ago-volume:
+              type: number
+              format: double
+              description: Volume from four years ago
+            five-years-ago-volume:
+              type: number
+              format: double
+              description: Volume from five years ago
+            six-years-ago-volume:
+              type: number
+              format: double
+              description: Volume from six years ago
+            billable-volume:
+              type: number
+              format: double
+              description: Current period billable volume
+            year-ago-billable-volume:
+              type: number
+              format: double
+              description: Billable volume from one year ago
+            two-years-ago-billable-volume:
+              type: number
+              format: double
+              description: Billable volume from two years ago
+            three-years-ago-billable-volume:
+              type: number
+              format: double
+              description: Billable volume from three years ago
+            four-years-ago-billable-volume:
+              type: number
+              format: double
+              description: Billable volume from four years ago
+            five-years-ago-billable-volume:
+              type: number
+              format: double
+              description: Billable volume from five years ago
+            six-years-ago-billable-volume:
+              type: number
+              format: double
+              description: Billable volume from six years ago
+            occupied-days-count:
+              type: integer
+              description: Current period occupied days count
+            week-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from one week ago
+            year-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from one year ago
+            two-years-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from two years ago
+            three-years-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from three years ago
+            four-years-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from four years ago
+            five-years-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from five years ago
+            six-years-ago-occupied-days-count:
+              type: integer
+              description: Occupied days count from six years ago
+            median-lead-time-one-year-ago:
+              type: number
+              format: double
+              description: Median lead time from one year ago
+            median-lead-time-two-years-ago:
+              type: number
+              format: double
+              description: Median lead time from two years ago
+            median-lead-time-three-years-ago:
+              type: number
+              format: double
+              description: Median lead time from three years ago
+            median-lead-time-four-years-ago:
+              type: number
+              format: double
+              description: Median lead time from four years ago
+            median-lead-time-five-years-ago:
+              type: number
+              format: double
+              description: Median lead time from five years ago
+            median-lead-time-six-years-ago:
+              type: number
+              format: double
+              description: Median lead time from six years ago
+            owner-nights:
+              type: integer
+              description: Current period owner nights
+            year-ago-owner-nights:
+              type: integer
+              description: Owner nights from one year ago
+            owner-volume:
+              type: number
+              format: double
+              description: Current period owner volume
+            year-ago-owner-volume:
+              type: number
+              format: double
+              description: Owner volume from one year ago
+          required:
+          - date
+          - availability
+          - added-listing-count
+          - listing-count
+          - canceled-count-by-stay-date
+          - canceled-count-by-booked-date
+          - canceled-count-by-canceled-date
+          - total-count-by-stay-date
+          - total-count-by-booked-date
+          - checkin-date-count
+          - volume-by-checkin-date
+          - billable-volume-by-checkin-date
+          - sum-lead-time
+          - sum-stay-length
+          - median-lead-time
+          - median-stay-length
+          - booked-at-count
+          - volume-by-booked-at
+          - billable-volume-by-booked-at
+          - volume
+          - week-ago-volume
+          - year-ago-volume
+          - two-years-ago-volume
+          - three-years-ago-volume
+          - four-years-ago-volume
+          - five-years-ago-volume
+          - six-years-ago-volume
+          - billable-volume
+          - year-ago-billable-volume
+          - two-years-ago-billable-volume
+          - three-years-ago-billable-volume
+          - four-years-ago-billable-volume
+          - five-years-ago-billable-volume
+          - six-years-ago-billable-volume
+          - occupied-days-count
+          - week-ago-occupied-days-count
+          - year-ago-occupied-days-count
+          - two-years-ago-occupied-days-count
+          - three-years-ago-occupied-days-count
+          - four-years-ago-occupied-days-count
+          - five-years-ago-occupied-days-count
+          - six-years-ago-occupied-days-count
+          - median-lead-time-one-year-ago
+          - median-lead-time-two-years-ago
+          - median-lead-time-three-years-ago
+          - median-lead-time-four-years-ago
+          - median-lead-time-five-years-ago
+          - median-lead-time-six-years-ago
+          - owner-nights
+          - year-ago-owner-nights
+          - owner-volume
+          - year-ago-owner-volume
+    MarketInsightResourceTypeEnum:
+      type: string
+      enum:
+      - market-insights
+    PaginatedMarketInsightsList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketInsights'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: Use OAuth2 client credentials to mint an application token, or add `user_id` and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped token.
+      flows:
+        clientCredentials:
+          tokenUrl: /o/token/
+          refreshUrl: /o/token/
+          scopes:
+            listings:read: Read listings
+            listings:write: Modify listings
+            reservations:read: Read reservations
+            accounts:read: Read account information
+            user:read: Read user information
+            user:write: Create and modify users
+            insights:read: Read market insights
+            compsets:read: Read competitive set data
+            neyoba:ask: Ask Neyoba
+    personalAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: PersonalAccessToken
+      description: Paste a `bpat_...` personal access token. PATs use the same Bearer header as OAuth2 tokens and must still include the runtime-required scopes for each endpoint, even though OpenAPI cannot encode scopes for non-OAuth bearer schemes.
