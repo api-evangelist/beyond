@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: searched
+status: published
+source: https://developers.beyondpricing.com/mcp/
+server:
+  name: beyond-neyoba
+  transport: http
+  url: https://neyoba.beyondpricing.com/mcp
+  authorization_server: https://developers.beyondpricing.com
+  consent_page: https://v2.beyondpricing.com/oauth/authorize
+  auth:
+    type: oauth2
+    flow: authorization_code
+    pkce: S256
+    dynamic_client_registration: true   # RFC 7591
+    token_endpoint_auth_method: none    # public client, no secret
+    required_scope: neyoba:ask
+notes: >-
+  Official hosted MCP server ("Neyoba"), in beta. Connects AI clients (Claude, ChatGPT)
+  to Beyond's revenue-management data and pricing intelligence. Clients discover the
+  authorization server via protected-resource metadata, register dynamically, complete a
+  browser OAuth 2.0 authorization-code + PKCE flow, then call the server with a bearer
+  token carrying the neyoba:ask scope. The MCP tool surface is governed by that single
+  scope; individual tool names are not enumerated in the public docs.

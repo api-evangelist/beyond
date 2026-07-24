@@ -1,0 +1,12 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/beyond-openapi-original.yml
+skills:
+- file: beyond-price-optimization.md
+  name: Optimize a listing's pricing with Beyond
+  api: openapi/beyond-openapi-original.yml
+  operations: [list_listings, get_listing, list_listing_calendar, list_listing_recommendations, get_listing_base_price_customization, patch_listing_base_price_customization, get_listing_min_max_prices_customization, patch_listing_min_max_prices_customization]
+- file: beyond-onboard-account.md
+  name: Onboard a user and connect a channel account
+  api: openapi/beyond-openapi-original.yml
+  operations: [create_user, get_user, create_account, refresh_account, get_account, list_accounts, list_listings]

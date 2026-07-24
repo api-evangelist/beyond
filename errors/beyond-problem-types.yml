@@ -1,0 +1,44 @@
+generated: '2026-07-18'
+method: searched
+source:
+- openapi/beyond-openapi-original.yml
+- https://developers.beyondpricing.com/guides/error-handling/
+format: json:api
+envelope: >-
+  Every error response is a JSON:API document with a top-level `errors[]` array. Each object
+  carries `status` (HTTP code as string), `title`, `detail`, and `source.pointer` (JSON pointer
+  to the offending field) when applicable. Some 422 responses add a machine code under `meta.code`.
+problems:
+- status: 400
+  title: Bad Request
+  detail: Malformed request or request-body validation failure while parsing the JSON:API document.
+- status: 401
+  title: Unauthorized
+  detail: Missing or invalid authentication token.
+- status: 403
+  title: Forbidden
+  detail: >-
+    Token is valid but lacks the required scope for this operation, or is scoped to a
+    different user.
+- status: 404
+  title: Not Found
+  detail: The requested resource does not exist or is not accessible to your application.
+- status: 409
+  title: Conflict
+  detail: >-
+    Duplicate or concurrent operation — e.g. creating a user whose email already exists, or
+    refreshing an account whose sync is already running.
+  source_operations:
+  - openapi/beyond-openapi-original.yml#create_user
+  - openapi/beyond-openapi-original.yml#refresh_account
+- status: 422
+  title: Unprocessable Entity
+  detail: >-
+    JSON:API document is structurally valid but rejected during downstream domain or
+    integration processing. May include meta.code (e.g. "invalid_credentials").
+- status: 429
+  title: Too Many Requests
+  detail: Rate limit exceeded; Retry-After header indicates seconds to wait.
+- status: 500
+  title: Internal Server Error
+  detail: An unexpected server error.

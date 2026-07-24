@@ -1,0 +1,26 @@
+{
+  "provider": "beyond",
+  "sources": [
+    "beyond-accounts-api-openapi.yml",
+    "beyond-compsets-api-openapi.yml",
+    "beyond-customizations-api-openapi.yml",
+    "beyond-insights-api-openapi.yml",
+    "beyond-listings-api-openapi.yml",
+    "beyond-oauth2-api-openapi.yml",
+    "beyond-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "beyond-accounts-api-openapi.yml",
+    "beyond-compsets-api-openapi.yml",
+    "beyond-customizations-api-openapi.yml",
+    "beyond-insights-api-openapi.yml",
+    "beyond-listings-api-openapi.yml",
+    "beyond-oauth2-api-openapi.yml",
+    "beyond-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

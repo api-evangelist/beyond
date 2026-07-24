@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+host: https://developers.beyondpricing.com
+documents:
+- path: /.well-known/oauth-authorization-server
+  status: 200
+  file: beyond-oauth-authorization-server.json
+  standard: RFC 8414
+- path: /.well-known/security.txt
+  status: 404
+- path: /.well-known/openid-configuration
+  status: 404
+- path: /.well-known/api-catalog
+  status: 404
+- path: /.well-known/ai-plugin.json
+  status: 404
+notes: >-
+  Only the RFC 8414 OAuth 2.0 Authorization Server Metadata document is published (on the
+  developers.beyondpricing.com host). It advertises authorization/token/introspection/
+  registration/revocation endpoints, nine scopes, four grant types (authorization_code,
+  client_credentials, device_code, refresh_token) and PKCE S256. The apex host
+  beyondpricing.com and api.beyondpricing.com return 404 for all probed well-known paths.

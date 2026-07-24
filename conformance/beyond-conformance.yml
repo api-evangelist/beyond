@@ -1,0 +1,38 @@
+generated: '2026-07-18'
+method: searched
+source:
+- openapi/beyond-openapi-original.yml
+- well-known/beyond-oauth-authorization-server.json
+- https://developers.beyondpricing.com/guides/jsonapi/
+standards:
+- id: json:api-1.1
+  conforms: true
+  evidence: >-
+    Docs state JSON:API v1.1 compliance; application/vnd.api+json media type, page[]/
+    fields[]/filter[]/include/sort params, and errors[] envelope throughout the OpenAPI.
+- id: oauth2
+  conforms: true
+  evidence: OpenAPI securityScheme type oauth2 (clientCredentials); /o/token/ token endpoint.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: /.well-known/oauth-authorization-server returns 200 with a full metadata document.
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint advertised; MCP server relies on dynamic client registration.
+- id: rfc9700-oauth-security-bcp
+  conforms: true
+  evidence: Docs cite RFC 9700; PATs hashed at rest, PKCE S256, bearer-only.
+- id: pkce-s256
+  conforms: true
+  evidence: code_challenge_methods_supported = [S256] in authorization-server metadata.
+- id: standard-webhooks
+  conforms: true
+  evidence: >-
+    Webhooks signed per the Standard Webhooks spec (HMAC-SHA256, webhook-id / webhook-signature
+    / webhook-timestamp headers, whsec_ secret).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use the JSON:API errors[] envelope, not application/problem+json.
+- id: openapi-3.1
+  conforms: true
+  evidence: OpenAPI 3.1.1 schema published at /api/v1/schema/.

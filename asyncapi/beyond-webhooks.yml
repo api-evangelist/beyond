@@ -1,0 +1,42 @@
+generated: '2026-07-18'
+method: searched
+spec_type: Webhooks
+source:
+- openapi/beyond-openapi-original.yml   # OpenAPI 3.1 webhooks{} block
+- https://developers.beyondpricing.com/webhooks/
+transport: https-post
+media_type: application/vnd.api+json
+delivery:
+  guarantee: at-least-once
+  success: any 2xx response
+  signing:
+    standard: Standard Webhooks (https://www.standardwebhooks.com/)
+    algorithm: HMAC-SHA256
+    secret_format: whsec_<base64-key>
+    headers: [webhook-id, webhook-signature, webhook-timestamp]
+    verification: signature computed over the raw request bytes (deterministic key ordering); verify before parsing
+  idempotency:
+    key_header: webhook-id
+    notes: one event produces one webhook-id; consumers de-duplicate redeliveries on it
+  registration: >-
+    Subscriber provides an HTTPS callback URL; Beyond returns a whsec_ signing secret.
+    Subscriptions are configured per application (not per API version). Secret rotation is a hard cut.
+events:
+- name: listing.created
+  operation: listingCreated
+  summary: Listing created.
+- name: listing.refreshed
+  operation: listingRefreshed
+  summary: Reservations refresh completed for a listing.
+- name: listing.base_price_changed
+  operation: listingBasePriceChanged
+  summary: A listing's base price changed.
+- name: listing.in_active_market_changed
+  operation: listingInActiveMarketChanged
+  summary: A listing's in-active-market status changed (calendar-operation guarantee boundary).
+- name: account.created
+  operation: accountCreated
+  summary: Managed account listing sync completed.
+- name: account.refreshed
+  operation: accountRefreshed
+  summary: Managed account refresh completed.

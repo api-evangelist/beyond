@@ -1,0 +1,53 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.beyondpricing.com/release-notes/
+scheme: dated
+current_version: v1
+entries:
+- date: '2026-07-16'
+  type: added
+  breaking: false
+  highlights:
+  - New listing.in_active_market_changed webhook fires when a listing's in-active-market
+    attribute changes, signaling when calendar operations become guaranteed.
+- date: '2026-07-14'
+  type: changed
+  breaking: true
+  highlights:
+  - POST /users/{user_id}/accounts/{account_id}/refresh/ now returns 409 Conflict when a
+    sync is already running, replacing the previous silent rejection.
+- date: '2026-07-10'
+  type: added
+  breaking: false
+  highlights:
+  - Webhooks for partners are now live (account created/refreshed, listing created/refreshed/
+    base-price-changed/in-active-market-changed).
+- date: '2026-06-30'
+  type: changed
+  breaking: false
+  highlights:
+  - User lookup supports email filtering; calendar endpoint scope moved from listings:read
+    to reservations:read.
+- date: '2026-06-19'
+  type: added
+  breaking: false
+  highlights:
+  - Calendar entries include per-factor amount and binding effective-min-price /
+    effective-max-price constraints.
+- date: '2026-06-15'
+  type: changed
+  breaking: false
+  highlights:
+  - Comp sets support filtering by owner and compound-document includes; listing refresh
+    updates details and availability alongside reservations.
+- date: '2026-06-13'
+  type: changed
+  breaking: false
+  highlights:
+  - Optional X-Request-ID header accepts any letters/digits/separators up to 128 chars
+    (UUID format no longer required).
+- date: '2026-06-09'
+  type: added
+  breaking: false
+  highlights:
+  - Competitive sets (comp sets) functionality launched.

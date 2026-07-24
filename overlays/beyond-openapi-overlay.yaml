@@ -1,0 +1,32 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Beyond Pricing Public API
+  version: 1.0.0
+extends: openapi/beyond-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-18'
+    x-apievangelist-provider: beyond
+    x-apievangelist-specification: JSON:API v1.1
+    x-apievangelist-artifacts:
+      authentication: authentication/beyond-authentication.yml
+      scopes: scopes/beyond-scopes.yml
+      conventions: conventions/beyond-conventions.yml
+      errors: errors/beyond-problem-types.yml
+      lifecycle: lifecycle/beyond-lifecycle.yml
+      changelog: changelog/beyond-changelog.yml
+      webhooks: asyncapi/beyond-webhooks.yml
+      conformance: conformance/beyond-conformance.yml
+      data_model: data-model/beyond-data-model.yml
+      mcp: mcp/beyond-mcp.yml
+- target: $.servers
+  update:
+  - url: https://developers.beyondpricing.com
+    description: >-
+      Beyond Pricing Developers deployment (base URL). The source OpenAPI omits servers[];
+      added by API Evangelist from the documented $BASE_URL and OAuth issuer.
+- target: $.info
+  update:
+    x-apievangelist-rate-limit-headers: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+    x-apievangelist-request-id-header: X-Request-ID

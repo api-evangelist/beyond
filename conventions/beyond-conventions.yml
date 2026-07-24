@@ -1,0 +1,93 @@
+generated: '2026-07-18'
+method: searched
+source:
+- https://developers.beyondpricing.com/guides/jsonapi/
+- https://developers.beyondpricing.com/guides/error-handling/
+- https://developers.beyondpricing.com/guides/rate-limiting/
+- https://developers.beyondpricing.com/guides/versioning/
+- openapi/beyond-openapi-original.yml
+base_url: https://developers.beyondpricing.com
+media_type: application/vnd.api+json   # JSON:API v1.1
+
+authentication:
+  style: bearer
+  schemes: [oauth2-client-credentials, personal-access-token]
+  cross_ref: authentication/beyond-authentication.yml
+
+specification: JSON:API v1.1
+
+pagination:
+  style: page-based
+  params:
+    number: page[number]
+    size: page[size]
+  response_fields: [links.first, links.last, links.prev, links.next, meta.pagination]
+  notes: JSON:API paginated collections; page[size] caps the page.
+
+sparse_fieldsets:
+  param: fields[<resource-type>]
+  example: fields[listings]=title,base-price
+
+compound_documents:
+  param: include
+  example: include=listing,account
+  notes: Related resources returned in the top-level `included` array (avoids N+1 calls).
+
+sorting:
+  param: sort
+  direction: leading '-' for descending; comma-separated for multiple keys
+  example: sort=city,-base-price
+
+filtering:
+  param: filter[<field>]
+  examples:
+  - filter[owner]
+  - filter[enabled]
+  - filter[email]
+  - filter[markets]
+  - filter[start-date]
+  - filter[end-date]
+
+request_tracing:
+  header: X-Request-ID
+  direction: request (optional, client-supplied)
+  rules: >-
+    Accepts any value of letters, digits and separators up to 128 chars (UUID no longer
+    required as of 2026-06-13). Not echoed in the request; every response except the
+    /healthz fast-path returns the effective X-Request-ID for log correlation.
+
+idempotency:
+  request_api:
+    supported: false
+    notes: >-
+      The public REST API does not document an Idempotency-Key request header; writes
+      (PATCH customizations, POST users/accounts) are not declared idempotent. The account
+      refresh endpoint returns 409 Conflict when a sync is already running (concurrency
+      guard, not replay-safety). User creation is guarded by 409 Conflict on duplicate email.
+  webhook_delivery:
+    supported: true
+    key_header: webhook-id
+    standard: Standard Webhooks (https://www.standardwebhooks.com/)
+    notes: >-
+      Webhook deliveries carry a stable `webhook-id` header that consumers MUST use as the
+      idempotency key to de-duplicate at-least-once redeliveries; one event produces one id.
+  cross_ref: asyncapi/beyond-webhooks.yml
+
+rate_limiting:
+  signaling_headers: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  model: >-
+    Per-OAuth2-application configurable limit (a global application bucket) plus optional
+    per-(application, endpoint) view-level limits. 429 responses include Retry-After (seconds).
+  cross_ref: rate-limits/
+
+versioning:
+  scheme: uri-path
+  current: v1
+  lifecycle: [Active, Deprecated, Sunset]
+  sunset_behavior: Requests to a sunset version return 410 Gone.
+  cross_ref: lifecycle/beyond-lifecycle.yml
+
+error_envelope:
+  format: json:api
+  shape: top-level `errors[]` with status/title/detail and source.pointer; some 422s add meta.code
+  cross_ref: errors/beyond-problem-types.yml

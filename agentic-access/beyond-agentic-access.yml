@@ -1,0 +1,465 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/beyond-openapi-original.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 31
+  by_action_class:
+    connected: 18
+    acting: 13
+  by_consequence:
+    read: 18
+    write: 13
+  human_in_the_loop_required: 0
+operations:
+- path: /api/v1/compsets/
+  method: get
+  operationId: list_compsets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - compsets:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/compsets/{compset_id}/
+  method: get
+  operationId: get_compset
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - compsets:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/
+  method: get
+  operationId: list_listings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/
+  method: get
+  operationId: get_listing
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/activation/
+  method: patch
+  operationId: patch_listing_activation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/listings/{listing_id}/calendar/
+  method: get
+  operationId: list_listing_calendar
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - reservations:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/
+  method: get
+  operationId: get_listing_all_customizations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/base-price/
+  method: get
+  operationId: get_listing_base_price_customization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/base-price/
+  method: patch
+  operationId: patch_listing_base_price_customization
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/listings/{listing_id}/customizations/extra-guest-fees/
+  method: get
+  operationId: get_listing_extra_guest_fee_customization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/extra-guest-fees/
+  method: patch
+  operationId: patch_listing_extra_guest_fee_customization
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/listings/{listing_id}/customizations/min-max-prices/
+  method: get
+  operationId: get_listing_min_max_prices_customization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/min-max-prices/
+  method: patch
+  operationId: patch_listing_min_max_prices_customization
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/listings/{listing_id}/customizations/min-stays/
+  method: get
+  operationId: get_listing_min_stays_customization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/min-stays/
+  method: patch
+  operationId: patch_listing_min_stays_customization
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/listings/{listing_id}/customizations/time-based-adjustments/
+  method: get
+  operationId: get_listing_time_based_adjustments_customization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/customizations/time-based-adjustments/
+  method: patch
+  operationId: patch_listing_time_based_adjustments_customization
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/listings/{listing_id}/recommendations/
+  method: get
+  operationId: list_listing_recommendations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - listings:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/listings/{listing_id}/refresh/
+  method: post
+  operationId: refresh_listing_reservations
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - listings:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/users/
+  method: get
+  operationId: list_users
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - user:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/users/
+  method: post
+  operationId: create_user
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - user:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/users/{user_id}/
+  method: get
+  operationId: get_user
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - user:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/users/{user_id}/
+  method: delete
+  operationId: delete_user
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - user:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/users/{user_id}/accounts/
+  method: get
+  operationId: list_accounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - user:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/users/{user_id}/accounts/
+  method: post
+  operationId: create_account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - user:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/users/{user_id}/accounts/{account_id}/
+  method: get
+  operationId: get_account
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - user:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/users/{user_id}/accounts/{account_id}/
+  method: delete
+  operationId: delete_account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - user:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/users/{user_id}/accounts/{account_id}/refresh/
+  method: post
+  operationId: refresh_account
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - user:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v1/users/{user_id}/credentials/
+  method: get
+  operationId: list_user_credentials
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - user:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v1/users/{user_id}/market-insights/
+  method: get
+  operationId: get_market_insights
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - insights:read
+    - user:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /o/token/
+  method: post
+  operationId: create_token
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

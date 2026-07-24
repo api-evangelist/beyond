@@ -1,0 +1,80 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/beyond-openapi-original.yml
+docs: https://developers.beyondpricing.com/getting-started/authentication/
+authorization_server_metadata: well-known/beyond-oauth-authorization-server.json
+grant_types_supported:
+- authorization_code
+- client_credentials
+- urn:ietf:params:oauth:grant-type:device_code
+- refresh_token
+pkce: S256
+schemes:
+- name: oauth2
+  source: openapi/beyond-openapi-original.yml
+  authorizationUrl: https://v2.beyondpricing.com/oauth/authorize
+  tokenUrl: https://developers.beyondpricing.com/o/token/
+  introspectionUrl: https://developers.beyondpricing.com/o/introspect/
+  registrationUrl: https://developers.beyondpricing.com/o/register/
+  revocationUrl: https://developers.beyondpricing.com/o/revoke/
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://developers.beyondpricing.com/o/token/
+  description: Use OAuth2 client credentials to mint an application token, or add `user_id`
+    and optional `credential_id` in the Authorize dialog to request a user- or credential-scoped
+    token.
+scopes:
+- scope: accounts:read
+  description: Read account information
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: compsets:read
+  description: Read competitive set data
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: insights:read
+  description: Read market insights
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: listings:read
+  description: Read listings
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: listings:write
+  description: Modify listings
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: neyoba:ask
+  description: Ask Neyoba
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: reservations:read
+  description: Read reservations
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: user:read
+  description: Read user information
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml
+- scope: user:write
+  description: Create and modify users
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/beyond-openapi-original.yml

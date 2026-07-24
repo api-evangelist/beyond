@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source:
+- https://developers.beyondpricing.com/guides/versioning/
+- https://developers.beyondpricing.com/release-notes/
+- openapi/beyond-openapi-original.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  state: Active
+  docs: https://developers.beyondpricing.com/guides/versioning/
+lifecycle_phases:
+- name: Active
+  description: Current, fully supported version.
+- name: Deprecated
+  description: Still operational, a newer version exists; no new features.
+- name: Sunset
+  description: Decommissioned; requests return 410 Gone.
+deprecation:
+  policy_url: https://developers.beyondpricing.com/guides/versioning/
+  sunset_notice_days: 180   # announced at least 6 months in advance
+  sunset_status_code: 410
+  channels: [email, release-notes]
+  migration_guide: https://developers.beyondpricing.com/guides/migration-from-legacy-api/
+  sunset_header: false      # not documented; notice is email + docs
+changelog: changelog/beyond-changelog.yml
+status_page: null           # no public status page found
+deprecated_operations: []   # none marked deprecated in the v1 OpenAPI

@@ -1,0 +1,88 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/beyond-openapi-original.yml
+notes: >-
+  Entity-relationship graph derived from the JSON:API resource objects, their `relationships`
+  members, and the URL nesting of the OpenAPI paths. Beyond models short-term-rental revenue
+  management: users own listings across connected channel accounts, each listing carries
+  pricing customizations, a calendar, recommendations and competitive sets.
+entities:
+- name: User
+  resource_type: users
+  id: integer
+  operations: [list_users, create_user, get_user, delete_user]
+- name: Account
+  resource_type: accounts
+  description: A connected channel/PMS account (Airbnb, PMS, etc.) a user syncs.
+  operations: [list_accounts, create_account, get_account, delete_account, refresh_account]
+- name: UserCredential
+  resource_type: credentials
+  operations: [list_user_credentials]
+- name: Listing
+  resource_type: listings
+  operations: [list_listings, get_listing, patch_listing_activation, refresh_listing_reservations]
+- name: CalendarEntry
+  resource_type: calendar-entries
+  operations: [list_listing_calendar]
+- name: Recommendation
+  resource_type: recommendations
+  operations: [list_listing_recommendations]
+- name: ListingCustomizations
+  resource_type: listing-customizations
+  description: base-price, extra-guest-fees, min-max-prices, min-stays, time-based-adjustments.
+  operations:
+  - get_listing_all_customizations
+  - get_listing_base_price_customization
+  - patch_listing_base_price_customization
+  - patch_listing_extra_guest_fee_customization
+  - patch_listing_min_max_prices_customization
+  - patch_listing_min_stays_customization
+  - patch_listing_time_based_adjustments_customization
+- name: Compset
+  resource_type: compsets
+  description: Competitive set of comparable listings with performance metrics.
+  operations: [list_compsets, get_compset]
+- name: MarketInsights
+  resource_type: market-insights
+  operations: [get_market_insights]
+relationships:
+- from: Account
+  to: User
+  kind: belongs_to
+  via: user
+- from: UserCredential
+  to: User
+  kind: belongs_to
+  via: user
+- from: User
+  to: Account
+  kind: has_many
+  via: accounts
+- from: Listing
+  to: User
+  kind: belongs_to
+  via: owner
+- from: Listing
+  to: Account
+  kind: belongs_to
+  via: account
+- from: Listing
+  to: CalendarEntry
+  kind: has_many
+  via: calendar
+- from: Listing
+  to: Recommendation
+  kind: has_many
+  via: recommendations
+- from: Listing
+  to: ListingCustomizations
+  kind: has_one
+  via: customizations
+- from: Compset
+  to: Listing
+  kind: has_many
+  via: members
+- from: MarketInsights
+  to: User
+  kind: belongs_to
+  via: user
