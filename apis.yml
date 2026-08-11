@@ -228,7 +228,7 @@ common:
 - type: PrivacyPolicy
   url: https://beyondpricing.com/legal/privacy
 - type: OpenAPI
-  url: openapi/beyond-openapi-original.yml
+  url: openapi/_original/beyond-openapi-original.yml
 - type: Overlay
   url: overlays/beyond-openapi-overlay.yaml
 - type: Authentication
