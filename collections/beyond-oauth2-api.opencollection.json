@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts OAuth2 API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAuth2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request an OAuth2 access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/o/token/",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "grant_type",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "client_secret",
+                  "value": ""
+                },
+                {
+                  "name": "scope",
+                  "value": ""
+                },
+                {
+                  "name": "user_id",
+                  "value": ""
+                },
+                {
+                  "name": "credential_id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Exchange client credentials for an access token.\n\nWhen called without extra subject fields, this endpoint issues an **application-level OAuth2 token**.\n\nInclude `user_id` to obtain a **user-scoped OAuth2 token** that restricts access to a single user's resources. Include `credential_id` to further bind that token to one login credential within the user.\n\nPersonal access tokens are issued separately and are not minted through `/o/token/`. Paste a `bpat_...` token directly into the **Authorize** d"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

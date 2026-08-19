@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts Insights API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Insights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get market insights for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/market-insights/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "filter[markets]",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated market names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required."
+              },
+              {
+                "name": "filter[clusters]",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated cluster names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required."
+              },
+              {
+                "name": "filter[cities]",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated city names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required."
+              },
+              {
+                "name": "filter[bedrooms]",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated bedroom counts to filter by."
+              },
+              {
+                "name": "filter[start-date]",
+                "value": "",
+                "type": "query",
+                "description": "Start date (YYYY-MM-DD) used for both check-in and booked filters. Defaults to today - 365 days."
+              },
+              {
+                "name": "filter[end-date]",
+                "value": "",
+                "type": "query",
+                "description": "End date (YYYY-MM-DD) used for both check-in and booked filters. Defaults to today + 365 days."
+              },
+              {
+                "name": "filter[currency]",
+                "value": "",
+                "type": "query",
+                "description": "Currency code for prices (e.g. USD, EUR). Defaults to user's billing currency."
+              },
+              {
+                "name": "fields[market-insights]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve aggregated market insights for a specific user.\n\n**Required scope:** `insights:read`\n\n**Filters:** Use `filter[markets]`, `filter[clusters]`, `filter[cities]`,\n`filter[bedrooms]`, `filter[start-date]`, `filter[end-date]`, and\n`filter[currency]`\nquery parameters.\n\n**Example:** `GET /api/v1/users/42/market-insights/?filter[markets]=San Francisco&filter[currency]=USD`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

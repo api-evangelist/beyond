@@ -1,0 +1,198 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts Users API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)"
+              },
+              {
+                "name": "filter[email]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "fields[users]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve a paginated list of all users for the authenticated application.\n\n**Required scope:** `user:read`\n\n**Pagination:** Use `page[number]` and `page[size]` query parameters.\n\n**Sorting:** Use `sort` query parameter. Allowed: `created_at`, `-created_at`.\nDefault: newest first (`-created_at`).\n\n**Filtering:** Use `filter[email]=<email>` for an exact, case-insensitive\nmatch. Because email is unique this returns at most one user, and only when\nthat user is owned by the authenticated application "
+        },
+        {
+          "info": {
+            "name": "Create a new user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a new user managed by the OAuth2 application.\n\nUsers created via this endpoint are managed by the OAuth2 application and cannot\nlogin directly (password is randomly generated). The user will be associated with\nthe OAuth2 application that created them.\n\n**Required scope:** `user:write`\n\n**Request body (JSON:API format):**\n```json\n{\n    \"data\": {\n        \"type\": \"users\",\n        \"attributes\": {\n            \"first-name\": \"John\",\n            \"last-name\": \"Doe\",\n            \"email\": \"john@exam"
+        },
+        {
+          "info": {
+            "name": "Retrieve a user by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[users]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve a single user managed by the OAuth2 application.\n\n**Required scope:** `user:read`"
+        },
+        {
+          "info": {
+            "name": "Delete a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Soft-delete a user managed by the OAuth2 application. This anonymizes the user's email, disables all enabled listings, removes managed accounts, and marks the user as deleted.\n\n## Response Codes\n- **204**: Successfully deleted\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - user not found or not owned by this application"
+        },
+        {
+          "info": {
+            "name": "List credentials for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/credentials/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "fields[credentials]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve the credentials visible for one user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

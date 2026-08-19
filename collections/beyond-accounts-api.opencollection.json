@@ -1,0 +1,190 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List accounts for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/accounts/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Return a paginated list of accounts (channel connections) for the specified user.\n\n## Response Codes\n- **200**: Success\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - user not found"
+        },
+        {
+          "info": {
+            "name": "Add an account for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/accounts/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Add a channel connection (account) for a user.\n\nEach channel requires specific credentials.\n\n## Supported Channels and Required Credentials\n\n| Channel | Required Fields | Optional Fields |\n|---------|-----------------|-----------------|\n| `airbnb` | `email` | `password`, `device_id` |\n| `airbnb_partner` | `access_token` | `refresh_token`, `email` |\n| `avantio` | `provider_id`, `username`, `password` | - |\n| `barefoot_direct` | `account_id` | `web_book_reztypeid` |\n| `beds24` | `account_id` | - |"
+        },
+        {
+          "info": {
+            "name": "Get an account for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/accounts/:account_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve a single account (channel connection) for the specified user.\n\n## Response Codes\n- **200**: Success\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - user or account not found"
+        },
+        {
+          "info": {
+            "name": "Delete an account for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/accounts/:account_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Remove a channel connection (account) for a user. This unregisters webhooks and soft-deletes the account.\n\n## Response Codes\n- **204**: Successfully deleted\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - user or account not found"
+        },
+        {
+          "info": {
+            "name": "Refresh an account for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/accounts/:account_id/refresh/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recent_sync_threshold_minutes",
+                "value": "",
+                "type": "query",
+                "description": "Skip listings synced within the last N minutes. Defaults to 60. Set to 0 to disable this optimization and refresh all listings."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Queue a full listings and reservations refresh for the specified account.\n\nThis endpoint enqueues an asynchronous `sync_all` job and returns immediately.\n\nUse `recent_sync_threshold_minutes` to control how recently synced listings are skipped. The threshold unit is minutes. When set to `0`, the refresh includes all listings.\n\nIf you have registered a webhook, an `account.refreshed` event is delivered once the listing sync reaches a terminal state, so you do not have to poll. Reservations are ref"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,2122 @@
+{
+  "item": [
+    {
+      "id": "62cab821-3628-49d7-adf1-c4fecf7cf18f",
+      "name": "Users",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "38aec2e4-3253-4bdc-90d8-27d2e60d1f26",
+          "name": "List all users",
+          "request": {
+            "name": "List all users",
+            "description": {
+              "content": "Retrieve a paginated list of all users for the authenticated application.\n\n**Required scope:** `user:read`\n\n**Pagination:** Use `page[number]` and `page[size]` query parameters.\n\n**Sorting:** Use `sort` query parameter. Allowed: `created_at`, `-created_at`.\nDefault: newest first (`-created_at`).\n\n**Filtering:** Use `filter[email]=<email>` for an exact, case-insensitive\nmatch. Because email is unique this returns at most one user, and only when\nthat user is owned by the authenticated application (otherwise the list is\nempty). Useful for recovering a user's `id` when only the email is known.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>,<string>",
+                  "description": "[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[email]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[users]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "99a1917d-4dad-4b72-8f8e-6b33679e8187",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[email]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"users\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"first-name\": \"string\",\n        \"last-name\": \"string\",\n        \"email\": \"7MaBDiCY@tImUGSEobvYkuQmtGCEqQeUrMBVPgg.qtf\",\n        \"locale\": \"en\",\n        \"created-at\": \"2009-07-26T00:07:49.248Z\",\n        \"status\": \"new\"\n      }\n    },\n    {\n      \"type\": \"users\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"first-name\": \"string\",\n        \"last-name\": \"string\",\n        \"email\": \"yb4IMEXH-uO@VuIwrSGkuhdukohT.nuq\",\n        \"locale\": \"en\",\n        \"created-at\": \"1988-06-04T04:00:46.031Z\",\n        \"status\": \"new\"\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3cae526e-4c6f-42a3-8e60-ebc68d614cc9",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[email]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "80701925-9719-4a0b-9da2-8925388c38ad",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[email]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ab781f90-e881-4a9b-b6d1-09bb8a48de6f",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[email]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b2a3c008-eb03-4002-b9cf-3e99532348cc",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[email]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75bde52c-570e-417c-8d9e-f7ce7690b08d",
+          "name": "Create a new user",
+          "request": {
+            "name": "Create a new user",
+            "description": {
+              "content": "Create a new user managed by the OAuth2 application.\n\nUsers created via this endpoint are managed by the OAuth2 application and cannot\nlogin directly (password is randomly generated). The user will be associated with\nthe OAuth2 application that created them.\n\n**Required scope:** `user:write`\n\n**Request body (JSON:API format):**\n```json\n{\n    \"data\": {\n        \"type\": \"users\",\n        \"attributes\": {\n            \"first-name\": \"John\",\n            \"last-name\": \"Doe\",\n            \"email\": \"john@example.com\",\n            \"locale\": \"en\"\n        }\n    }\n}\n```\n\n`locale` is optional and uses supported BCP 47 language tags. Defaults to `en`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "81e95c86-18d2-4a02-8016-db85c096437f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"users\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"first-name\": \"string\",\n      \"last-name\": \"string\",\n      \"email\": \"Q0naccd@OwtrvTZujnunb.zv\",\n      \"locale\": \"en\",\n      \"created-at\": \"2002-06-25T12:55:37.536Z\",\n      \"status\": \"inactive\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0c7a4ea-7b67-4865-83d5-885803cef63a",
+              "name": "Validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1c22a3ee-90d8-4a8c-b6b4-c62c9f31c80c",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b498b404-4b58-4077-9704-06a78ba84049",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a4b8bc75-e76e-42a1-bcec-bae01fe8cb94",
+              "name": "Conflict - user with this email already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71f038f1-1286-47c5-abb7-a73942209973",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d6f61540-82e1-473d-910b-59c32950939d",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"first-name\": \"<string>\",\n      \"last-name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"locale\": \"en\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a89bf84a-0935-4136-8062-08736c3dcc52",
+          "name": "Retrieve a user by ID",
+          "request": {
+            "name": "Retrieve a user by ID",
+            "description": {
+              "content": "Retrieve a single user managed by the OAuth2 application.\n\n**Required scope:** `user:read`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":user_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fields[users]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c2eed246-e699-41ad-a40e-c97d9086d293",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"users\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"first-name\": \"string\",\n      \"last-name\": \"string\",\n      \"email\": \"Q0naccd@OwtrvTZujnunb.zv\",\n      \"locale\": \"en\",\n      \"created-at\": \"2002-06-25T12:55:37.536Z\",\n      \"status\": \"inactive\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf1425fb-941b-4163-a371-6d4210ed06c5",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "902ed182-ce24-4b3a-ba30-03c9d6a553b6",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ad181b4e-d108-4c5c-b927-77bf7198abab",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f0422b02-ca39-4b3a-8b5b-13a1b6abb1d2",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fdc16fcc-2e6b-44ea-b15c-1c2cd56cee97",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields[users]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "def00bf6-c79b-4453-af03-0e37696d4763",
+          "name": "Delete a user",
+          "request": {
+            "name": "Delete a user",
+            "description": {
+              "content": "Soft-delete a user managed by the OAuth2 application. This anonymizes the user's email, disables all enabled listings, removes managed accounts, and marks the user as deleted.\n\n## Response Codes\n- **204**: Successfully deleted\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - user not found or not owned by this application",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":user_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "68621050-64b6-4bb5-a744-b8d8e393747f",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "61ba24ad-7be7-42f0-b546-f721f969c30c",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "73ad1ec7-f9cd-443e-84ff-cdeaa5a15d7a",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e7021928-1e49-422d-936d-52427bd846a0",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b417f85b-3b7f-49ca-a2c1-1f316e22a2ef",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b59f0301-3244-4159-af12-51965d9f6ef7",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "390ab5d5-a75d-4909-ba52-2224528d098a",
+          "name": "List credentials for a user",
+          "request": {
+            "name": "List credentials for a user",
+            "description": {
+              "content": "Retrieve the credentials visible for one user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":user_id",
+                "credentials",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[credentials]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6362ac37-370a-4751-8f77-a2b158e6e01f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "credentials",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[credentials]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"credentials\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"created-at\": \"1980-02-29T08:57:28.346Z\",\n        \"last-login\": \"2025-05-11T05:13:09.515Z\",\n        \"credential-type\": \"string\",\n        \"global-permissions\": \"string\",\n        \"email\": \"string\"\n      }\n    },\n    {\n      \"type\": \"credentials\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"created-at\": \"1991-09-05T10:29:09.310Z\",\n        \"last-login\": \"1983-11-27T11:42:24.031Z\",\n        \"credential-type\": \"string\",\n        \"global-permissions\": \"string\",\n        \"email\": \"string\"\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85969073-d28e-4a8d-ae87-65faa3986ad8",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "credentials",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[credentials]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "57f0816a-1761-402d-b544-3719341cd17c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "credentials",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[credentials]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a00932f9-d938-4958-a8b7-cb2197185e86",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "credentials",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[credentials]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a2667bc8-2924-47e6-a2a9-e0b5cdfc2088",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "credentials",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[credentials]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "60e4c511-9662-44d2-a4f6-bb73bab12653",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "credentials",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[credentials]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6a0d6d52-712d-4221-a2aa-90451edef623",
+    "name": "Beyond Pricing Public Accounts Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.",
+      "type": "text/plain"
+    }
+  }
+}

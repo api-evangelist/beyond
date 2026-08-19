@@ -1,0 +1,285 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts Listings API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Listings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all listings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)"
+              },
+              {
+                "name": "filter[owner]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[enabled]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "include query parameter to allow the client to customize which related resources should be returned."
+              },
+              {
+                "name": "fields[listings]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve a paginated list of all listings for the authenticated application.\n\n**Required scope:** `listings:read`\n\n**Pagination:** Use `page[number]` and `page[size]` query parameters.\n\n**Sorting:** Use `sort` query parameter with field names.\nPrefix with `-` for descending order.\n\n**Filtering:** Use `filter[field]` query parameters.\n\n**Compound documents:** Use `include` query parameter to include related resources."
+        },
+        {
+          "info": {
+            "name": "Retrieve a listing by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "include query parameter to allow the client to customize which related resources should be returned."
+              },
+              {
+                "name": "fields[listings]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve detailed information about a specific listing.\n\n**Required scope:** `listings:read`\n\n**Compound documents (sideloading):**\nUse the `include` query parameter to include related resources in a single request.\nThis follows the JSON:API specification for compound documents.\n\nSupported includes:\n- `owner` - The user who owns the listing\n\n**Example:** `GET /api/v1/listings/123/?include=owner`"
+        },
+        {
+          "info": {
+            "name": "Update listing activation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/activation/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Enable or disable price syncing for a listing."
+        },
+        {
+          "info": {
+            "name": "Get calendar for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/calendar/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "filter[start-date]",
+                "value": "",
+                "type": "query",
+                "description": "Start date (YYYY-MM-DD). Defaults to today in the listing's timezone."
+              },
+              {
+                "name": "filter[end-date]",
+                "value": "",
+                "type": "query",
+                "description": "End date (YYYY-MM-DD). Defaults to today + 365 days."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort calendar entries by date. Supported values: date, -date. Defaults to date."
+              },
+              {
+                "name": "fields[calendar-entries]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve the pricing calendar for a specific listing.\n\n**Required scope:** `reservations:read`\n\n**Currency:** Price fields are returned in the owning user's configured\ncurrency.\n\n**Date range:** Use `filter[start-date]` and `filter[end-date]` query parameters\n(YYYY-MM-DD, JSON:API spec). Defaults to today through today + 365 days.\n\n**Sorting:** Use `sort=date` (ascending, default) or `sort=-date`.\n\n**Pagination:** Use `page[number]` and `page[size]` query parameters.\n\n**Sparse fieldsets:** Use `"
+        },
+        {
+          "info": {
+            "name": "List recommendations for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/recommendations/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "fields[recommendations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve recommendations for a specific listing.\n\n**Required scope:** `listings:read`\n\nThe listing must belong to a user owned by the authenticated OAuth2\napplication. When no recommendations exist, the endpoint returns an\nempty JSON:API collection."
+        },
+        {
+          "info": {
+            "name": "Refresh a listing (details and reservations)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/refresh/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Queue an asynchronous full refresh for the specified listing.\n\nThis endpoint enqueues a `sync_listing` job (listing details and availability) followed by a `sync_reservations` job for the listing's primary channel listing, then recomputes the automatic base price. It returns immediately.\n\n## Response Codes\n- **202**: Listing refresh accepted and queued\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - listing not found or h"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

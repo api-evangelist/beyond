@@ -1,0 +1,371 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts Customizations API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all customizations for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[listing-customizations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve every supported customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Get base price customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/base-price/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[base-price-customizations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve base price customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Update base price customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/base-price/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update base price customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Get extra guest fee customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/extra-guest-fees/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[extra-guest-fee-customizations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve extra guest fee customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Update extra guest fee customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/extra-guest-fees/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update extra guest fee customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Get min/max prices customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/min-max-prices/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[min-max-price-customizations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve min/max prices customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Update min/max prices customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/min-max-prices/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update min/max prices customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Get min-stays customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/min-stays/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[min-stay-customizations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve min-stays customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Update min-stays customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/min-stays/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update min-stays customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Get time-based adjustments customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/time-based-adjustments/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fields[time-based-adjustment-customizations]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve time-based adjustments customization for a listing."
+        },
+        {
+          "info": {
+            "name": "Update time-based adjustments customization for a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/listings/:listing_id/customizations/time-based-adjustments/",
+            "params": [
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update time-based adjustments customization for a listing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

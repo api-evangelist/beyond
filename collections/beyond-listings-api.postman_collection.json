@@ -1,0 +1,3057 @@
+{
+  "item": [
+    {
+      "id": "dc3c1374-0215-4609-8f58-e957a0b74bcb",
+      "name": "Listings",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "22bd536c-0470-42a7-a608-2c8f298fcd8a",
+          "name": "List all listings",
+          "request": {
+            "name": "List all listings",
+            "description": {
+              "content": "Retrieve a paginated list of all listings for the authenticated application.\n\n**Required scope:** `listings:read`\n\n**Pagination:** Use `page[number]` and `page[size]` query parameters.\n\n**Sorting:** Use `sort` query parameter with field names.\nPrefix with `-` for descending order.\n\n**Filtering:** Use `filter[field]` query parameters.\n\n**Compound documents:** Use `include` query parameter to include related resources.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "listings",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>,<string>",
+                  "description": "[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[owner]",
+                  "value": "<number>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[enabled]",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>,<string>",
+                  "description": "include query parameter to allow the client to customize which related resources should be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[listings]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bd79c87f-e9b8-4626-8a73-77e3305dd44a",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[enabled]",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"listings\",\n      \"id\": 8982,\n      \"attributes\": {\n        \"title\": \"string\",\n        \"image\": \"string\",\n        \"neighborhood\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"country\": \"string\",\n        \"room-type\": \"string\",\n        \"bedrooms\": -1762040483,\n        \"bathrooms\": \"-\",\n        \"base-price\": 85,\n        \"base-price-updated-at\": \"2012-11-08T02:45:28.544Z\",\n        \"min-price\": 4570,\n        \"min-price-updated-at\": \"1990-11-22T13:03:39.358Z\",\n        \"max-price\": 7952,\n        \"min-stay\": 398,\n        \"extra-guest-fee\": 2157,\n        \"extra-guest-threshold\": 300,\n        \"latitude\": \"6.39\",\n        \"longitude\": \"-6\",\n        \"timezone\": \"string\",\n        \"currency\": \"str\",\n        \"in-active-market\": false,\n        \"enabled\": false,\n        \"address\": \"string\",\n        \"created-at\": \"1993-02-25T05:24:15.360Z\",\n        \"channel-listings\": [\n          {\n            \"channel\": \"string\",\n            \"channel-id\": \"string\"\n          },\n          {\n            \"channel\": \"string\",\n            \"channel-id\": \"string\"\n          }\n        ]\n      },\n      \"relationships\": {\n        \"owner\": {\n          \"data\": {\n            \"id\": 3216,\n            \"type\": \"users\"\n          }\n        }\n      }\n    },\n    {\n      \"type\": \"listings\",\n      \"id\": 4955,\n      \"attributes\": {\n        \"title\": \"string\",\n        \"image\": \"string\",\n        \"neighborhood\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"country\": \"string\",\n        \"room-type\": \"string\",\n        \"bedrooms\": 272338930,\n        \"bathrooms\": \".\",\n        \"base-price\": 3376,\n        \"base-price-updated-at\": \"1950-03-01T01:28:19.966Z\",\n        \"min-price\": 2509,\n        \"min-price-updated-at\": \"2025-06-24T07:24:03.581Z\",\n        \"max-price\": 6299,\n        \"min-stay\": 1739,\n        \"extra-guest-fee\": 7805,\n        \"extra-guest-threshold\": 6691,\n        \"latitude\": \"1\",\n        \"longitude\": \"-13.\",\n        \"timezone\": \"string\",\n        \"currency\": \"str\",\n        \"in-active-market\": true,\n        \"enabled\": false,\n        \"address\": \"string\",\n        \"created-at\": \"1946-10-31T06:10:56.530Z\",\n        \"channel-listings\": [\n          {\n            \"channel\": \"string\",\n            \"channel-id\": \"string\"\n          },\n          {\n            \"channel\": \"string\",\n            \"channel-id\": \"string\"\n          }\n        ]\n      },\n      \"relationships\": {\n        \"owner\": {\n          \"data\": {\n            \"id\": 827,\n            \"type\": \"users\"\n          }\n        }\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd365ecd-7115-45f1-b065-8e3f96661853",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[enabled]",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7bd7da5e-2965-406a-a62d-9ee31927dcf4",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[enabled]",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9c0a367-9347-4dea-b039-530b74c70a88",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[enabled]",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "845320ec-f59a-4ceb-9cff-947e45f258be",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[enabled]",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "573785b3-9a00-4a0c-bed6-aa4cb52e846b",
+          "name": "Retrieve a listing by ID",
+          "request": {
+            "name": "Retrieve a listing by ID",
+            "description": {
+              "content": "Retrieve detailed information about a specific listing.\n\n**Required scope:** `listings:read`\n\n**Compound documents (sideloading):**\nUse the `include` query parameter to include related resources in a single request.\nThis follows the JSON:API specification for compound documents.\n\nSupported includes:\n- `owner` - The user who owns the listing\n\n**Example:** `GET /api/v1/listings/123/?include=owner`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "listings",
+                ":listing_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>,<string>",
+                  "description": "include query parameter to allow the client to customize which related resources should be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[listings]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "listing_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "eb8bd1f5-9c8d-4ef8-bb8d-c99c1522a6bc",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"listings\",\n    \"id\": 4693,\n    \"attributes\": {\n      \"title\": \"string\",\n      \"image\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"country\": \"string\",\n      \"room-type\": \"string\",\n      \"bedrooms\": 272622847,\n      \"bathrooms\": \"-91.\",\n      \"base-price\": 796,\n      \"base-price-updated-at\": \"1966-05-10T20:01:53.877Z\",\n      \"min-price\": 5491,\n      \"min-price-updated-at\": \"1980-10-15T14:54:48.528Z\",\n      \"max-price\": 3557,\n      \"min-stay\": 6541,\n      \"extra-guest-fee\": 5690,\n      \"extra-guest-threshold\": 8849,\n      \"latitude\": \"-1\",\n      \"longitude\": \"\",\n      \"timezone\": \"string\",\n      \"currency\": \"str\",\n      \"in-active-market\": true,\n      \"enabled\": true,\n      \"address\": \"string\",\n      \"created-at\": \"2022-08-17T07:45:28.801Z\",\n      \"channel-listings\": [\n        {\n          \"channel\": \"string\",\n          \"channel-id\": \"string\"\n        },\n        {\n          \"channel\": \"string\",\n          \"channel-id\": \"string\"\n        }\n      ],\n      \"sync-status\": {\n        \"last-successful-sync-at\": \"1971-11-06T22:41:36.854Z\",\n        \"state\": \"completed\"\n      }\n    },\n    \"relationships\": {\n      \"owner\": {\n        \"data\": {\n          \"id\": 6805,\n          \"type\": \"users\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99058c5c-3e38-4feb-a17f-ab65c9987ce0",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3f43636d-06b5-4790-9a79-7fa1d7408ca1",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d3217b47-bb57-407d-b776-5dca29cfc0cd",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ecb86606-7d0a-4afd-8870-142e568f6d8a",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "153c743f-ed25-43d1-8616-83e698b7a42e",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[listings]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "886dcb39-fade-4450-a238-d31ffa9fed76",
+          "name": "Update listing activation",
+          "request": {
+            "name": "Update listing activation",
+            "description": {
+              "content": "Enable or disable price syncing for a listing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "listings",
+                ":listing_id",
+                "activation",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "listing_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c1d011b0-c463-4c8d-bfa5-5d68226750d6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"listing-activations\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": false,\n      \"base-price\": 2993.5726399356913,\n      \"min-price\": 7737.899911210234\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1438c9b-40d9-4a28-8557-72c1ca410a18",
+              "name": "Not modified",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Modified",
+              "code": 304,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7c6a54fc-d283-41e5-90f6-452bb94802af",
+              "name": "Validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "948190ec-bdb6-44c3-84dc-6fed32ae8708",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "69c0c367-258c-40d9-aab2-b53563bb2605",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6ac5a078-8988-4d90-9d59-4bfe6562c3f1",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8006151d-6aeb-4842-a394-3b00c861b578",
+              "name": "Unprocessable entity",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bd4caf04-65aa-4345-9867-e8577abef626",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b6076b80-3b69-4481-a42d-3e26593ccc51",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "activation",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"enabled\": \"<boolean>\",\n      \"base-price\": \"<double>\",\n      \"min-price\": \"<double>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a58f41b5-3642-4f44-913a-828247d365e3",
+          "name": "Get calendar for a listing",
+          "request": {
+            "name": "Get calendar for a listing",
+            "description": {
+              "content": "Retrieve the pricing calendar for a specific listing.\n\n**Required scope:** `reservations:read`\n\n**Currency:** Price fields are returned in the owning user's configured\ncurrency.\n\n**Date range:** Use `filter[start-date]` and `filter[end-date]` query parameters\n(YYYY-MM-DD, JSON:API spec). Defaults to today through today + 365 days.\n\n**Sorting:** Use `sort=date` (ascending, default) or `sort=-date`.\n\n**Pagination:** Use `page[number]` and `page[size]` query parameters.\n\n**Sparse fieldsets:** Use `fields[calendar-entries]` to select specific fields.\n\n**Example:** `GET /api/v1/listings/123/calendar/?filter[start-date]=2026-01-01&filter[end-date]=2026-06-30&sort=date`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "listings",
+                ":listing_id",
+                "calendar",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[start-date]",
+                  "value": "<date>",
+                  "description": "Start date (YYYY-MM-DD). Defaults to today in the listing's timezone."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[end-date]",
+                  "value": "<date>",
+                  "description": "End date (YYYY-MM-DD). Defaults to today + 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort calendar entries by date. Supported values: date, -date. Defaults to date."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[calendar-entries]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "listing_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3697bceb-9dfa-4ed3-9ecf-7f29d72789fc",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"calendar-entries\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"date\": \"1955-12-25\",\n        \"availability\": \"string\",\n        \"price\": 2886,\n        \"price-posted\": 3937,\n        \"effective-min-price\": 3130,\n        \"effective-max-price\": 5537,\n        \"factors\": [\n          {\n            \"amount\": 4049,\n            \"key\": \"string\",\n            \"order\": 9146,\n            \"ratio\": 3817.7419345077155,\n            \"reason\": \"string\",\n            \"event-impact\": \"string\"\n          },\n          {\n            \"amount\": 9829,\n            \"key\": \"string\",\n            \"order\": 1495,\n            \"ratio\": 230.2615098342109,\n            \"reason\": \"string\",\n            \"event-impact\": \"string\"\n          }\n        ]\n      }\n    },\n    {\n      \"type\": \"calendar-entries\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"date\": \"2004-02-27\",\n        \"availability\": \"string\",\n        \"price\": 5473,\n        \"price-posted\": 5275,\n        \"effective-min-price\": 5555,\n        \"effective-max-price\": 8052,\n        \"factors\": [\n          {\n            \"amount\": 7337,\n            \"key\": \"string\",\n            \"order\": 1036,\n            \"ratio\": 7036.207199950294,\n            \"reason\": \"string\",\n            \"event-impact\": \"string\"\n          },\n          {\n            \"amount\": 919,\n            \"key\": \"string\",\n            \"order\": 2156,\n            \"ratio\": 2443.3769039483054,\n            \"reason\": \"string\",\n            \"event-impact\": \"string\"\n          }\n        ]\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23a650c5-b12d-4099-88c8-6fb4831ff280",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a27f77d9-a5e6-40d4-a8c8-11417fedd7c5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b780b00-3242-425b-8f11-9a70f03dd4eb",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "47c3e708-5d26-49e7-bb96-ac77fb12a367",
+              "name": "Unprocessable - invalid dates or insufficient data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9fad5301-1154-47e6-90b7-408818bddb3a",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "600dc92b-c0ad-4444-b466-a8d0e3eb5969",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "calendar",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[calendar-entries]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "311f7fe6-6e8f-4f7d-b57f-857cc77153e0",
+          "name": "List recommendations for a listing",
+          "request": {
+            "name": "List recommendations for a listing",
+            "description": {
+              "content": "Retrieve recommendations for a specific listing.\n\n**Required scope:** `listings:read`\n\nThe listing must belong to a user owned by the authenticated OAuth2\napplication. When no recommendations exist, the endpoint returns an\nempty JSON:API collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "listings",
+                ":listing_id",
+                "recommendations",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[recommendations]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "listing_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6ecadb5f-c199-45f2-bea8-95169bbc8bf5",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[recommendations]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"recommendations\",\n      \"id\": \"string\",\n      \"attributes\": {\n        \"listing-title\": \"string\",\n        \"listing-id\": 725,\n        \"status\": \"rejected\",\n        \"approved-at\": \"1949-10-10T17:59:44.835Z\",\n        \"rejected-at\": \"1971-11-29T00:02:36.425Z\",\n        \"expired-at\": \"1972-09-26T01:58:52.889Z\",\n        \"suggested-base-price\": 7982,\n        \"suggested-min-price\": 4072,\n        \"suggested-seasonal-min-price-pct\": 6720.535999683961,\n        \"initial-base-price\": 4416,\n        \"initial-min-price\": 1188,\n        \"recommendations\": \"string\",\n        \"category\": \"min_price\",\n        \"created-at\": \"1999-10-03T05:54:35.115Z\"\n      }\n    },\n    {\n      \"type\": \"recommendations\",\n      \"id\": \"string\",\n      \"attributes\": {\n        \"listing-title\": \"string\",\n        \"listing-id\": 2964,\n        \"status\": \"expired\",\n        \"approved-at\": \"2022-10-01T10:33:00.771Z\",\n        \"rejected-at\": \"1970-03-14T05:43:47.443Z\",\n        \"expired-at\": \"1988-11-18T22:57:14.353Z\",\n        \"suggested-base-price\": 3297,\n        \"suggested-min-price\": 4202,\n        \"suggested-seasonal-min-price-pct\": 8234.878376107024,\n        \"initial-base-price\": 9817,\n        \"initial-min-price\": 8432,\n        \"recommendations\": \"string\",\n        \"category\": \"\",\n        \"created-at\": \"1953-12-07T18:18:36.151Z\"\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73a45393-b153-41a3-b161-3cca69e526c0",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[recommendations]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d6ca60ce-f1d3-40b1-8a21-6a4f125a3831",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[recommendations]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a45fc7d9-6a5f-4372-bcf6-25c773577f99",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[recommendations]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "32748892-c5e2-46c9-9843-918ec829f7fb",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[recommendations]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a7afce5c-7a1d-4110-a89f-c2225778a6a9",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "recommendations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields[recommendations]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e9c9e5b-bc62-404b-8b9c-86f9666c07b5",
+          "name": "Refresh a listing (details and reservations)",
+          "request": {
+            "name": "Refresh a listing (details and reservations)",
+            "description": {
+              "content": "Queue an asynchronous full refresh for the specified listing.\n\nThis endpoint enqueues a `sync_listing` job (listing details and availability) followed by a `sync_reservations` job for the listing's primary channel listing, then recomputes the automatic base price. It returns immediately.\n\n## Response Codes\n- **202**: Listing refresh accepted and queued\n- **401**: Unauthorized - invalid or missing OAuth2 token\n- **403**: Forbidden - insufficient scope\n- **404**: Not found - listing not found or has no active channel listing",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "listings",
+                ":listing_id",
+                "refresh",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "listing_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d1b3bd30-7479-4606-8d1e-4e30b346f551",
+              "name": "Listing refresh accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3c99dfcc-ba03-4628-995d-398ff8d9513a",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ad8bb6c0-f070-4afc-94ec-1fc17a736bb9",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9b04e850-a857-471a-b1c8-5331708c7865",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7a73bcf7-7a03-4fe9-81d7-f7b4711f850e",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08351cdf-39c3-46e3-9aa1-948785d7a8ce",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "listings",
+                    ":listing_id",
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "listing_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "78c30ca8-09e9-4f0a-9117-61d34b156b5f",
+    "name": "Beyond Pricing Public Accounts Listings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.",
+      "type": "text/plain"
+    }
+  }
+}

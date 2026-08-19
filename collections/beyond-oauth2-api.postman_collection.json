@@ -1,0 +1,387 @@
+{
+  "item": [
+    {
+      "id": "8f53677d-52b6-4556-ae5f-b5c2bdc7f301",
+      "name": "OAuth2",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ad032b93-7db0-469c-a128-160d0c488dd0",
+          "name": "Request an OAuth2 access token",
+          "request": {
+            "name": "Request an OAuth2 access token",
+            "description": {
+              "content": "Exchange client credentials for an access token.\n\nWhen called without extra subject fields, this endpoint issues an **application-level OAuth2 token**.\n\nInclude `user_id` to obtain a **user-scoped OAuth2 token** that restricts access to a single user's resources. Include `credential_id` to further bind that token to one login credential within the user.\n\nPersonal access tokens are issued separately and are not minted through `/o/token/`. Paste a `bpat_...` token directly into the **Authorize** dialog (lock icon) when you want to authenticate with a PAT.\n\nAfter obtaining an OAuth2 token here, copy it and paste it into the **Authorize** dialog to authenticate subsequent requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "o",
+                "token",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "grant_type",
+                  "value": "<string>",
+                  "description": "(Required) OAuth2 grant type."
+                },
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "(Required) Application client ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "client_secret",
+                  "value": "<string>",
+                  "description": "(Required) Application client secret."
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>",
+                  "description": "Space-separated list of scopes. Available: `listings:read`, `listings:write`, `reservations:read`, `accounts:read`, `user:read`, `user:write`, `insights:read`, `compsets:read`, `neyoba:ask`."
+                },
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<integer>",
+                  "description": "Bind the token to this user's resources (user-scoped token). Required when the application enforces user-scoped tokens."
+                },
+                {
+                  "disabled": false,
+                  "key": "credential_id",
+                  "value": "<integer>",
+                  "description": "Optional login credential within the bound user. When omitted for a user-scoped token, the user's primary credential is used."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "09c5b577-5633-4ffb-9d53-ba9f65161f88",
+              "name": "Token issued successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "o",
+                    "token",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) OAuth2 grant type.",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Application client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Application client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Space-separated list of scopes. Available: `listings:read`, `listings:write`, `reservations:read`, `accounts:read`, `user:read`, `user:write`, `insights:read`, `compsets:read`, `neyoba:ask`.",
+                        "type": "text/plain"
+                      },
+                      "key": "scope",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Bind the token to this user's resources (user-scoped token). Required when the application enforces user-scoped tokens.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional login credential within the bound user. When omitted for a user-scoped token, the user's primary credential is used.",
+                        "type": "text/plain"
+                      },
+                      "key": "credential_id",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"string\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 3600,\n  \"scope\": \"string\",\n  \"user_id\": \"string\",\n  \"credential_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4c9417c-8a63-461a-9d66-44b38d71fa3c",
+              "name": "Invalid request (missing or invalid parameters).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "o",
+                    "token",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) OAuth2 grant type.",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Application client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Application client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Space-separated list of scopes. Available: `listings:read`, `listings:write`, `reservations:read`, `accounts:read`, `user:read`, `user:write`, `insights:read`, `compsets:read`, `neyoba:ask`.",
+                        "type": "text/plain"
+                      },
+                      "key": "scope",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Bind the token to this user's resources (user-scoped token). Required when the application enforces user-scoped tokens.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional login credential within the bound user. When omitted for a user-scoped token, the user's primary credential is used.",
+                        "type": "text/plain"
+                      },
+                      "key": "credential_id",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "05861760-ddc5-440f-aa59-da7bacd7079d",
+              "name": "Invalid client credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "o",
+                    "token",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) OAuth2 grant type.",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Application client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Application client secret.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Space-separated list of scopes. Available: `listings:read`, `listings:write`, `reservations:read`, `accounts:read`, `user:read`, `user:write`, `insights:read`, `compsets:read`, `neyoba:ask`.",
+                        "type": "text/plain"
+                      },
+                      "key": "scope",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Bind the token to this user's resources (user-scoped token). Required when the application enforces user-scoped tokens.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional login credential within the bound user. When omitted for a user-scoped token, the user's primary credential is used.",
+                        "type": "text/plain"
+                      },
+                      "key": "credential_id",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b624bc4c-5d5b-4b74-8092-189b51a138a4",
+    "name": "Beyond Pricing Public Accounts OAuth2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.",
+      "type": "text/plain"
+    }
+  }
+}

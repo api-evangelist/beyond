@@ -1,0 +1,815 @@
+{
+  "item": [
+    {
+      "id": "ef749140-2841-4a60-ab29-5baaad90596a",
+      "name": "Insights",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b3c3b9b8-232b-493b-8b57-5a0d434b9b31",
+          "name": "Get market insights for a user",
+          "request": {
+            "name": "Get market insights for a user",
+            "description": {
+              "content": "Retrieve aggregated market insights for a specific user.\n\n**Required scope:** `insights:read`\n\n**Filters:** Use `filter[markets]`, `filter[clusters]`, `filter[cities]`,\n`filter[bedrooms]`, `filter[start-date]`, `filter[end-date]`, and\n`filter[currency]`\nquery parameters.\n\n**Example:** `GET /api/v1/users/42/market-insights/?filter[markets]=San Francisco&filter[currency]=USD`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ":user_id",
+                "market-insights",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[markets]",
+                  "value": "<string>",
+                  "description": "Comma-separated market names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[clusters]",
+                  "value": "<string>",
+                  "description": "Comma-separated cluster names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[cities]",
+                  "value": "<string>",
+                  "description": "Comma-separated city names to filter by. At least one of filter[markets], filter[clusters], or filter[cities] is required."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[bedrooms]",
+                  "value": "<string>",
+                  "description": "Comma-separated bedroom counts to filter by."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[start-date]",
+                  "value": "<date>",
+                  "description": "Start date (YYYY-MM-DD) used for both check-in and booked filters. Defaults to today - 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[end-date]",
+                  "value": "<date>",
+                  "description": "End date (YYYY-MM-DD) used for both check-in and booked filters. Defaults to today + 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[currency]",
+                  "value": "<string>",
+                  "description": "Currency code for prices (e.g. USD, EUR). Defaults to user's billing currency."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[market-insights]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ac5240ab-f126-492c-92fa-1f89fec1f4ab",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"market-insights\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"date\": \"1963-01-19\",\n        \"availability\": 8191,\n        \"added-listing-count\": 7109,\n        \"listing-count\": 639,\n        \"canceled-count-by-stay-date\": 4902,\n        \"canceled-count-by-booked-date\": 8866,\n        \"canceled-count-by-canceled-date\": 8346,\n        \"total-count-by-stay-date\": 1034,\n        \"total-count-by-booked-date\": 8256,\n        \"checkin-date-count\": 7949,\n        \"volume-by-checkin-date\": 5820.4109700165345,\n        \"billable-volume-by-checkin-date\": 565.8717429211979,\n        \"sum-lead-time\": 3226,\n        \"sum-stay-length\": 401,\n        \"median-lead-time\": 3002.5509184045327,\n        \"median-stay-length\": 8725.42235595653,\n        \"booked-at-count\": 8197,\n        \"volume-by-booked-at\": 5469.681938133648,\n        \"billable-volume-by-booked-at\": 3620.58454206842,\n        \"volume\": 7238.118456482929,\n        \"week-ago-volume\": 6287.3808826845825,\n        \"year-ago-volume\": 9802.320338206648,\n        \"two-years-ago-volume\": 8106.898950706979,\n        \"three-years-ago-volume\": 8725.096473056641,\n        \"four-years-ago-volume\": 6957.041842422435,\n        \"five-years-ago-volume\": 4399.119622240515,\n        \"six-years-ago-volume\": 5506.041467341739,\n        \"billable-volume\": 428.4761316286834,\n        \"year-ago-billable-volume\": 6537.832716742518,\n        \"two-years-ago-billable-volume\": 9802.426232310636,\n        \"three-years-ago-billable-volume\": 864.7732089292448,\n        \"four-years-ago-billable-volume\": 7244.787056873954,\n        \"five-years-ago-billable-volume\": 9004.758337696885,\n        \"six-years-ago-billable-volume\": 3210.1205060187644,\n        \"occupied-days-count\": 9541,\n        \"week-ago-occupied-days-count\": 5806,\n        \"year-ago-occupied-days-count\": 9600,\n        \"two-years-ago-occupied-days-count\": 3665,\n        \"three-years-ago-occupied-days-count\": 352,\n        \"four-years-ago-occupied-days-count\": 4214,\n        \"five-years-ago-occupied-days-count\": 278,\n        \"six-years-ago-occupied-days-count\": 1809,\n        \"median-lead-time-one-year-ago\": 8512.458068383245,\n        \"median-lead-time-two-years-ago\": 5709.418009772037,\n        \"median-lead-time-three-years-ago\": 2987.6660036012713,\n        \"median-lead-time-four-years-ago\": 4623.948665112678,\n        \"median-lead-time-five-years-ago\": 7417.302100165374,\n        \"median-lead-time-six-years-ago\": 582.4228395385078,\n        \"owner-nights\": 3667,\n        \"year-ago-owner-nights\": 5044,\n        \"owner-volume\": 5706.124827548786,\n        \"year-ago-owner-volume\": 620.5337429198265\n      }\n    },\n    {\n      \"type\": \"market-insights\",\n      \"id\": \"\",\n      \"attributes\": {\n        \"date\": \"2026-06-30\",\n        \"availability\": 1322,\n        \"added-listing-count\": 888,\n        \"listing-count\": 576,\n        \"canceled-count-by-stay-date\": 6532,\n        \"canceled-count-by-booked-date\": 3573,\n        \"canceled-count-by-canceled-date\": 805,\n        \"total-count-by-stay-date\": 5340,\n        \"total-count-by-booked-date\": 2926,\n        \"checkin-date-count\": 3374,\n        \"volume-by-checkin-date\": 4459.865644181701,\n        \"billable-volume-by-checkin-date\": 2006.671776465142,\n        \"sum-lead-time\": 4047,\n        \"sum-stay-length\": 4695,\n        \"median-lead-time\": 9295.830823358623,\n        \"median-stay-length\": 6324.818652001838,\n        \"booked-at-count\": 6434,\n        \"volume-by-booked-at\": 8054.52140604772,\n        \"billable-volume-by-booked-at\": 4239.672906768595,\n        \"volume\": 8451.560577895221,\n        \"week-ago-volume\": 7616.424106383202,\n        \"year-ago-volume\": 4574.2747154932285,\n        \"two-years-ago-volume\": 1098.8924465434425,\n        \"three-years-ago-volume\": 2070.1630282090723,\n        \"four-years-ago-volume\": 8523.327784920188,\n        \"five-years-ago-volume\": 2162.4485364889965,\n        \"six-years-ago-volume\": 9529.597608609496,\n        \"billable-volume\": 5150.115484109825,\n        \"year-ago-billable-volume\": 2261.554407491614,\n        \"two-years-ago-billable-volume\": 1378.851505743881,\n        \"three-years-ago-billable-volume\": 5098.57107316237,\n        \"four-years-ago-billable-volume\": 7347.400261834868,\n        \"five-years-ago-billable-volume\": 7158.785023547576,\n        \"six-years-ago-billable-volume\": 8734.308201608323,\n        \"occupied-days-count\": 8799,\n        \"week-ago-occupied-days-count\": 7840,\n        \"year-ago-occupied-days-count\": 101,\n        \"two-years-ago-occupied-days-count\": 1559,\n        \"three-years-ago-occupied-days-count\": 5828,\n        \"four-years-ago-occupied-days-count\": 9763,\n        \"five-years-ago-occupied-days-count\": 203,\n        \"six-years-ago-occupied-days-count\": 1058,\n        \"median-lead-time-one-year-ago\": 6359.455449101383,\n        \"median-lead-time-two-years-ago\": 5214.170987954842,\n        \"median-lead-time-three-years-ago\": 9483.383876181211,\n        \"median-lead-time-four-years-ago\": 8853.170743077628,\n        \"median-lead-time-five-years-ago\": 3965.3254038906894,\n        \"median-lead-time-six-years-ago\": 3095.0937123255762,\n        \"owner-nights\": 1328,\n        \"year-ago-owner-nights\": 3428,\n        \"owner-volume\": 4798.203785543866,\n        \"year-ago-owner-volume\": 5996.872653194572\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5cb01f59-37ba-4f91-931b-86c38676105d",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9b555860-9a6e-45c5-a2bd-50bac5de924b",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e9210c1b-058a-4f63-817f-c918f6b093cb",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "64afb6e5-f2b0-4ee9-8a94-1197ef68ab83",
+              "name": "Unprocessable - not enough market data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9ce0c9c8-6c8c-422a-913f-a86db48446b5",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a78e4aa7-7d22-4303-93b6-160780634f0a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "users",
+                    ":user_id",
+                    "market-insights",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "filter[markets]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[clusters]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[cities]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[bedrooms]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[start-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[end-date]",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "filter[currency]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[market-insights]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d0a7a36e-4a6b-46ee-861a-81d045af2ba7",
+    "name": "Beyond Pricing Public Accounts Insights API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.",
+      "type": "text/plain"
+    }
+  }
+}

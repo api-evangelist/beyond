@@ -1,0 +1,1052 @@
+{
+  "item": [
+    {
+      "id": "df33808b-a641-421f-bdd4-801787c7d400",
+      "name": "Compsets",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "22b5de74-4b65-4cc0-9647-04dd8412a657",
+          "name": "List comp sets",
+          "request": {
+            "name": "List comp sets",
+            "description": {
+              "content": "List the comp sets visible to the authenticated client.\n\n**Required scope:** `compsets:read`\n\n**Pagination:** `page[number]` and `page[size]`.\n\n**Filtering:** `filter[owner]=<user_id>`, `filter[listing]=<id>`,\n`filter[kind]=custom|connected`. `filter[owner]` is only meaningful for\nfull-access partner tokens; user-scoped tokens already see one user.\n\n**Sorting:** `sort=created-at` (default `-created-at`) or `sort=title`;\nprefix with `-` for descending.\n\n**Compound documents (sideloading):** Use the `include` query parameter\nto embed related resources (JSON:API compound documents). Supported:\n- `owner` - the user who owns the comp set\n- `listing` - the Beyond listing the comp set is anchored to (`null` for\n  `custom` comp sets)\n\n**Example:** `GET /api/v1/compsets/?include=owner,listing`\n\nEach entry is a lightweight summary (counts, title, `kind`, timestamps).\nFetch `GET /compsets/{id}/` for the full enriched comp set.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "compsets",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>,<string>",
+                  "description": "[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[owner]",
+                  "value": "<number>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[listing]",
+                  "value": "<number>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[kind]",
+                  "value": "<string>",
+                  "description": "* `custom` - Custom\n* `connected` - Connected"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<integer>",
+                  "description": "A page number within the paginated result set."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>,<string>",
+                  "description": "include query parameter to allow the client to customize which related resources should be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[compsets]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5a6ae34d-a7c6-4905-8403-d021185987df",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[listing]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[kind]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"compsets\",\n      \"id\": 8258,\n      \"attributes\": {\n        \"listing-id\": 6798,\n        \"kind\": \"custom\",\n        \"title\": \"string\",\n        \"member-count\": 6539,\n        \"created-at\": \"1992-09-29T06:44:11.092Z\",\n        \"updated-at\": \"1982-06-10T10:17:26.671Z\"\n      },\n      \"relationships\": {\n        \"owner\": {\n          \"data\": {\n            \"id\": 351,\n            \"type\": \"users\"\n          }\n        },\n        \"listing\": {\n          \"data\": {\n            \"id\": 7766,\n            \"type\": \"listings\"\n          }\n        }\n      }\n    },\n    {\n      \"type\": \"compsets\",\n      \"id\": 1368,\n      \"attributes\": {\n        \"listing-id\": 109,\n        \"kind\": \"custom\",\n        \"title\": \"string\",\n        \"member-count\": 4538,\n        \"created-at\": \"1994-03-23T06:40:00.459Z\",\n        \"updated-at\": \"1979-10-22T09:54:22.491Z\"\n      },\n      \"relationships\": {\n        \"owner\": {\n          \"data\": {\n            \"id\": 4271,\n            \"type\": \"users\"\n          }\n        },\n        \"listing\": {\n          \"data\": {\n            \"id\": 7384,\n            \"type\": \"listings\"\n          }\n        }\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"last\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9\",\n    \"prev\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1\",\n    \"next\": \"http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3\"\n  },\n  \"meta\": {\n    \"pagination\": {\n      \"count\": 42,\n      \"page\": 2,\n      \"pages\": 5\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed813216-43fe-4f3d-924f-5b681c018dfe",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[listing]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[kind]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2962f99c-f9bf-434b-9d8e-8903c2fee021",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[listing]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[kind]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8a7d0ceb-3831-47e3-b9b6-662788032e3a",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[listing]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[kind]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c9dc330c-bbd1-4d03-98e1-c72ab2596d01",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "filter[owner]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[listing]",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filter[kind]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8b71c4e2-4388-4f55-afa2-f451e01f14f9",
+          "name": "Get a comp set by id",
+          "request": {
+            "name": "Get a comp set by id",
+            "description": {
+              "content": "Return one comp set by id, fully enriched.\n\n**Required scope:** `compsets:read`\n\nReturns the comp set with members enriched across Airbnb, Vrbo, and\nBooking.com, the comp set's headline metrics over the next 30 and 90\ndays, and a `performance` block comparing the listing to the aggregated\ncompset benchmark over `start_date`..`end_date` (defaults: today →\ntoday+90d, max range 180 days).\n\nThe `kind` field distinguishes `custom` and `connected` comp sets; for\n`custom` comp sets some `source` fields and the main-listing\nperformance metrics are `null`.\n\nReturns **404** when no comp set with that id is visible to the client.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "compsets",
+                ":compset_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<string>",
+                  "description": "First stay date (YYYY-MM-DD) for the performance comparison. Defaults to today."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<string>",
+                  "description": "Last stay date (YYYY-MM-DD) for the performance comparison. Defaults to today + 90 days. Range must not exceed 180 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields[compsets]",
+                  "value": "<string>,<string>",
+                  "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "compset_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "listings:read listings:write reservations:read accounts:read user:read user:write insights:read compsets:read neyoba:ask"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "/o/token/"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "52caae2f-e209-4308-8cbf-7f798836fb67",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"compsets\",\n    \"id\": \"\",\n    \"attributes\": {\n      \"kind\": \"custom\",\n      \"source\": {\n        \"metrics\": {\n          \"thirty-day-price\": 2847.6751933792434,\n          \"ninety-day-price\": 2403.506696220373,\n          \"thirty-day-adr\": 279.71744333559315,\n          \"ninety-day-adr\": 6951.282166430454,\n          \"thirty-day-booked\": 8183.5447060022425,\n          \"ninety-day-booked\": 4459.537774044929,\n          \"thirty-day-availability\": 6217.785550000641,\n          \"ninety-day-availability\": 3994.5322398748904,\n          \"thirty-day-min-stays\": 3122,\n          \"ninety-day-min-stays\": 1813,\n          \"rating\": 6462.223114192398,\n          \"reviews-count\": 8174,\n          \"average-service-fee\": 3229.9435023729307\n        },\n        \"bedrooms\": 599,\n        \"bathrooms\": 887.4765332860302,\n        \"latitude\": 6739.581539556433,\n        \"longitude\": 9608.706488343967,\n        \"address\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"country\": \"string\",\n        \"market\": \"string\",\n        \"currency\": \"string\",\n        \"base-price\": 7476.666976695589,\n        \"health-score\": 5017,\n        \"min-stay\": 9042\n      },\n      \"members\": [\n        {\n          \"channel\": \"string\",\n          \"channel-listing-id\": \"string\",\n          \"metrics\": {\n            \"thirty-day-adr\": 2.746081961895186,\n            \"ninety-day-adr\": 9676.590760127216,\n            \"thirty-day-booked\": 3393.243956714078,\n            \"ninety-day-booked\": 8751.724551586105,\n            \"thirty-day-availability\": 7783.256663206822,\n            \"ninety-day-availability\": 6967.368231488626,\n            \"thirty-day-min-stays\": 8535,\n            \"ninety-day-min-stays\": 8167,\n            \"thirty-day-adj-occupancy\": 8095.589701297222,\n            \"ninety-day-adj-occupancy\": 9470.882618364778,\n            \"thirty-day-booked-rate\": 735.7850699375001,\n            \"ninety-day-booked-rate\": 3862.8104162860886,\n            \"base-price\": 8772.74812400972,\n            \"currency\": \"string\",\n            \"rating\": 7587.771390729356,\n            \"reviews-count\": 4165,\n            \"average-service-fee\": 9019.89207403355\n          },\n          \"title\": \"string\",\n          \"url\": \"string\",\n          \"image\": \"string\",\n          \"bedrooms\": 8737.146288344127,\n          \"bathrooms\": 2937.7703976647053,\n          \"room-type\": \"string\",\n          \"latitude\": 8358.298538958932,\n          \"longitude\": 2436.1996744543226,\n          \"distance-km\": 786.8030020119144,\n          \"rating\": 695.1729111570481,\n          \"reviews-count\": 172,\n          \"health-score\": 9019.438485912842\n        },\n        {\n          \"channel\": \"string\",\n          \"channel-listing-id\": \"string\",\n          \"metrics\": {\n            \"thirty-day-adr\": 5743.074469798393,\n            \"ninety-day-adr\": 526.4006743978478,\n            \"thirty-day-booked\": 6367.387266917619,\n            \"ninety-day-booked\": 5044.327967083841,\n            \"thirty-day-availability\": 2.5569443087358756,\n            \"ninety-day-availability\": 1039.5176288987172,\n            \"thirty-day-min-stays\": 4069,\n            \"ninety-day-min-stays\": 4598,\n            \"thirty-day-adj-occupancy\": 1282.215935578077,\n            \"ninety-day-adj-occupancy\": 1280.9022756353415,\n            \"thirty-day-booked-rate\": 2702.9217874885358,\n            \"ninety-day-booked-rate\": 2742.5222329045505,\n            \"base-price\": 4802.548719346732,\n            \"currency\": \"string\",\n            \"rating\": 7396.96986702322,\n            \"reviews-count\": 8311,\n            \"average-service-fee\": 6682.46741709364\n          },\n          \"title\": \"string\",\n          \"url\": \"string\",\n          \"image\": \"string\",\n          \"bedrooms\": 7757.625482480231,\n          \"bathrooms\": 2221.773087351264,\n          \"room-type\": \"string\",\n          \"latitude\": 6966.720837538019,\n          \"longitude\": 4855.999663070009,\n          \"distance-km\": 5491.397378360534,\n          \"rating\": 4941.892345299569,\n          \"reviews-count\": 8899,\n          \"health-score\": 5647.437212712364\n        }\n      ],\n      \"performance\": {\n        \"aggregated-metrics\": {\n          \"average-posted-rate\": 3362.7069053397863,\n          \"occupancy\": 3036.9723170495276,\n          \"average-min-stay\": 7872.23471708111,\n          \"average-booked-rate\": 8331.098175050978,\n          \"adj-occupancy\": 1947.5267717125466,\n          \"number-of-nearby-listings\": 9890\n        },\n        \"currency\": \"string\",\n        \"end-date\": \"1991-10-17\",\n        \"start-date\": \"2019-08-26\",\n        \"main-listing-metrics\": {\n          \"average-posted-rate\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"occupancy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"average-min-stay\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"average-booked-rate\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"adj-occupancy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"listing-id\": 7888,\n      \"title\": \"string\",\n      \"matched-airbnb-id\": \"string\",\n      \"created-at\": \"2019-07-29T21:44:48.992Z\",\n      \"updated-at\": \"1954-08-05T18:20:27.675Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "056593e7-1a7b-4ec1-b71a-003703f2070b",
+              "name": "Validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "09356ea5-2c5f-412c-b14d-034e6a3b94bd",
+              "name": "Unauthorized - invalid or missing bearer token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "583bcef3-24b7-48af-8c3d-1298e16816b5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ed8a1f4b-25a9-422e-9220-203003de4908",
+              "name": "Not found - resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6878410b-2e61-4c03-9c87-982812e04a8e",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "84a2efa9-aa4d-4307-ac27-319c6b08d2da",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "compsets",
+                    ":compset_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields[compsets]",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "compset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ad5e5482-1f85-44b9-accc-a9e1962da64e",
+    "name": "Beyond Pricing Public Accounts Compsets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Beyond Pricing Public Accounts Compsets API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compsets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List comp sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/compsets/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "[list of fields to sort by](https://jsonapi.org/format/#fetching-sorting)"
+              },
+              {
+                "name": "filter[owner]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[listing]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[kind]",
+                "value": "",
+                "type": "query",
+                "description": "* `custom` - Custom\n* `connected` - Connected"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "include query parameter to allow the client to customize which related resources should be returned."
+              },
+              {
+                "name": "fields[compsets]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "List the comp sets visible to the authenticated client.\n\n**Required scope:** `compsets:read`\n\n**Pagination:** `page[number]` and `page[size]`.\n\n**Filtering:** `filter[owner]=<user_id>`, `filter[listing]=<id>`,\n`filter[kind]=custom|connected`. `filter[owner]` is only meaningful for\nfull-access partner tokens; user-scoped tokens already see one user.\n\n**Sorting:** `sort=created-at` (default `-created-at`) or `sort=title`;\nprefix with `-` for descending.\n\n**Compound documents (sideloading):** Use t"
+        },
+        {
+          "info": {
+            "name": "Get a comp set by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/compsets/:compset_id/",
+            "params": [
+              {
+                "name": "compset_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "First stay date (YYYY-MM-DD) for the performance comparison. Defaults to today."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Last stay date (YYYY-MM-DD) for the performance comparison. Defaults to today + 90 days. Range must not exceed 180 days."
+              },
+              {
+                "name": "fields[compsets]",
+                "value": "",
+                "type": "query",
+                "description": "endpoint return only specific fields in the response on a per-type basis by including a fields[TYPE] query parameter."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "/o/token/",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Return one comp set by id, fully enriched.\n\n**Required scope:** `compsets:read`\n\nReturns the comp set with members enriched across Airbnb, Vrbo, and\nBooking.com, the comp set's headline metrics over the next 30 and 90\ndays, and a `performance` block comparing the listing to the aggregated\ncompset benchmark over `start_date`..`end_date` (defaults: today →\ntoday+90d, max range 180 days).\n\nThe `kind` field distinguishes `custom` and `connected` comp sets; for\n`custom` comp sets some `source` fields"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
