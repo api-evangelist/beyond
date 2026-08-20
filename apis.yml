@@ -43,6 +43,18 @@ tags:
 - Revenue Management
 - Dynamic Pricing
 - Pricing
+- Real-Estate
+- Market Intelligence
+tags_raw:
+- Company
+- Consumer
+- Travel
+- Hospitality
+- Short-Term Rentals
+- Vacation Rentals
+- Revenue Management
+- Dynamic Pricing
+- Pricing
 - Real Estate
 - Market Intelligence
 - API
@@ -58,6 +70,8 @@ apis:
   humanURL: https://developers.beyondpricing.com/
   baseURL: https://developers.beyondpricing.com/api/v1/
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -168,6 +182,8 @@ apis:
   humanURL: https://developers.beyondpricing.com/
   baseURL: https://developers.beyondpricing.com/api/v1/
   tags:
+  - Authentication
+  tags_raw:
   - OAuth2
   properties:
   - type: OpenAPI
@@ -190,6 +206,8 @@ apis:
   humanURL: https://developers.beyondpricing.com/
   baseURL: https://developers.beyondpricing.com/api/v1/
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
