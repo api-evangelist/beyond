@@ -247,6 +247,9 @@ apis:
   - type: OpenAPI
     url: openapi/beyond-webhooks-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/beyond-capability-edges.yml
+  name: Beyond Business Capability Map
 - type: DeveloperPortal
   url: https://developers.beyondpricing.com/
 - type: Documentation

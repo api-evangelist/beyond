@@ -1,0 +1,48 @@
+slug: beyond
+provider: Beyond
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Travel & Hospitality
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Compsets
+  spec_file: beyond-compsets-api-openapi.yml
+  capability_id: BC-4030.40
+  capability_id_l1: BC-4030
+  capability_name: Competitive Rate Intelligence
+  confidence: 0.85
+  evidence: 'GET /api/v1/compsets/{compset_id}/  get_compset  Get a comp set by id; schemas: CompsetPerformance,
+    CompsetMemberMetrics'
+  reason: Competitive-set definitions with performance metrics on a revenue-management platform whose
+    vendor description cites 'competitive-set analysis' — competitive rate and market-position intelligence.
+- tag: Customizations
+  spec_file: beyond-customizations-api-openapi.yml
+  capability_id: BC-4030.20
+  capability_id_l1: BC-4030
+  capability_name: Pricing & Rate Strategy Management
+  confidence: 0.8
+  evidence: PATCH /api/v1/listings/{listing_id}/customizations/base-price/  Update base price customization
+    for a listing; .../min-max-prices/; .../time-based-adjustments/
+  reason: Operations configure base price, price floors/ceilings, seasonal and time-based rate adjustments
+    and minimum stays that drive dynamic nightly pricing — definition and adjustment of rate strategy
+    for lodging products.
+- tag: Listings
+  spec_file: beyond-listings-api-openapi.yml
+  capability_id: BC-4030
+  capability_id_l1: BC-4030
+  capability_name: Travel Revenue & Yield Management
+  confidence: 0.7
+  evidence: GET /api/v1/listings/{listing_id}/recommendations/  "List recommendations for a listing";
+    GET /api/v1/listings/{listing_id}/calendar/  "Get calendar for a listing"; schemas Recommendation,
+    CalendarEntry, Factor
+  reason: Listings here are short-term-rental units whose calendars carry AI-driven pricing recommendations
+    — the surface delivers dynamic pricing/yield decisions rather than pure product master data. Kept
+    at L1 because the endpoints straddle rate strategy, listing detail and reservation refresh.
