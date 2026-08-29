@@ -1,13 +1,7 @@
 {
   "provider": "beyond",
   "sources": [
-    "beyond-accounts-api-openapi.yml",
-    "beyond-compsets-api-openapi.yml",
-    "beyond-customizations-api-openapi.yml",
-    "beyond-insights-api-openapi.yml",
-    "beyond-listings-api-openapi.yml",
-    "beyond-oauth2-api-openapi.yml",
-    "beyond-users-api-openapi.yml"
+    "_original/beyond-openapi-original.yml"
   ],
   "outputs": [
     "beyond-accounts-api-openapi.yml",
@@ -16,11 +10,31 @@
     "beyond-insights-api-openapi.yml",
     "beyond-listings-api-openapi.yml",
     "beyond-oauth2-api-openapi.yml",
-    "beyond-users-api-openapi.yml"
+    "beyond-users-api-openapi.yml",
+    "beyond-webhooks-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "beyond-openapi-original.yml: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
+    "beyond-openapi-original.yml: declared missing tag: Accounts",
+    "beyond-openapi-original.yml: declared missing tag: Compsets",
+    "beyond-openapi-original.yml: declared missing tag: Customizations",
+    "beyond-openapi-original.yml: declared missing tag: Insights",
+    "beyond-openapi-original.yml: declared missing tag: Listings",
+    "beyond-openapi-original.yml: declared missing tag: OAuth2",
+    "beyond-openapi-original.yml: declared missing tag: Users",
+    "beyond-openapi-original.yml: declared missing tag: Webhooks"
+  ],
+  "skipped": [
+    "beyond-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-compsets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-customizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-insights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-listings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-oauth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

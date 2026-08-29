@@ -236,6 +236,16 @@ apis:
     url: https://developers.beyondpricing.com/getting-started/authentication/
   - type: Webhooks
     url: https://developers.beyondpricing.com/webhooks/
+- aid: beyond:beyond-webhooks-api
+  name: Beyond Webhooks API
+  description: The Webhooks API from Beyond — 0 operation(s) for webhooks.
+  humanURL: https://developers.beyondpricing.com/
+  baseURL: https://developers.beyondpricing.com/api/v1/
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/beyond-webhooks-api-openapi.yml
 common:
 - type: DeveloperPortal
   url: https://developers.beyondpricing.com/

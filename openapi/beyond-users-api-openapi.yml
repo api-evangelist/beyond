@@ -1,6 +1,6 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
-  title: Beyond Pricing Public Accounts Users API
+  title: Beyond Pricing Public Users API
   version: 2.0.0
   description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
 tags:
@@ -287,80 +287,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    PaginatedUserList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        links:
-          type: object
-          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
-          properties:
-            first:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            last:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
-              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            prev:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            next:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
-              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-          additionalProperties: false
-        meta:
-          type: object
-          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
-          properties:
-            pagination:
-              type: object
-              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
-              properties:
-                count:
-                  type: integer
-                  minimum: 0
-                  example: 42
-                  description: Total number of resources across all pages.
-                page:
-                  type: integer
-                  minimum: 1
-                  example: 2
-                  description: Current page number (1-based).
-                pages:
-                  type: integer
-                  minimum: 0
-                  example: 5
-                  description: Total number of pages.
-              additionalProperties: false
-          additionalProperties: false
-      required:
-      - data
-    UserResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
-      required:
-      - data
     UserCredential:
       type: object
       required:
@@ -399,73 +325,6 @@ components:
       type: string
       enum:
       - credentials
-    PaginatedUserCredentialList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCredential'
-        links:
-          type: object
-          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
-          properties:
-            first:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            last:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
-              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            prev:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            next:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
-              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-          additionalProperties: false
-        meta:
-          type: object
-          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
-          properties:
-            pagination:
-              type: object
-              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
-              properties:
-                count:
-                  type: integer
-                  minimum: 0
-                  example: 42
-                  description: Total number of resources across all pages.
-                page:
-                  type: integer
-                  minimum: 1
-                  example: 2
-                  description: Current page number (1-based).
-                pages:
-                  type: integer
-                  minimum: 0
-                  example: 5
-                  description: Total number of pages.
-              additionalProperties: false
-          additionalProperties: false
-      required:
-      - data
     UserRequest:
       type: object
       properties:
@@ -632,6 +491,147 @@ components:
       type: string
       enum:
       - users
+    PaginatedUserList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    PaginatedUserCredentialList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredential'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    UserResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+      required:
+      - data
   securitySchemes:
     oauth2:
       type: oauth2

@@ -1,6 +1,6 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
-  title: Beyond Pricing Public Accounts OAuth2 API
+  title: Beyond Pricing Public O Auth2 API
   version: 2.0.0
   description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
 tags:

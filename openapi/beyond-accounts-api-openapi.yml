@@ -1,4 +1,4 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
   title: Beyond Pricing Public Accounts API
   version: 2.0.0
@@ -465,24 +465,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    AccountResourceTypeEnum:
-      type: string
-      enum:
-      - accounts
-    StateEnum:
-      enum:
-      - queued
-      - in_progress
-      - completed
-      - unknown
-      type: string
-      description: '* `queued` - queued
-
-        * `in_progress` - in_progress
-
-        * `completed` - completed
-
-        * `unknown` - unknown'
     AccountCreateRequest:
       type: object
       properties:
@@ -513,6 +495,24 @@ components:
               - credentials
       required:
       - data
+    StateEnum:
+      enum:
+      - queued
+      - in_progress
+      - completed
+      - unknown
+      type: string
+      description: '* `queued` - queued
+
+        * `in_progress` - in_progress
+
+        * `completed` - completed
+
+        * `unknown` - unknown'
+    AccountResourceTypeEnum:
+      type: string
+      enum:
+      - accounts
     PaginatedAccountList:
       type: object
       properties:

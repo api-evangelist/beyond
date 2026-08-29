@@ -1,6 +1,6 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
-  title: Beyond Pricing Public Accounts Listings API
+  title: Beyond Pricing Public Listings API
   version: 2.0.0
   description: Bearer-protected API for third-party integrations. Supports OAuth2 client credentials and personal access tokens. Follows JSON:API specification.
 tags:
@@ -512,47 +512,327 @@ paths:
           description: Internal server error
 components:
   schemas:
-    RecommendationResourceTypeEnum:
-      type: string
-      enum:
-      - recommendations
-    ListingActivationResponse:
+    ListingActivation:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ListingActivationResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              description: Whether price syncing is enabled for the listing.
+            base-price:
+              type: number
+              format: double
+              minimum: 10
+              description: Base price to apply after the activation update.
+            min-price:
+              type: number
+              format: double
+              minimum: 5
+              description: Minimum price to apply after the activation update.
+          required:
+          - enabled
+    PatchedListingActivationRequest:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/ListingActivation'
+          type: object
+          required:
+          - type
+          - id
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+              enum:
+              - listing-activations
+            id: {}
+            attributes:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  readOnly: true
+                enabled:
+                  type: boolean
+                  description: Whether price syncing is enabled for the listing.
+                base-price:
+                  type: number
+                  format: double
+                  minimum: 10
+                  description: Base price to apply after the activation update.
+                min-price:
+                  type: number
+                  format: double
+                  minimum: 5
+                  description: Minimum price to apply after the activation update.
+              required:
+              - enabled
       required:
       - data
-    ListingSyncStatus:
+    Recommendation:
       type: object
-      description: Serializer for listing sync status based on the primary channel listing.
-      properties:
-        state:
-          allOf:
-          - $ref: '#/components/schemas/StateEnum'
-          description: 'Current sync state: queued, in_progress, completed, or unknown
-
-
-            * `queued` - queued
-
-            * `in_progress` - in_progress
-
-            * `completed` - completed
-
-            * `unknown` - unknown'
-        last-successful-sync-at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp of the last successful listing sync, or null if never synced
       required:
-      - last-successful-sync-at
-      - state
-    ListingResourceTypeEnum:
-      type: string
-      enum:
-      - listings
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/RecommendationResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id:
+          type: string
+          description: Unique identifier for the recommendation.
+        attributes:
+          type: object
+          properties:
+            listing-id:
+              type: integer
+              readOnly: true
+            listing-title:
+              type:
+              - string
+              - 'null'
+              description: Listing title associated with the recommendation.
+            status:
+              enum:
+              - suggested
+              - suggestion_completed
+              - approved
+              - rejected
+              - expired
+              - canceled
+              - outdated
+              type: string
+              description: '* `suggested` - Suggested
+
+                * `suggestion_completed` - Suggestion_Completed
+
+                * `approved` - Approved
+
+                * `rejected` - Rejected
+
+                * `expired` - Expired
+
+                * `canceled` - Canceled
+
+                * `outdated` - Outdated'
+            approved-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            rejected-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            expired-at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            suggested-base-price:
+              type:
+              - integer
+              - 'null'
+              description: Suggested base price for the listing.
+            suggested-min-price:
+              type:
+              - integer
+              - 'null'
+              description: Suggested minimum price for the listing.
+            suggested-seasonal-min-price-pct:
+              type:
+              - number
+              - 'null'
+              format: double
+              description: Suggested seasonal minimum price adjustment percentage.
+            initial-base-price:
+              type:
+              - integer
+              - 'null'
+              description: Base price recorded when the recommendation was created.
+            initial-min-price:
+              type:
+              - integer
+              - 'null'
+              description: Minimum price recorded when the recommendation was created.
+            recommendations:
+              type:
+              - string
+              - 'null'
+              description: Recommendations about the listing from the booking review
+            category:
+              enum:
+              - min_price
+              - seasonal_min_price
+              - base_price
+              - strategy
+              - enable_listing
+              - gap_fill
+              - ''
+              - null
+              type:
+              - string
+              - 'null'
+              description: 'Category of the booking review
+
+
+                * `min_price` - Min_Price
+
+                * `seasonal_min_price` - Seasonal_Min_Price
+
+                * `base_price` - Base_Price
+
+                * `strategy` - Strategy
+
+                * `enable_listing` - Enable_Listing
+
+                * `gap_fill` - Gap_Fill'
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+          required:
+          - listing-title
+    ListingDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListingDetail'
+      required:
+      - data
+    PaginatedRecommendationList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recommendation'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
+    CalendarEntry:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/CalendarEntryResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: Calendar date
+            availability:
+              type: string
+              description: Availability status (e.g., 'available', 'booked', 'blocked')
+            price:
+              type: integer
+              description: Final price in minor currency units (e.g., cents)
+            price-posted:
+              type:
+              - integer
+              - 'null'
+              description: Last price posted to the channel in minor currency units
+            effective-min-price:
+              type: integer
+              description: Effective minimum price floor for the day in minor currency units. Includes user/seasonal/day-of-week minimums, the benchmark floor, and rebooking protection. The modeled price will not go below this.
+            effective-max-price:
+              type:
+              - integer
+              - 'null'
+              description: Effective maximum price ceiling for the day in minor currency units (per-day maximum override, else the listing maximum). Null when no maximum is configured. The modeled price will not exceed this.
+            factors:
+              type: array
+              items:
+                $ref: '#/components/schemas/Factor'
+              description: Pricing factors that contribute to the modeled price
+          required:
+          - date
+          - availability
+          - price
+          - price-posted
+          - effective-min-price
+          - effective-max-price
+          - factors
     Listing:
       type: object
       required:
@@ -721,358 +1001,6 @@ components:
               description: The identifier of the related object.
               title: Owner
               readOnly: true
-    Recommendation:
-      type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/RecommendationResourceTypeEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id:
-          type: string
-          description: Unique identifier for the recommendation.
-        attributes:
-          type: object
-          properties:
-            listing-id:
-              type: integer
-              readOnly: true
-            listing-title:
-              type:
-              - string
-              - 'null'
-              description: Listing title associated with the recommendation.
-            status:
-              enum:
-              - suggested
-              - suggestion_completed
-              - approved
-              - rejected
-              - expired
-              - canceled
-              - outdated
-              type: string
-              description: '* `suggested` - Suggested
-
-                * `suggestion_completed` - Suggestion_Completed
-
-                * `approved` - Approved
-
-                * `rejected` - Rejected
-
-                * `expired` - Expired
-
-                * `canceled` - Canceled
-
-                * `outdated` - Outdated'
-            approved-at:
-              type:
-              - string
-              - 'null'
-              format: date-time
-            rejected-at:
-              type:
-              - string
-              - 'null'
-              format: date-time
-            expired-at:
-              type:
-              - string
-              - 'null'
-              format: date-time
-            suggested-base-price:
-              type:
-              - integer
-              - 'null'
-              description: Suggested base price for the listing.
-            suggested-min-price:
-              type:
-              - integer
-              - 'null'
-              description: Suggested minimum price for the listing.
-            suggested-seasonal-min-price-pct:
-              type:
-              - number
-              - 'null'
-              format: double
-              description: Suggested seasonal minimum price adjustment percentage.
-            initial-base-price:
-              type:
-              - integer
-              - 'null'
-              description: Base price recorded when the recommendation was created.
-            initial-min-price:
-              type:
-              - integer
-              - 'null'
-              description: Minimum price recorded when the recommendation was created.
-            recommendations:
-              type:
-              - string
-              - 'null'
-              description: Recommendations about the listing from the booking review
-            category:
-              enum:
-              - min_price
-              - seasonal_min_price
-              - base_price
-              - strategy
-              - enable_listing
-              - gap_fill
-              - ''
-              - null
-              type:
-              - string
-              - 'null'
-              description: 'Category of the booking review
-
-
-                * `min_price` - Min_Price
-
-                * `seasonal_min_price` - Seasonal_Min_Price
-
-                * `base_price` - Base_Price
-
-                * `strategy` - Strategy
-
-                * `enable_listing` - Enable_Listing
-
-                * `gap_fill` - Gap_Fill'
-            created-at:
-              type: string
-              format: date-time
-              readOnly: true
-          required:
-          - listing-title
-    PatchedListingActivationRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          required:
-          - type
-          - id
-          additionalProperties: false
-          properties:
-            type:
-              type: string
-              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-              enum:
-              - listing-activations
-            id: {}
-            attributes:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  readOnly: true
-                enabled:
-                  type: boolean
-                  description: Whether price syncing is enabled for the listing.
-                base-price:
-                  type: number
-                  format: double
-                  minimum: 10
-                  description: Base price to apply after the activation update.
-                min-price:
-                  type: number
-                  format: double
-                  minimum: 5
-                  description: Minimum price to apply after the activation update.
-              required:
-              - enabled
-      required:
-      - data
-    CalendarEntry:
-      type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/CalendarEntryResourceTypeEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id: {}
-        attributes:
-          type: object
-          properties:
-            date:
-              type: string
-              format: date
-              description: Calendar date
-            availability:
-              type: string
-              description: Availability status (e.g., 'available', 'booked', 'blocked')
-            price:
-              type: integer
-              description: Final price in minor currency units (e.g., cents)
-            price-posted:
-              type:
-              - integer
-              - 'null'
-              description: Last price posted to the channel in minor currency units
-            effective-min-price:
-              type: integer
-              description: Effective minimum price floor for the day in minor currency units. Includes user/seasonal/day-of-week minimums, the benchmark floor, and rebooking protection. The modeled price will not go below this.
-            effective-max-price:
-              type:
-              - integer
-              - 'null'
-              description: Effective maximum price ceiling for the day in minor currency units (per-day maximum override, else the listing maximum). Null when no maximum is configured. The modeled price will not exceed this.
-            factors:
-              type: array
-              items:
-                $ref: '#/components/schemas/Factor'
-              description: Pricing factors that contribute to the modeled price
-          required:
-          - date
-          - availability
-          - price
-          - price-posted
-          - effective-min-price
-          - effective-max-price
-          - factors
-    ListingDetailResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ListingDetail'
-      required:
-      - data
-    CalendarEntryResourceTypeEnum:
-      type: string
-      enum:
-      - calendar-entries
-    ListingActivation:
-      type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/ListingActivationResourceTypeEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id: {}
-        attributes:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-              description: Whether price syncing is enabled for the listing.
-            base-price:
-              type: number
-              format: double
-              minimum: 10
-              description: Base price to apply after the activation update.
-            min-price:
-              type: number
-              format: double
-              minimum: 5
-              description: Minimum price to apply after the activation update.
-          required:
-          - enabled
-    PaginatedListingList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Listing'
-        links:
-          type: object
-          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
-          properties:
-            first:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            last:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
-              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            prev:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            next:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
-              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-          additionalProperties: false
-        meta:
-          type: object
-          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
-          properties:
-            pagination:
-              type: object
-              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
-              properties:
-                count:
-                  type: integer
-                  minimum: 0
-                  example: 42
-                  description: Total number of resources across all pages.
-                page:
-                  type: integer
-                  minimum: 1
-                  example: 2
-                  description: Current page number (1-based).
-                pages:
-                  type: integer
-                  minimum: 0
-                  example: 5
-                  description: Total number of pages.
-              additionalProperties: false
-          additionalProperties: false
-      required:
-      - data
-    StateEnum:
-      enum:
-      - queued
-      - in_progress
-      - completed
-      - unknown
-      type: string
-      description: '* `queued` - queued
-
-        * `in_progress` - in_progress
-
-        * `completed` - completed
-
-        * `unknown` - unknown'
-    ListingChannelListing:
-      type: object
-      description: Serializer for channel listings embedded in listing responses.
-      properties:
-        channel:
-          type: string
-          description: Channel identifier for the linked channel listing
-        channel-id:
-          type: string
-          description: Listing identifier on the channel side
-      required:
-      - channel
-      - channel-id
     ListingDetail:
       type: object
       required:
@@ -1246,13 +1174,17 @@ components:
               description: The identifier of the related object.
               title: Owner
               readOnly: true
-    PaginatedRecommendationList:
+    ListingResourceTypeEnum:
+      type: string
+      enum:
+      - listings
+    PaginatedListingList:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Recommendation'
+            $ref: '#/components/schemas/Listing'
         links:
           type: object
           description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
@@ -1313,10 +1245,6 @@ components:
           additionalProperties: false
       required:
       - data
-    ListingActivationResourceTypeEnum:
-      type: string
-      enum:
-      - listing-activations
     PaginatedCalendarEntryList:
       type: object
       properties:
@@ -1384,6 +1312,58 @@ components:
           additionalProperties: false
       required:
       - data
+    StateEnum:
+      enum:
+      - queued
+      - in_progress
+      - completed
+      - unknown
+      type: string
+      description: '* `queued` - queued
+
+        * `in_progress` - in_progress
+
+        * `completed` - completed
+
+        * `unknown` - unknown'
+    CalendarEntryResourceTypeEnum:
+      type: string
+      enum:
+      - calendar-entries
+    RecommendationResourceTypeEnum:
+      type: string
+      enum:
+      - recommendations
+    ListingActivationResourceTypeEnum:
+      type: string
+      enum:
+      - listing-activations
+    ListingSyncStatus:
+      type: object
+      description: Serializer for listing sync status based on the primary channel listing.
+      properties:
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          description: 'Current sync state: queued, in_progress, completed, or unknown
+
+
+            * `queued` - queued
+
+            * `in_progress` - in_progress
+
+            * `completed` - completed
+
+            * `unknown` - unknown'
+        last-successful-sync-at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the last successful listing sync, or null if never synced
+      required:
+      - last-successful-sync-at
+      - state
     Factor:
       type: object
       description: 'Serializer for a pricing factor within a calendar entry.
@@ -1421,6 +1401,26 @@ components:
       - key
       - order
       - ratio
+    ListingChannelListing:
+      type: object
+      description: Serializer for channel listings embedded in listing responses.
+      properties:
+        channel:
+          type: string
+          description: Channel identifier for the linked channel listing
+        channel-id:
+          type: string
+          description: Listing identifier on the channel side
+      required:
+      - channel
+      - channel-id
+    ListingActivationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ListingActivation'
+      required:
+      - data
   securitySchemes:
     oauth2:
       type: oauth2
