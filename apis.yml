@@ -188,30 +188,6 @@ apis:
     url: https://developers.beyondpricing.com/getting-started/authentication/
   - type: Webhooks
     url: https://developers.beyondpricing.com/webhooks/
-- aid: beyond:beyond-oauth2-api
-  name: Beyond OAuth2 API
-  description: The OAuth2 API from Beyond — 1 operation(s) for oauth2.
-  humanURL: https://developers.beyondpricing.com/
-  baseURL: https://developers.beyondpricing.com/api/v1/
-  tags:
-  - Authentication
-  tags_raw:
-  - OAuth2
-  properties:
-  - type: OpenAPI
-    url: openapi/beyond-oauth2-api-openapi.yml
-  - type: Documentation
-    url: https://developers.beyondpricing.com/
-  - type: APIReference
-    url: https://developers.beyondpricing.com/api/v1/redoc/
-  - type: InteractiveDocs
-    url: https://developers.beyondpricing.com/api/v1/docs/
-  - type: GettingStarted
-    url: https://developers.beyondpricing.com/getting-started/
-  - type: Authentication
-    url: https://developers.beyondpricing.com/getting-started/authentication/
-  - type: Webhooks
-    url: https://developers.beyondpricing.com/webhooks/
 - aid: beyond:beyond-users-api
   name: Beyond Users API
   description: The Users API from Beyond — 3 operation(s) for users.
@@ -248,6 +224,28 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/beyond-webhooks-api-openapi.yml
+- aid: beyond:beyond-oauth2-api
+  name: Beyond O Auth2 API
+  description: The OAuth2 API from Beyond — 1 operation(s) for oauth2.
+  humanURL: https://developers.beyondpricing.com/
+  baseURL: https://developers.beyondpricing.com/api/v1/
+  tags:
+  - OAuth2
+  properties:
+  - type: OpenAPI
+    url: openapi/beyond-oauth2-api-openapi.yml
+  - type: Documentation
+    url: https://developers.beyondpricing.com/
+  - type: APIReference
+    url: https://developers.beyondpricing.com/api/v1/redoc/
+  - type: InteractiveDocs
+    url: https://developers.beyondpricing.com/api/v1/docs/
+  - type: GettingStarted
+    url: https://developers.beyondpricing.com/getting-started/
+  - type: Authentication
+    url: https://developers.beyondpricing.com/getting-started/authentication/
+  - type: Webhooks
+    url: https://developers.beyondpricing.com/webhooks/
 common:
 - type: CapabilityMap
   url: capabilities/beyond-capability-edges.yml
