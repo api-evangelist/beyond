@@ -50,7 +50,7 @@ tags:
 - Consumer
 - Travel
 - Hospitality
-- Short-Term Rentals
+- Short-Term Rental
 - Vacation Rentals
 - Revenue Management
 - Dynamic Pricing
@@ -230,6 +230,8 @@ apis:
   humanURL: https://developers.beyondpricing.com/
   baseURL: https://developers.beyondpricing.com/api/v1/
   tags:
+  - Authentication
+  tags_raw:
   - OAuth2
   properties:
   - type: OpenAPI
