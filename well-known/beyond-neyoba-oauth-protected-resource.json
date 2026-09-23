@@ -1,0 +1,1 @@
+{"resource":"https://neyoba.beyondpricing.com/mcp","authorization_servers":["https://developers.beyondpricing.com/"],"scopes_supported":["neyoba:ask","beyond:read","beyond:write","beyond:skills","beyond:usage"],"bearer_methods_supported":["header"]}
