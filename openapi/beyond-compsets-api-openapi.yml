@@ -233,191 +233,79 @@ paths:
           description: Internal server error
 components:
   schemas:
-    CompsetPerformanceListingMetrics:
+    CompsetResponse:
       type: object
-      description: The base listing's metrics over the requested date range.
+      properties:
+        data:
+          $ref: '#/components/schemas/Compset'
+      required:
+      - data
+    CompsetPerformance:
+      type: object
+      description: Date-ranged comparison of the base listing vs. the compset benchmark.
+      properties:
+        start-date:
+          type: string
+          format: date
+          description: First stay date in the range.
+        end-date:
+          type: string
+          format: date
+          description: Last stay date in the range.
+        currency:
+          type: string
+          description: ISO currency code for the figures.
+        main-listing-metrics:
+          oneOf:
+          - $ref: '#/components/schemas/CompsetPerformanceListingMetrics'
+          - type: 'null'
+          description: The base listing's metrics over the range. `null` for `custom` comp sets, which have no Beyond listing.
+        aggregated-metrics:
+          $ref: '#/components/schemas/CompsetPerformanceAggregateMetrics'
+      required:
+      - aggregated-metrics
+      - currency
+      - end-date
+      - start-date
+    CompsetPerformanceAggregateMetrics:
+      type: object
+      description: The aggregated compset benchmark over the requested date range.
       properties:
         average-posted-rate:
           type:
           - number
           - 'null'
           format: double
-          description: Average posted nightly rate over the range.
+          description: Compset average posted nightly rate.
         occupancy:
           type:
           - number
           - 'null'
           format: double
-          description: Occupancy percentage over the range.
+          description: Compset average occupancy percentage.
         average-min-stay:
           type:
           - number
           - 'null'
           format: double
-          description: Average minimum stay over the range.
+          description: Compset average minimum stay.
         average-booked-rate:
           type:
           - number
           - 'null'
           format: double
-          description: Average booked rate (ADR) over the range.
+          description: Compset average booked rate (ADR).
         adj-occupancy:
           type:
           - number
           - 'null'
           format: double
-          description: Adjusted occupancy percentage over the range.
-    TypeF0bEnum:
-      type: string
-      enum:
-      - compsets
-    CompsetSourceMetrics:
-      type: object
-      description: Headline metrics for the base listing over the next 30 and 90 days.
-      properties:
-        thirty-day-price:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Average posted nightly rate, next 30 days.
-        ninety-day-price:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Average posted nightly rate, next 90 days.
-        thirty-day-adr:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Average booked rate (ADR), next 30 days.
-        ninety-day-adr:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Average booked rate (ADR), next 90 days.
-        thirty-day-booked:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Occupancy percentage, next 30 days.
-        ninety-day-booked:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Occupancy percentage, next 90 days.
-        thirty-day-availability:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Availability percentage, next 30 days.
-        ninety-day-availability:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Availability percentage, next 90 days.
-        thirty-day-min-stays:
+          description: Compset average adjusted occupancy percentage.
+        number-of-nearby-listings:
           type:
           - integer
           - 'null'
-          description: Minimum stay, next 30 days.
-        ninety-day-min-stays:
-          type:
-          - integer
-          - 'null'
-          description: Minimum stay, next 90 days.
-        rating:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Aggregate guest star rating.
-        reviews-count:
-          type:
-          - integer
-          - 'null'
-          description: Number of guest reviews.
-        average-service-fee:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Average service fee (Airbnb-only; null on other channels).
-    Compset:
-      type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/TypeF0bEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id: {}
-        attributes:
-          type: object
-          properties:
-            listing-id:
-              type:
-              - integer
-              - 'null'
-              description: Beyond listing id the comp set is anchored to (null for custom).
-            kind:
-              enum:
-              - custom
-              - connected
-              type: string
-              description: 'Comp set kind: `custom` (no Beyond listing) or `connected` (anchored to a Beyond listing). Custom comp sets have null `source.min-stay`/`base-price`/`health-score`/`market` and a null `performance.main-listing-metrics`.
-
-
-                * `custom` - Custom
-
-                * `connected` - Connected'
-            title:
-              type:
-              - string
-              - 'null'
-              description: Comp set title.
-            matched-airbnb-id:
-              type:
-              - string
-              - 'null'
-              description: Airbnb id Beyond matched to the base listing, when available.
-            created-at:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              description: When the comp set was created.
-            updated-at:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              description: When the comp set was last updated.
-            source:
-              $ref: '#/components/schemas/CompsetSource'
-            members:
-              type: array
-              items:
-                $ref: '#/components/schemas/CompsetMember'
-            performance:
-              allOf:
-              - $ref: '#/components/schemas/CompsetPerformance'
-              description: The listing's metrics vs. the aggregated compset benchmark over `start_date`..`end_date`.
-          required:
-          - kind
-          - source
-          - members
-          - performance
+          description: Number of members contributing to the aggregate.
     CompsetSummary:
       type: object
       required:
@@ -512,139 +400,74 @@ components:
               description: The identifier of the related object.
               title: Listing
               readOnly: true
-    CompsetPerformance:
+    Compset:
       type: object
-      description: Date-ranged comparison of the base listing vs. the compset benchmark.
-      properties:
-        start-date:
-          type: string
-          format: date
-          description: First stay date in the range.
-        end-date:
-          type: string
-          format: date
-          description: Last stay date in the range.
-        currency:
-          type: string
-          description: ISO currency code for the figures.
-        main-listing-metrics:
-          oneOf:
-          - $ref: '#/components/schemas/CompsetPerformanceListingMetrics'
-          - type: 'null'
-          description: The base listing's metrics over the range. `null` for `custom` comp sets, which have no Beyond listing.
-        aggregated-metrics:
-          $ref: '#/components/schemas/CompsetPerformanceAggregateMetrics'
       required:
-      - aggregated-metrics
-      - currency
-      - end-date
-      - start-date
-    CompsetPerformanceAggregateMetrics:
-      type: object
-      description: The aggregated compset benchmark over the requested date range.
+      - type
+      - id
+      additionalProperties: false
       properties:
-        average-posted-rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Compset average posted nightly rate.
-        occupancy:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Compset average occupancy percentage.
-        average-min-stay:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Compset average minimum stay.
-        average-booked-rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Compset average booked rate (ADR).
-        adj-occupancy:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Compset average adjusted occupancy percentage.
-        number-of-nearby-listings:
-          type:
-          - integer
-          - 'null'
-          description: Number of members contributing to the aggregate.
-    PaginatedCompsetSummaryList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompsetSummary'
-        links:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeF0bEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
           type: object
-          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
           properties:
-            first:
+            listing-id:
+              type:
+              - integer
+              - 'null'
+              description: Beyond listing id the comp set is anchored to (null for custom).
+            kind:
+              enum:
+              - custom
+              - connected
+              type: string
+              description: 'Comp set kind: `custom` (no Beyond listing) or `connected` (anchored to a Beyond listing). Custom comp sets have null `source.min-stay`/`base-price`/`health-score`/`market` and a null `performance.main-listing-metrics`.
+
+
+                * `custom` - Custom
+
+                * `connected` - Connected'
+            title:
               type:
               - string
               - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            last:
+              description: Comp set title.
+            matched-airbnb-id:
               type:
               - string
               - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
-              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            prev:
+              description: Airbnb id Beyond matched to the base listing, when available.
+            created-at:
               type:
               - string
               - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
-              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-            next:
+              format: date-time
+              description: When the comp set was created.
+            updated-at:
               type:
               - string
               - 'null'
-              format: uri
-              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
-              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
-          additionalProperties: false
-        meta:
-          type: object
-          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
-          properties:
-            pagination:
-              type: object
-              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
-              properties:
-                count:
-                  type: integer
-                  minimum: 0
-                  example: 42
-                  description: Total number of resources across all pages.
-                page:
-                  type: integer
-                  minimum: 1
-                  example: 2
-                  description: Current page number (1-based).
-                pages:
-                  type: integer
-                  minimum: 0
-                  example: 5
-                  description: Total number of pages.
-              additionalProperties: false
-          additionalProperties: false
-      required:
-      - data
+              format: date-time
+              description: When the comp set was last updated.
+            source:
+              $ref: '#/components/schemas/CompsetSource'
+            members:
+              type: array
+              items:
+                $ref: '#/components/schemas/CompsetMember'
+            performance:
+              allOf:
+              - $ref: '#/components/schemas/CompsetPerformance'
+              description: The listing's metrics vs. the aggregated compset benchmark over `start_date`..`end_date`.
+          required:
+          - kind
+          - source
+          - members
+          - performance
     CompsetMember:
       type: object
       description: One curated member of the comp set.
@@ -720,6 +543,256 @@ components:
       - channel
       - channel-listing-id
       - metrics
+    CompsetSourceMetrics:
+      type: object
+      description: Headline metrics for the base listing over the next 30 and 90 days.
+      properties:
+        thirty-day-price:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average posted nightly rate, next 30 days.
+        ninety-day-price:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average posted nightly rate, next 90 days.
+        thirty-day-adr:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average booked rate (ADR), next 30 days.
+        ninety-day-adr:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average booked rate (ADR), next 90 days.
+        thirty-day-booked:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Occupancy percentage, next 30 days.
+        ninety-day-booked:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Occupancy percentage, next 90 days.
+        thirty-day-availability:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Availability percentage, next 30 days.
+        ninety-day-availability:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Availability percentage, next 90 days.
+        thirty-day-min-stays:
+          type:
+          - integer
+          - 'null'
+          description: Minimum stay, next 30 days.
+        ninety-day-min-stays:
+          type:
+          - integer
+          - 'null'
+          description: Minimum stay, next 90 days.
+        rating:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Aggregate guest star rating.
+        reviews-count:
+          type:
+          - integer
+          - 'null'
+          description: Number of guest reviews.
+        average-service-fee:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average service fee (Airbnb-only; null on other channels).
+    CompsetPerformanceListingMetrics:
+      type: object
+      description: The base listing's metrics over the requested date range.
+      properties:
+        average-posted-rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average posted nightly rate over the range.
+        occupancy:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Occupancy percentage over the range.
+        average-min-stay:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average minimum stay over the range.
+        average-booked-rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average booked rate (ADR) over the range.
+        adj-occupancy:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Adjusted occupancy percentage over the range.
+    TypeF0bEnum:
+      type: string
+      enum:
+      - compsets
+    CompsetSource:
+      type: object
+      description: The base listing the comp set was built around.
+      properties:
+        bedrooms:
+          type:
+          - integer
+          - 'null'
+        bathrooms:
+          type:
+          - number
+          - 'null'
+          format: double
+        latitude:
+          type:
+          - number
+          - 'null'
+          format: double
+        longitude:
+          type:
+          - number
+          - 'null'
+          format: double
+        address:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        country:
+          type:
+          - string
+          - 'null'
+        market:
+          type:
+          - string
+          - 'null'
+        currency:
+          type:
+          - string
+          - 'null'
+          description: ISO currency code for the base listing.
+        base-price:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Average base price over the next 365 days.
+        health-score:
+          type:
+          - integer
+          - 'null'
+        min-stay:
+          type:
+          - integer
+          - 'null'
+        metrics:
+          $ref: '#/components/schemas/CompsetSourceMetrics'
+      required:
+      - metrics
+    PaginatedCompsetSummaryList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompsetSummary'
+        links:
+          type: object
+          description: Pagination links for the primary data. These keys MUST be used for pagination links; each MUST be omitted or `null` when that link is unavailable. Values follow JSON:API link rules (URI string, link object, or null). https://jsonapi.org/format/#fetching-pagination https://jsonapi.org/format/#document-links
+          properties:
+            first:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The first page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            last:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=9
+              description: 'The last page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            prev:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=1
+              description: 'The previous page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+            next:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: http://example.com/articles?page%5Bsize%5D=10&page%5Bnumber%5D=3
+              description: 'The next page of data. A JSON:API link: URI string, link object, or null. See https://jsonapi.org/format/#document-links.'
+          additionalProperties: false
+        meta:
+          type: object
+          description: Non-standard meta-information. Page-number stacks often nest totals under `pagination`. JSON:API does not define these keys. Servers MAY add other `meta` members; this schema documents the usual djangorestframework-json-api shape only. https://jsonapi.org/format/#document-meta
+          properties:
+            pagination:
+              type: object
+              description: Typical page-number metadata from djangorestframework-json-api; not mandated by JSON:API.
+              properties:
+                count:
+                  type: integer
+                  minimum: 0
+                  example: 42
+                  description: Total number of resources across all pages.
+                page:
+                  type: integer
+                  minimum: 1
+                  example: 2
+                  description: Current page number (1-based).
+                pages:
+                  type: integer
+                  minimum: 0
+                  example: 5
+                  description: Total number of pages.
+              additionalProperties: false
+          additionalProperties: false
+      required:
+      - data
     CompsetMemberMetrics:
       type: object
       description: Metrics for a single comp-set member over the next 30 and 90 days.
@@ -822,79 +895,6 @@ components:
           - 'null'
           format: double
           description: Average service fee (Airbnb-only; null on other channels).
-    CompsetSource:
-      type: object
-      description: The base listing the comp set was built around.
-      properties:
-        bedrooms:
-          type:
-          - integer
-          - 'null'
-        bathrooms:
-          type:
-          - number
-          - 'null'
-          format: double
-        latitude:
-          type:
-          - number
-          - 'null'
-          format: double
-        longitude:
-          type:
-          - number
-          - 'null'
-          format: double
-        address:
-          type:
-          - string
-          - 'null'
-        city:
-          type:
-          - string
-          - 'null'
-        state:
-          type:
-          - string
-          - 'null'
-        country:
-          type:
-          - string
-          - 'null'
-        market:
-          type:
-          - string
-          - 'null'
-        currency:
-          type:
-          - string
-          - 'null'
-          description: ISO currency code for the base listing.
-        base-price:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Average base price over the next 365 days.
-        health-score:
-          type:
-          - integer
-          - 'null'
-        min-stay:
-          type:
-          - integer
-          - 'null'
-        metrics:
-          $ref: '#/components/schemas/CompsetSourceMetrics'
-      required:
-      - metrics
-    CompsetResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Compset'
-      required:
-      - data
   securitySchemes:
     oauth2:
       type: oauth2

@@ -58,7 +58,7 @@ tags:
 - Revenue Management
 - Dynamic Pricing
 - Pricing
-- Real-Estate
+- Real Estate
 - Market Intelligence
 tags_raw:
 - Company
@@ -73,6 +73,7 @@ tags_raw:
 - Real Estate
 - Market Intelligence
 - API
+- Real-Estate
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

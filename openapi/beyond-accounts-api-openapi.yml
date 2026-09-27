@@ -465,51 +465,13 @@ paths:
           description: Internal server error
 components:
   schemas:
-    StateEnum:
-      enum:
-      - queued
-      - in_progress
-      - completed
-      - unknown
-      type: string
-      description: '* `queued` - queued
-
-        * `in_progress` - in_progress
-
-        * `completed` - completed
-
-        * `unknown` - unknown'
-    AccountSyncStatus:
+    AccountResponse:
       type: object
-      description: 'Serializer for the account sync status.
-
-
-        Receives the full ManagedAccount instance via ``source="*"`` and derives
-
-        the sync state from the pending sync job and ``listings_synced_at``.'
       properties:
-        state:
-          allOf:
-          - $ref: '#/components/schemas/StateEnum'
-          description: 'Current sync state: queued, in_progress, completed, or unknown
-
-
-            * `queued` - queued
-
-            * `in_progress` - in_progress
-
-            * `completed` - completed
-
-            * `unknown` - unknown'
-        last-successful-sync-at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp of the last successful listing sync, or null if never synced
+        data:
+          $ref: '#/components/schemas/Account'
       required:
-      - last-successful-sync-at
-      - state
+      - data
     Account:
       type: object
       required:
@@ -606,6 +568,51 @@ components:
               - credentials
       required:
       - data
+    StateEnum:
+      enum:
+      - queued
+      - in_progress
+      - completed
+      - unknown
+      type: string
+      description: '* `queued` - queued
+
+        * `in_progress` - in_progress
+
+        * `completed` - completed
+
+        * `unknown` - unknown'
+    AccountSyncStatus:
+      type: object
+      description: 'Serializer for the account sync status.
+
+
+        Receives the full ManagedAccount instance via ``source="*"`` and derives
+
+        the sync state from the pending sync job and ``listings_synced_at``.'
+      properties:
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          description: 'Current sync state: queued, in_progress, completed, or unknown
+
+
+            * `queued` - queued
+
+            * `in_progress` - in_progress
+
+            * `completed` - completed
+
+            * `unknown` - unknown'
+        last-successful-sync-at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the last successful listing sync, or null if never synced
+      required:
+      - last-successful-sync-at
+      - state
     PaginatedAccountList:
       type: object
       properties:
@@ -677,13 +684,6 @@ components:
       type: string
       enum:
       - accounts
-    AccountResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Account'
-      required:
-      - data
   securitySchemes:
     oauth2:
       type: oauth2

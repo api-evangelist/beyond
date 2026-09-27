@@ -13,9 +13,7 @@
     "beyond-users-api-openapi.yml",
     "beyond-webhooks-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -29,8 +27,7 @@
     "beyond-openapi-original.yml: declared missing tag: OAuth2",
     "beyond-openapi-original.yml: declared missing tag: Users",
     "beyond-openapi-original.yml: declared missing tag: Webhooks",
-    "superseded outputs removed: beyond-o-auth2-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 8 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "beyond-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -38,7 +35,7 @@
     "beyond-customizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "beyond-insights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "beyond-listings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "beyond-o-auth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "beyond-oauth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "beyond-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "beyond-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
