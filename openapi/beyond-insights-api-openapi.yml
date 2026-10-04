@@ -171,10 +171,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    MarketInsightResourceTypeEnum:
-      type: string
-      enum:
-      - market-insights
     MarketInsights:
       type: object
       required:
@@ -496,6 +492,10 @@ components:
           additionalProperties: false
       required:
       - data
+    MarketInsightResourceTypeEnum:
+      type: string
+      enum:
+      - market-insights
   securitySchemes:
     oauth2:
       type: oauth2

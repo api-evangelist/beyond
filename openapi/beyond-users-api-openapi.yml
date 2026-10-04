@@ -329,6 +329,82 @@ paths:
           description: Internal server error
 components:
   schemas:
+    User:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/UserResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            first-name:
+              type: string
+              maxLength: 150
+            last-name:
+              type: string
+              maxLength: 150
+            email:
+              type: string
+              format: email
+            locale:
+              enum:
+              - en
+              - en-GB
+              - en-AU
+              - en-CA
+              - ja
+              - fr
+              - pt
+              - de
+              - es
+              - it
+              type: string
+              default: en
+              description: 'User locale as a supported BCP 47 language tag. Defaults to `en`.
+
+
+                * `en` - en
+
+                * `en-GB` - en-GB
+
+                * `en-AU` - en-AU
+
+                * `en-CA` - en-CA
+
+                * `ja` - ja
+
+                * `fr` - fr
+
+                * `pt` - pt
+
+                * `de` - de
+
+                * `es` - es
+
+                * `it` - it'
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+            status:
+              enum:
+              - new
+              - active
+              - inactive
+              type: string
+              description: 'Account lifecycle state: `new` (no enabled listings yet), `active` (has enabled listings), or `inactive` (previously active, none enabled now).'
+              readOnly: true
+          required:
+          - first-name
+          - last-name
+          - email
     PaginatedUserCredentialList:
       type: object
       properties:
@@ -463,6 +539,55 @@ components:
           additionalProperties: false
       required:
       - data
+    CredentialResourceTypeEnum:
+      type: string
+      enum:
+      - credentials
+    UserCredential:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/CredentialResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            created-at:
+              type: string
+              format: date-time
+              readOnly: true
+            last-login:
+              type: string
+              format: date-time
+              readOnly: true
+            credential-type:
+              type: string
+              readOnly: true
+            global-permissions:
+              type: string
+              readOnly: true
+            email:
+              type:
+              - string
+              - 'null'
+              readOnly: true
+    UserResourceTypeEnum:
+      type: string
+      enum:
+      - users
+    UserResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+      required:
+      - data
     UserRequest:
       type: object
       properties:
@@ -547,131 +672,6 @@ components:
               - first-name
               - last-name
               - email
-      required:
-      - data
-    UserResourceTypeEnum:
-      type: string
-      enum:
-      - users
-    User:
-      type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/UserResourceTypeEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id: {}
-        attributes:
-          type: object
-          properties:
-            first-name:
-              type: string
-              maxLength: 150
-            last-name:
-              type: string
-              maxLength: 150
-            email:
-              type: string
-              format: email
-            locale:
-              enum:
-              - en
-              - en-GB
-              - en-AU
-              - en-CA
-              - ja
-              - fr
-              - pt
-              - de
-              - es
-              - it
-              type: string
-              default: en
-              description: 'User locale as a supported BCP 47 language tag. Defaults to `en`.
-
-
-                * `en` - en
-
-                * `en-GB` - en-GB
-
-                * `en-AU` - en-AU
-
-                * `en-CA` - en-CA
-
-                * `ja` - ja
-
-                * `fr` - fr
-
-                * `pt` - pt
-
-                * `de` - de
-
-                * `es` - es
-
-                * `it` - it'
-            created-at:
-              type: string
-              format: date-time
-              readOnly: true
-            status:
-              enum:
-              - new
-              - active
-              - inactive
-              type: string
-              description: 'Account lifecycle state: `new` (no enabled listings yet), `active` (has enabled listings), or `inactive` (previously active, none enabled now).'
-              readOnly: true
-          required:
-          - first-name
-          - last-name
-          - email
-    UserCredential:
-      type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/CredentialResourceTypeEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id: {}
-        attributes:
-          type: object
-          properties:
-            created-at:
-              type: string
-              format: date-time
-              readOnly: true
-            last-login:
-              type: string
-              format: date-time
-              readOnly: true
-            credential-type:
-              type: string
-              readOnly: true
-            global-permissions:
-              type: string
-              readOnly: true
-            email:
-              type:
-              - string
-              - 'null'
-              readOnly: true
-    CredentialResourceTypeEnum:
-      type: string
-      enum:
-      - credentials
-    UserResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/User'
       required:
       - data
   securitySchemes:

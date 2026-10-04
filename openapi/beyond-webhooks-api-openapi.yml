@@ -153,378 +153,6 @@ webhooks:
           description: Endpoint permanently gone. Partners should respond 410 to disable redelivery; future iterations may auto-disable endpoints in this case.
 components:
   schemas:
-    _EventMeta:
-      type: object
-      description: JSON:API top-level ``meta`` for partner events.
-      properties:
-        type:
-          type: string
-          description: Event type (e.g., 'listing.refreshed')
-        sent-at:
-          type: string
-          format: date-time
-          description: UTC timestamp the event envelope was assembled (RFC 3339)
-      required:
-      - sent-at
-      - type
-    ListingCreatedEvent:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/_EventMeta'
-        data:
-          $ref: '#/components/schemas/ListingCreatedEventData'
-      required:
-      - data
-      - meta
-    ListingRefreshedEventData:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        type:
-          type: string
-          description: JSON:API resource type for this event
-        id:
-          type: string
-          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
-        attributes:
-          $ref: '#/components/schemas/ListingRefreshedEventAttributes'
-        relationships:
-          $ref: '#/components/schemas/ListingRefreshedEventRelationships'
-      required:
-      - attributes
-      - id
-      - relationships
-      - type
-    ListingCreatedEventAttributes:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        status:
-          enum:
-          - succeeded
-          - failed
-          type: string
-          description: 'Outcome of the listing setup. ''succeeded'' means the listing is fully set up with its initial base price computed; ''failed'' means a sync attempt could not create the listing.
-
-
-            * `succeeded` - succeeded
-
-            * `failed` - failed'
-        created-at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: UTC timestamp when the listing was created (RFC 3339). Null on a failed creation attempt where the listing does not exist yet.
-        title:
-          type:
-          - string
-          - 'null'
-          description: The listing's title.
-        currency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code the listing is denominated in.
-        base-price:
-          type:
-          - integer
-          - 'null'
-          description: The listing's initial base price, computed by Beyond when the listing was set up, in the listing currency. A whole number — the same integer the listings endpoint exposes as base-price (fractional amounts are truncated toward zero). Null on a failed creation attempt.
-        channel-listings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListingCreatedEventChannelListings'
-          description: The listing's active channel listings — one entry per channel the listing is syndicated to, mirroring channel-listings on the listing resource. Empty on a listing with no active channel listing.
-        error:
-          type:
-          - string
-          - 'null'
-          description: Short, human-readable failure description. Present only when status='failed'. Stable across retries of the same delivery.
-      required:
-      - base-price
-      - channel-listings
-      - created-at
-      - currency
-      - status
-      - title
-    ListingRefreshedEventAttributes:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        status:
-          enum:
-          - succeeded
-          - failed
-          type: string
-          description: 'Terminal outcome of the refresh chain. ''succeeded'' means both the reservations sync and the ABP-C recompute completed; ''failed'' means at least one step raised.
-
-
-            * `succeeded` - succeeded
-
-            * `failed` - failed'
-        completed-at:
-          type: string
-          format: date-time
-          description: UTC timestamp when the terminal job finished (RFC 3339)
-        channel:
-          type: string
-          description: Channel the refreshed listing belongs to (e.g. 'airbnb', 'hostaway').
-        channel-listing-id:
-          type: string
-          description: The listing's identifier on the channel side — the same value exposed as channel-listings[].channel-id on the listing resource. Use it to correlate the event with your own records.
-        error:
-          type:
-          - string
-          - 'null'
-          description: Short, human-readable failure description. Present only when status='failed'. Stable across retries of the same delivery.
-      required:
-      - channel
-      - channel-listing-id
-      - completed-at
-      - status
-    ListingCreatedEventChannelListings:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        channel:
-          type: string
-          description: Channel this channel listing belongs to (e.g. 'airbnb', 'hostaway').
-        channel-id:
-          type: string
-          description: The listing's identifier on the channel side — the same value exposed as channel-listings[].channel-id on the listing resource. Use it to correlate the event with your own records.
-      required:
-      - channel
-      - channel-id
-    ListingCreatedEventData:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        type:
-          type: string
-          description: JSON:API resource type for this event
-        id:
-          type: string
-          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
-        attributes:
-          $ref: '#/components/schemas/ListingCreatedEventAttributes'
-        relationships:
-          $ref: '#/components/schemas/ListingCreatedEventRelationships'
-      required:
-      - attributes
-      - id
-      - relationships
-      - type
-    AccountRefreshedEventRelationships:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        user:
-          $ref: '#/components/schemas/_Relationship'
-        account:
-          $ref: '#/components/schemas/_Relationship'
-      required:
-      - account
-      - user
-    AccountCreatedEvent:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/_EventMeta'
-        data:
-          $ref: '#/components/schemas/AccountCreatedEventData'
-      required:
-      - data
-      - meta
-    AccountRefreshedEventAttributes:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        status:
-          enum:
-          - succeeded
-          - failed
-          type: string
-          description: 'Terminal outcome of the refresh. ''succeeded'' means every listing the refresh considered synced without error; ''failed'' means at least one listing failed, or the sync itself did not complete.
-
-
-            * `succeeded` - succeeded
-
-            * `failed` - failed'
-        completed-at:
-          type: string
-          format: date-time
-          description: UTC timestamp when the refresh reached its terminal state (RFC 3339)
-        channel:
-          type: string
-          description: Channel the account is connected to (e.g. 'airbnb', 'hostaway').
-        nb-listings-synced:
-          type: integer
-          description: Number of listings the refresh successfully re-synced. Listings skipped as recently synced are not counted, so this can be lower than the account's listing count — and 0 when everything was skipped.
-        nb-listings-failed:
-          type:
-          - integer
-          - 'null'
-          description: Number of listings the refresh could not sync. Always present; 0 when status='succeeded'. It is null when the sync did not run to completion (for example an infrastructure failure or a channel-wide error), so the per-listing count is unknown — in that case nb-listings-synced reports how many listings exist on the account, and status is 'failed'.
-        recent-sync-threshold-minutes:
-          type: integer
-          description: The threshold the refresh ran with, echoed from the request. Listings synced within this many minutes were skipped. 0 means no listing was skipped.
-        error:
-          type:
-          - string
-          - 'null'
-          description: Short, human-readable failure description. Present only when status='failed'. Stable across retries of the same delivery.
-      required:
-      - channel
-      - completed-at
-      - nb-listings-failed
-      - nb-listings-synced
-      - recent-sync-threshold-minutes
-      - status
-    ListingInActiveMarketChangedEventChannelListings:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        channel:
-          type: string
-          description: Channel this channel listing belongs to (e.g. 'airbnb', 'hostaway').
-        channel-id:
-          type: string
-          description: The listing's identifier on the channel side — the same value exposed as channel-listings[].channel-id on the listing resource. Use it to correlate the event with your own records.
-      required:
-      - channel
-      - channel-id
-    AccountCreatedEventData:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        type:
-          type: string
-          description: JSON:API resource type for this event
-        id:
-          type: string
-          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
-        attributes:
-          $ref: '#/components/schemas/AccountCreatedEventAttributes'
-        relationships:
-          $ref: '#/components/schemas/AccountCreatedEventRelationships'
-      required:
-      - attributes
-      - id
-      - relationships
-      - type
-    AccountCreatedEventRelationships:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        user:
-          $ref: '#/components/schemas/_Relationship'
-        account:
-          $ref: '#/components/schemas/_Relationship'
-      required:
-      - account
-      - user
-    ListingInActiveMarketChangedEventRelationships:
-      type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
-      properties:
-        listing:
-          $ref: '#/components/schemas/_Relationship'
-        user:
-          $ref: '#/components/schemas/_Relationship'
-        account:
-          $ref: '#/components/schemas/_Relationship'
-      required:
-      - listing
-      - user
-    ListingBasePriceChangedEvent:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/_EventMeta'
-        data:
-          $ref: '#/components/schemas/ListingBasePriceChangedEventData'
-      required:
-      - data
-      - meta
     ListingBasePriceChangedEventAttributes:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
@@ -594,6 +222,246 @@ components:
       - new-currency
       - old-base-price
       - old-currency
+    ListingRefreshedEventAttributes:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        status:
+          enum:
+          - succeeded
+          - failed
+          type: string
+          description: 'Terminal outcome of the refresh chain. ''succeeded'' means both the reservations sync and the ABP-C recompute completed; ''failed'' means at least one step raised.
+
+
+            * `succeeded` - succeeded
+
+            * `failed` - failed'
+        completed-at:
+          type: string
+          format: date-time
+          description: UTC timestamp when the terminal job finished (RFC 3339)
+        channel:
+          type: string
+          description: Channel the refreshed listing belongs to (e.g. 'airbnb', 'hostaway').
+        channel-listing-id:
+          type: string
+          description: The listing's identifier on the channel side — the same value exposed as channel-listings[].channel-id on the listing resource. Use it to correlate the event with your own records.
+        error:
+          type:
+          - string
+          - 'null'
+          description: Short, human-readable failure description. Present only when status='failed'. Stable across retries of the same delivery.
+      required:
+      - channel
+      - channel-listing-id
+      - completed-at
+      - status
+    AccountRefreshedEvent:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/_EventMeta'
+        data:
+          $ref: '#/components/schemas/AccountRefreshedEventData'
+      required:
+      - data
+      - meta
+    AccountRefreshedEventData:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        type:
+          type: string
+          description: JSON:API resource type for this event
+        id:
+          type: string
+          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
+        attributes:
+          $ref: '#/components/schemas/AccountRefreshedEventAttributes'
+        relationships:
+          $ref: '#/components/schemas/AccountRefreshedEventRelationships'
+      required:
+      - attributes
+      - id
+      - relationships
+      - type
+    ListingCreatedEventData:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        type:
+          type: string
+          description: JSON:API resource type for this event
+        id:
+          type: string
+          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
+        attributes:
+          $ref: '#/components/schemas/ListingCreatedEventAttributes'
+        relationships:
+          $ref: '#/components/schemas/ListingCreatedEventRelationships'
+      required:
+      - attributes
+      - id
+      - relationships
+      - type
+    ListingBasePriceChangedEventChannelListings:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        channel:
+          type: string
+          description: Channel this channel listing belongs to (e.g. 'airbnb', 'hostaway').
+        channel-id:
+          type: string
+          description: The listing's identifier on the channel side — the same value exposed as channel-listings[].channel-id on the listing resource. Use it to correlate the event with your own records.
+      required:
+      - channel
+      - channel-id
+    AccountRefreshedEventRelationships:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        user:
+          $ref: '#/components/schemas/_Relationship'
+        account:
+          $ref: '#/components/schemas/_Relationship'
+      required:
+      - account
+      - user
+    ListingInActiveMarketChangedEventAttributes:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        in-active-market:
+          type: boolean
+          description: 'The listing''s new in-active-market value — the same boolean the listings endpoint serves. true: the calendar endpoint works and automated price refresh is on. false: the calendar may return 400 and price refresh is off.'
+        changed-at:
+          type: string
+          format: date-time
+          description: UTC timestamp when the attribute changed (RFC 3339). Delivery order between the two directions is not guaranteed — order by this attribute, or fetch the listing for its current state.
+        title:
+          type:
+          - string
+          - 'null'
+          description: The listing's title.
+        channel-listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingInActiveMarketChangedEventChannelListings'
+          description: The listing's active channel listings — one entry per channel the listing is syndicated to, mirroring channel-listings on the listing resource. Empty on a listing with no active channel listing.
+      required:
+      - changed-at
+      - channel-listings
+      - in-active-market
+      - title
+    AccountRefreshedEventAttributes:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        status:
+          enum:
+          - succeeded
+          - failed
+          type: string
+          description: 'Terminal outcome of the refresh. ''succeeded'' means every listing the refresh considered synced without error; ''failed'' means at least one listing failed, or the sync itself did not complete.
+
+
+            * `succeeded` - succeeded
+
+            * `failed` - failed'
+        completed-at:
+          type: string
+          format: date-time
+          description: UTC timestamp when the refresh reached its terminal state (RFC 3339)
+        channel:
+          type: string
+          description: Channel the account is connected to (e.g. 'airbnb', 'hostaway').
+        nb-listings-synced:
+          type: integer
+          description: Number of listings the refresh successfully re-synced. Listings skipped as recently synced are not counted, so this can be lower than the account's listing count — and 0 when everything was skipped.
+        nb-listings-failed:
+          type:
+          - integer
+          - 'null'
+          description: Number of listings the refresh could not sync. Always present; 0 when status='succeeded'. It is null when the sync did not run to completion (for example an infrastructure failure or a channel-wide error), so the per-listing count is unknown — in that case nb-listings-synced reports how many listings exist on the account, and status is 'failed'.
+        recent-sync-threshold-minutes:
+          type: integer
+          description: The threshold the refresh ran with, echoed from the request. Listings synced within this many minutes were skipped. 0 means no listing was skipped.
+        error:
+          type:
+          - string
+          - 'null'
+          description: Short, human-readable failure description. Present only when status='failed'. Stable across retries of the same delivery.
+      required:
+      - channel
+      - completed-at
+      - nb-listings-failed
+      - nb-listings-synced
+      - recent-sync-threshold-minutes
+      - status
+    _RelationshipData:
+      type: object
+      description: JSON:API ``relationships.<name>.data`` body — ``{type, id}``.
+      properties:
+        type:
+          type: string
+          description: JSON:API resource type
+        id:
+          type: string
+          description: Resource identifier
+      required:
+      - id
+      - type
     AccountCreatedEventAttributes:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
@@ -642,7 +510,27 @@ components:
       - nb-listings-failed
       - nb-listings-synced
       - status
-    ListingInActiveMarketChangedEventAttributes:
+    ListingBasePriceChangedEvent:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/_EventMeta'
+        data:
+          $ref: '#/components/schemas/ListingBasePriceChangedEventData'
+      required:
+      - data
+      - meta
+    AccountCreatedEvent:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/_EventMeta'
+        data:
+          $ref: '#/components/schemas/AccountCreatedEventData'
+      required:
+      - data
+      - meta
+    ListingInActiveMarketChangedEventChannelListings:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
 
@@ -653,29 +541,16 @@ components:
 
         serializers must NOT use this mixin (the renderer handles them).'
       properties:
-        in-active-market:
-          type: boolean
-          description: 'The listing''s new in-active-market value — the same boolean the listings endpoint serves. true: the calendar endpoint works and automated price refresh is on. false: the calendar may return 400 and price refresh is off.'
-        changed-at:
+        channel:
           type: string
-          format: date-time
-          description: UTC timestamp when the attribute changed (RFC 3339). Delivery order between the two directions is not guaranteed — order by this attribute, or fetch the listing for its current state.
-        title:
-          type:
-          - string
-          - 'null'
-          description: The listing's title.
-        channel-listings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListingInActiveMarketChangedEventChannelListings'
-          description: The listing's active channel listings — one entry per channel the listing is syndicated to, mirroring channel-listings on the listing resource. Empty on a listing with no active channel listing.
+          description: Channel this channel listing belongs to (e.g. 'airbnb', 'hostaway').
+        channel-id:
+          type: string
+          description: The listing's identifier on the channel side — the same value exposed as channel-listings[].channel-id on the listing resource. Use it to correlate the event with your own records.
       required:
-      - changed-at
-      - channel-listings
-      - in-active-market
-      - title
-    ListingCreatedEventRelationships:
+      - channel
+      - channel-id
+    AccountCreatedEventData:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
 
@@ -686,42 +561,21 @@ components:
 
         serializers must NOT use this mixin (the renderer handles them).'
       properties:
-        listing:
-          $ref: '#/components/schemas/_Relationship'
-        user:
-          $ref: '#/components/schemas/_Relationship'
-        account:
-          $ref: '#/components/schemas/_Relationship'
-      required:
-      - user
-    _RelationshipLinks:
-      type: object
-      description: JSON:API ``relationships.<name>.links`` body — partner follow-up URL.
-      properties:
-        related:
+        type:
           type: string
-          format: uri
-          description: Absolute URL to GET the current state of the related resource
-    ListingRefreshedEvent:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/_EventMeta'
-        data:
-          $ref: '#/components/schemas/ListingRefreshedEventData'
+          description: JSON:API resource type for this event
+        id:
+          type: string
+          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
+        attributes:
+          $ref: '#/components/schemas/AccountCreatedEventAttributes'
+        relationships:
+          $ref: '#/components/schemas/AccountCreatedEventRelationships'
       required:
-      - data
-      - meta
-    ListingInActiveMarketChangedEvent:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/_EventMeta'
-        data:
-          $ref: '#/components/schemas/ListingInActiveMarketChangedEventData'
-      required:
-      - data
-      - meta
+      - attributes
+      - id
+      - relationships
+      - type
     ListingBasePriceChangedEventData:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
@@ -748,7 +602,85 @@ components:
       - id
       - relationships
       - type
-    ListingBasePriceChangedEventChannelListings:
+    ListingCreatedEvent:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/_EventMeta'
+        data:
+          $ref: '#/components/schemas/ListingCreatedEventData'
+      required:
+      - data
+      - meta
+    _RelationshipLinks:
+      type: object
+      description: JSON:API ``relationships.<name>.links`` body — partner follow-up URL.
+      properties:
+        related:
+          type: string
+          format: uri
+          description: Absolute URL to GET the current state of the related resource
+    ListingCreatedEventAttributes:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        status:
+          enum:
+          - succeeded
+          - failed
+          type: string
+          description: 'Outcome of the listing setup. ''succeeded'' means the listing is fully set up with its initial base price computed; ''failed'' means a sync attempt could not create the listing.
+
+
+            * `succeeded` - succeeded
+
+            * `failed` - failed'
+        created-at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC timestamp when the listing was created (RFC 3339). Null on a failed creation attempt where the listing does not exist yet.
+        title:
+          type:
+          - string
+          - 'null'
+          description: The listing's title.
+        currency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code the listing is denominated in.
+        base-price:
+          type:
+          - integer
+          - 'null'
+          description: The listing's initial base price, computed by Beyond when the listing was set up, in the listing currency. A whole number — the same integer the listings endpoint exposes as base-price (fractional amounts are truncated toward zero). Null on a failed creation attempt.
+        channel-listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingCreatedEventChannelListings'
+          description: The listing's active channel listings — one entry per channel the listing is syndicated to, mirroring channel-listings on the listing resource. Empty on a listing with no active channel listing.
+        error:
+          type:
+          - string
+          - 'null'
+          description: Short, human-readable failure description. Present only when status='failed'. Stable across retries of the same delivery.
+      required:
+      - base-price
+      - channel-listings
+      - created-at
+      - currency
+      - status
+      - title
+    ListingCreatedEventChannelListings:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
 
@@ -768,17 +700,108 @@ components:
       required:
       - channel
       - channel-id
-    AccountRefreshedEvent:
+    _Relationship:
+      type: object
+      description: 'Generic JSON:API to-one relationship — ``{data: {type, id}, links?}``.'
+      properties:
+        data:
+          $ref: '#/components/schemas/_RelationshipData'
+        links:
+          $ref: '#/components/schemas/_RelationshipLinks'
+      required:
+      - data
+    ListingRefreshedEventRelationships:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        listing:
+          $ref: '#/components/schemas/_Relationship'
+        user:
+          $ref: '#/components/schemas/_Relationship'
+        account:
+          $ref: '#/components/schemas/_Relationship'
+      required:
+      - account
+      - listing
+      - user
+    _EventMeta:
+      type: object
+      description: JSON:API top-level ``meta`` for partner events.
+      properties:
+        type:
+          type: string
+          description: Event type (e.g., 'listing.refreshed')
+        sent-at:
+          type: string
+          format: date-time
+          description: UTC timestamp the event envelope was assembled (RFC 3339)
+      required:
+      - sent-at
+      - type
+    ListingBasePriceChangedEventRelationships:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        listing:
+          $ref: '#/components/schemas/_Relationship'
+        user:
+          $ref: '#/components/schemas/_Relationship'
+        account:
+          $ref: '#/components/schemas/_Relationship'
+      required:
+      - listing
+      - user
+    ListingRefreshedEventData:
+      type: object
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
+      properties:
+        type:
+          type: string
+          description: JSON:API resource type for this event
+        id:
+          type: string
+          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
+        attributes:
+          $ref: '#/components/schemas/ListingRefreshedEventAttributes'
+        relationships:
+          $ref: '#/components/schemas/ListingRefreshedEventRelationships'
+      required:
+      - attributes
+      - id
+      - relationships
+      - type
+    ListingRefreshedEvent:
       type: object
       properties:
         meta:
           $ref: '#/components/schemas/_EventMeta'
         data:
-          $ref: '#/components/schemas/AccountRefreshedEventData'
+          $ref: '#/components/schemas/ListingRefreshedEventData'
       required:
       - data
       - meta
-    ListingBasePriceChangedEventRelationships:
+    ListingInActiveMarketChangedEventRelationships:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
 
@@ -824,43 +847,17 @@ components:
       - id
       - relationships
       - type
-    AccountRefreshedEventData:
+    ListingInActiveMarketChangedEvent:
       type: object
-      description: 'Dasherizes field names on output and un-dasherizes on input.
-
-
-        Apply to nested (non-resource) serializers so their keys match
-
-        the top-level JSON:API dasherized format. Top-level resource
-
-        serializers must NOT use this mixin (the renderer handles them).'
       properties:
-        type:
-          type: string
-          description: JSON:API resource type for this event
-        id:
-          type: string
-          description: ULID event identifier (msg_<base32>), same as the webhook-id header. Stable across delivery retries; dedupe on it.
-        attributes:
-          $ref: '#/components/schemas/AccountRefreshedEventAttributes'
-        relationships:
-          $ref: '#/components/schemas/AccountRefreshedEventRelationships'
-      required:
-      - attributes
-      - id
-      - relationships
-      - type
-    _Relationship:
-      type: object
-      description: 'Generic JSON:API to-one relationship — ``{data: {type, id}, links?}``.'
-      properties:
+        meta:
+          $ref: '#/components/schemas/_EventMeta'
         data:
-          $ref: '#/components/schemas/_RelationshipData'
-        links:
-          $ref: '#/components/schemas/_RelationshipLinks'
+          $ref: '#/components/schemas/ListingInActiveMarketChangedEventData'
       required:
       - data
-    ListingRefreshedEventRelationships:
+      - meta
+    ListingCreatedEventRelationships:
       type: object
       description: 'Dasherizes field names on output and un-dasherizes on input.
 
@@ -878,22 +875,25 @@ components:
         account:
           $ref: '#/components/schemas/_Relationship'
       required:
-      - account
-      - listing
       - user
-    _RelationshipData:
+    AccountCreatedEventRelationships:
       type: object
-      description: JSON:API ``relationships.<name>.data`` body — ``{type, id}``.
+      description: 'Dasherizes field names on output and un-dasherizes on input.
+
+
+        Apply to nested (non-resource) serializers so their keys match
+
+        the top-level JSON:API dasherized format. Top-level resource
+
+        serializers must NOT use this mixin (the renderer handles them).'
       properties:
-        type:
-          type: string
-          description: JSON:API resource type
-        id:
-          type: string
-          description: Resource identifier
+        user:
+          $ref: '#/components/schemas/_Relationship'
+        account:
+          $ref: '#/components/schemas/_Relationship'
       required:
-      - id
-      - type
+      - account
+      - user
   securitySchemes:
     oauth2:
       type: oauth2

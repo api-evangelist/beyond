@@ -465,6 +465,103 @@ paths:
           description: Internal server error
 components:
   schemas:
+    AccountSyncStatus:
+      type: object
+      description: 'Serializer for the account sync status.
+
+
+        Receives the full ManagedAccount instance via ``source="*"`` and derives
+
+        the sync state from the pending sync job and ``listings_synced_at``.'
+      properties:
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          description: 'Current sync state: queued, in_progress, completed, or unknown
+
+
+            * `queued` - queued
+
+            * `in_progress` - in_progress
+
+            * `completed` - completed
+
+            * `unknown` - unknown'
+        last-successful-sync-at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the last successful listing sync, or null if never synced
+      required:
+      - last-successful-sync-at
+      - state
+    Account:
+      type: object
+      required:
+      - type
+      - id
+      additionalProperties: false
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/AccountResourceTypeEnum'
+          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+        id: {}
+        attributes:
+          type: object
+          properties:
+            user-id:
+              type: integer
+              description: ID of the user who owns this account
+            channel:
+              type: string
+              description: Channel identifier (e.g., 'airbnb', 'guesty')
+            channel-id:
+              type: string
+              description: Account identifier on the channel side
+            channel-display-id:
+              type:
+              - string
+              - 'null'
+              description: Human-readable display ID
+            label:
+              type: string
+              description: Human-readable channel label
+            email:
+              type:
+              - string
+              - 'null'
+              description: Email associated with this account
+            valid:
+              type: boolean
+              description: Whether the account credentials are currently valid
+            nb-enabled-listings:
+              type: integer
+              readOnly: true
+              description: Number of enabled listings in this account
+            nb-listings:
+              type: integer
+              readOnly: true
+              description: Total number of listings in this account
+            is-pms:
+              type: boolean
+              readOnly: true
+              description: Whether this channel is a property management system
+            sync-status:
+              allOf:
+              - $ref: '#/components/schemas/AccountSyncStatus'
+              readOnly: true
+              description: Status of the account sync process started after account connection
+          required:
+          - id
+          - user-id
+          - channel
+          - channel-id
+          - channel-display-id
+          - label
+          - email
+          - valid
     StateEnum:
       enum:
       - queued
@@ -479,47 +576,6 @@ components:
         * `completed` - completed
 
         * `unknown` - unknown'
-    AccountResourceTypeEnum:
-      type: string
-      enum:
-      - accounts
-    AccountCreateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          required:
-          - type
-          additionalProperties: false
-          properties:
-            type:
-              type: string
-              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-              enum:
-              - accounts
-            attributes:
-              type: object
-              properties:
-                channel:
-                  type: string
-                  minLength: 1
-                  description: 'Channel identifier (e.g., ''hostify'', ''hostaway''). Supported channels: airbnb, airbnb_partner, avantio, barefoot_direct, beds24, best_beach, booking_connect, booking_experts, bookingsync, brightside, ciirus, cloudbeds, direct, elina, escapia, fake, fake_2, fake_pms, fantasticstay, gfh, guesty, homeaway, homhero, homhero_staging, hospitable, hostaway, hostfully, hosthub, hostify, icnea, igms, ipro, janiis, kigo, kigo_pro, kross_booking, lightmaker, liverez, lodgable, lodgify, lodgify_partner, lodgix, loggia, mews, myvr, octorate, opera, ownerrez, real_time_rental, rentalready, rentals_united, resly, rms, secra, septeo, smoobu, stays, streamline, supercontrol, tokeet, track, travelmob, uplisting, villas365, vrbo, vreasy, vrm, zeevou, zeevou_direct'
-                credentials:
-                  type: object
-                  additionalProperties: {}
-                  description: Credentials for the specified channel
-              required:
-              - channel
-              - credentials
-      required:
-      - data
-    AccountResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Account'
-      required:
-      - data
     PaginatedAccountList:
       type: object
       properties:
@@ -587,103 +643,47 @@ components:
           additionalProperties: false
       required:
       - data
-    Account:
+    AccountResponse:
       type: object
-      required:
-      - type
-      - id
-      additionalProperties: false
       properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/AccountResourceTypeEnum'
-          description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-        id: {}
-        attributes:
+        data:
+          $ref: '#/components/schemas/Account'
+      required:
+      - data
+    AccountCreateRequest:
+      type: object
+      properties:
+        data:
           type: object
-          properties:
-            user-id:
-              type: integer
-              description: ID of the user who owns this account
-            channel:
-              type: string
-              description: Channel identifier (e.g., 'airbnb', 'guesty')
-            channel-id:
-              type: string
-              description: Account identifier on the channel side
-            channel-display-id:
-              type:
-              - string
-              - 'null'
-              description: Human-readable display ID
-            label:
-              type: string
-              description: Human-readable channel label
-            email:
-              type:
-              - string
-              - 'null'
-              description: Email associated with this account
-            valid:
-              type: boolean
-              description: Whether the account credentials are currently valid
-            nb-enabled-listings:
-              type: integer
-              readOnly: true
-              description: Number of enabled listings in this account
-            nb-listings:
-              type: integer
-              readOnly: true
-              description: Total number of listings in this account
-            is-pms:
-              type: boolean
-              readOnly: true
-              description: Whether this channel is a property management system
-            sync-status:
-              allOf:
-              - $ref: '#/components/schemas/AccountSyncStatus'
-              readOnly: true
-              description: Status of the account sync process started after account connection
           required:
-          - id
-          - user-id
-          - channel
-          - channel-id
-          - channel-display-id
-          - label
-          - email
-          - valid
-    AccountSyncStatus:
-      type: object
-      description: 'Serializer for the account sync status.
-
-
-        Receives the full ManagedAccount instance via ``source="*"`` and derives
-
-        the sync state from the pending sync job and ``listings_synced_at``.'
-      properties:
-        state:
-          allOf:
-          - $ref: '#/components/schemas/StateEnum'
-          description: 'Current sync state: queued, in_progress, completed, or unknown
-
-
-            * `queued` - queued
-
-            * `in_progress` - in_progress
-
-            * `completed` - completed
-
-            * `unknown` - unknown'
-        last-successful-sync-at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp of the last successful listing sync, or null if never synced
+          - type
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+              enum:
+              - accounts
+            attributes:
+              type: object
+              properties:
+                channel:
+                  type: string
+                  minLength: 1
+                  description: 'Channel identifier (e.g., ''hostify'', ''hostaway''). Supported channels: airbnb, airbnb_partner, avantio, barefoot_direct, beds24, best_beach, booking_connect, booking_experts, bookingsync, brightside, ciirus, cloudbeds, direct, elina, escapia, fake, fake_2, fake_pms, fantasticstay, gfh, guesty, homeaway, homhero, homhero_staging, hospitable, hostaway, hostfully, hosthub, hostify, icnea, igms, ipro, janiis, kigo, kigo_pro, kross_booking, lightmaker, liverez, lodgable, lodgify, lodgify_partner, lodgix, loggia, mews, myvr, octorate, opera, ownerrez, real_time_rental, rentalready, rentals_united, resly, rms, secra, septeo, smoobu, stays, streamline, supercontrol, tokeet, track, travelmob, uplisting, villas365, vrbo, vreasy, vrm, zeevou, zeevou_direct'
+                credentials:
+                  type: object
+                  additionalProperties: {}
+                  description: Credentials for the specified channel
+              required:
+              - channel
+              - credentials
       required:
-      - last-successful-sync-at
-      - state
+      - data
+    AccountResourceTypeEnum:
+      type: string
+      enum:
+      - accounts
   securitySchemes:
     oauth2:
       type: oauth2
