@@ -43,7 +43,7 @@ accessModel:
   method: derived
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-10-06'
 image: https://cdn.prod.website-files.com/697a206967c894c3741f622e/697a206967c894c3741f6299_ico-256.png
 x-docs-platform: redoc
 x-docs-platform-confidence: medium
@@ -253,6 +253,8 @@ apis:
   - type: Webhooks
     url: https://developers.beyondpricing.com/webhooks/
 common:
+- url: https://beyondpricing.com/blog/rss.xml
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/beyond-capability-edges.yml
   name: Beyond Business Capability Map
