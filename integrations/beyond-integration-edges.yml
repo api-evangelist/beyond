@@ -1,10 +1,28 @@
 generated: '2026-10-14'
 method: searched
 checked:
+- guesty/integrations/guesty-integration-edges.yml
 - hostaway/integrations/hostaway-integration-edges.yml
 source:
 - hostaway/integrations/hostaway-integration-edges.yml
 edges:
+- partner_name: Guesty (own)
+  partner: guesty
+  partner_match: mirror
+  mirror_match: domain+name-among-holders
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.guesty.com/marketplace-items/beyond/
+  mirror_of: guesty/integrations/guesty-integration-edges.yml
+  apps:
+  - Beyond
+  - Signal by Beyond
+  listing_count: 2
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
 - partner_name: Hostaway (own)
   partner: hostaway
   partner_match: mirror
