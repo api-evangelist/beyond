@@ -27,7 +27,7 @@
     "beyond-openapi-original.yml: declared missing tag: OAuth2",
     "beyond-openapi-original.yml: declared missing tag: Users",
     "beyond-openapi-original.yml: declared missing tag: Webhooks",
-    "apis.yml register: already-registered"
+    "apis.yml register: written (+8 apis, 8 total)"
   ],
   "skipped": [
     "beyond-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",

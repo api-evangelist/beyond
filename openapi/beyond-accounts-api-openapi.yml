@@ -465,6 +465,24 @@ paths:
           description: Internal server error
 components:
   schemas:
+    AccountResourceTypeEnum:
+      type: string
+      enum:
+      - accounts
+    StateEnum:
+      enum:
+      - queued
+      - in_progress
+      - completed
+      - unknown
+      type: string
+      description: '* `queued` - queued
+
+        * `in_progress` - in_progress
+
+        * `completed` - completed
+
+        * `unknown` - unknown'
     AccountSyncStatus:
       type: object
       description: 'Serializer for the account sync status.
@@ -496,6 +514,13 @@ components:
       required:
       - last-successful-sync-at
       - state
+    AccountResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Account'
+      required:
+      - data
     Account:
       type: object
       required:
@@ -562,20 +587,36 @@ components:
           - label
           - email
           - valid
-    StateEnum:
-      enum:
-      - queued
-      - in_progress
-      - completed
-      - unknown
-      type: string
-      description: '* `queued` - queued
-
-        * `in_progress` - in_progress
-
-        * `completed` - completed
-
-        * `unknown` - unknown'
+    AccountCreateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - type
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
+              enum:
+              - accounts
+            attributes:
+              type: object
+              properties:
+                channel:
+                  type: string
+                  minLength: 1
+                  description: 'Channel identifier (e.g., ''hostify'', ''hostaway''). Supported channels: airbnb, airbnb_partner, avantio, barefoot_direct, beds24, best_beach, booking_connect, booking_experts, bookingsync, brightside, ciirus, cloudbeds, direct, elina, escapia, fake, fake_2, fake_pms, fantasticstay, gfh, guesty, homeaway, homhero, homhero_staging, hospitable, hostaway, hostfully, hosthub, hostify, icnea, igms, ipro, janiis, kigo, kigo_pro, kross_booking, lightmaker, liverez, lodgable, lodgify, lodgify_partner, lodgix, loggia, mews, myvr, octorate, opera, ownerrez, real_time_rental, rentalready, rentals_united, resly, rms, secra, septeo, smoobu, stays, streamline, supercontrol, tokeet, track, travelmob, uplisting, villas365, vrbo, vreasy, vrm, zeevou, zeevou_direct'
+                credentials:
+                  type: object
+                  additionalProperties: {}
+                  description: Credentials for the specified channel
+              required:
+              - channel
+              - credentials
+      required:
+      - data
     PaginatedAccountList:
       type: object
       properties:
@@ -643,47 +684,6 @@ components:
           additionalProperties: false
       required:
       - data
-    AccountResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Account'
-      required:
-      - data
-    AccountCreateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          required:
-          - type
-          additionalProperties: false
-          properties:
-            type:
-              type: string
-              description: The [type](https://jsonapi.org/format/#document-resource-object-identification) member is used to describe resource objects that share common attributes and relationships.
-              enum:
-              - accounts
-            attributes:
-              type: object
-              properties:
-                channel:
-                  type: string
-                  minLength: 1
-                  description: 'Channel identifier (e.g., ''hostify'', ''hostaway''). Supported channels: airbnb, airbnb_partner, avantio, barefoot_direct, beds24, best_beach, booking_connect, booking_experts, bookingsync, brightside, ciirus, cloudbeds, direct, elina, escapia, fake, fake_2, fake_pms, fantasticstay, gfh, guesty, homeaway, homhero, homhero_staging, hospitable, hostaway, hostfully, hosthub, hostify, icnea, igms, ipro, janiis, kigo, kigo_pro, kross_booking, lightmaker, liverez, lodgable, lodgify, lodgify_partner, lodgix, loggia, mews, myvr, octorate, opera, ownerrez, real_time_rental, rentalready, rentals_united, resly, rms, secra, septeo, smoobu, stays, streamline, supercontrol, tokeet, track, travelmob, uplisting, villas365, vrbo, vreasy, vrm, zeevou, zeevou_direct'
-                credentials:
-                  type: object
-                  additionalProperties: {}
-                  description: Credentials for the specified channel
-              required:
-              - channel
-              - credentials
-      required:
-      - data
-    AccountResourceTypeEnum:
-      type: string
-      enum:
-      - accounts
   securitySchemes:
     oauth2:
       type: oauth2
