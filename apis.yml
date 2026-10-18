@@ -24,6 +24,8 @@ apis:
   name: Beyond Accounts API
   description: The Accounts API from Beyond — 3 operation(s) for accounts.
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -64,6 +66,8 @@ apis:
   name: Beyond O Auth2 API
   description: The OAuth2 API from Beyond — 1 operation(s) for oauth2.
   tags:
+  - Authentication
+  tags_raw:
   - OAuth2
   properties:
   - type: OpenAPI
@@ -72,6 +76,8 @@ apis:
   name: Beyond Users API
   description: The Users API from Beyond — 3 operation(s) for users.
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -80,6 +86,8 @@ apis:
   name: Beyond Webhooks API
   description: The Webhooks API from Beyond — 0 operation(s) for webhooks.
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
