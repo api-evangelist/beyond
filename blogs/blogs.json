@@ -5,7 +5,7 @@
       "source": "https://beyondpricing.com/blog/rss.xml",
       "feed_url": "https://beyondpricing.com/blog/rss.xml",
       "title": "",
-      "saved": 49,
+      "saved": 2,
       "method": "feed"
     },
     {
@@ -16,6 +16,6 @@
       "method": "discovered"
     }
   ],
-  "post_count": 50,
-  "fetched": "2026-10-17T14:27:21Z"
+  "post_count": 52,
+  "fetched": "2026-10-24T12:05:04Z"
 }
